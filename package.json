@@ -1,0 +1,38 @@
+{
+  "name": "curly-succotash",
+  "description": "a neweast and beautiful blog starter,build by gatsby",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:zidoshare/curly-succotash.git",
+  "author": "zido <wuhongxu1208@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "babel-eslint": "^9",
+    "codeclimate-test-reporter": "^0.5.1",
+    "gatsby": "^2.0.73",
+    "gatsby-plugin-sharp": "^2.0.15",
+    "gatsby-plugin-typescript": "^2.0.3",
+    "gatsby-transformer-json": "^2.1.6",
+    "gatsby-transformer-remark": "^2.1.17",
+    "gatsby-transformer-sharp": "^2.1.9",
+    "lodash": "^4.17.11",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-redux": "^6.0.0",
+    "react-typography": "^0.16.18",
+    "redux": "^4.0.1",
+    "typography": "^0.16.18"
+  },
+  "devDependencies": {
+    "@babel/core": "^7",
+    "eslint": "^5.10.0",
+    "eslint-config-react-app": "^3.0.5",
+    "eslint-config-xo-react": "0.11.1",
+    "eslint-plugin-flowtype": "^2.34.1",
+    "eslint-plugin-import": "^2.6.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.1.0",
+    "redux-devtools-extension": "^2.13.7",
+    "xo": "^0.23.0"
+  }
+}
