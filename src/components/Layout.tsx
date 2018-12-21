@@ -1,15 +1,12 @@
 import { Link } from 'gatsby'
 import * as React from 'react'
-import HeaderMenu from './HeaderMenu/HeaderMenu'
-import SidebarMenu from './SidebarMenu/SidebarMenu'
-import { Segment, Icon, Container, Sidebar } from 'semantic-ui-react'
-import '../css/styles.css'
-import '../css/responsive.css'
-import '../css/semantic.min.css'
-import 'prismjs/themes/prism-okaidia.css'
 import { Provider } from 'react-redux'
 import { store } from '../store'
-
+import CssBaseline from '@material-ui/core/CssBaseline'
+import JssProvider from 'react-jss/lib/JssProvider'
+import PageThemeContext, { ThemeContext } from './PageThemeContext'
+import { MuiThemeProvider, withStyles } from '@material-ui/core/styles'
+import { Button } from '@material-ui/core'
 export const menuItems = [
   { name: 'Home', path: '/', exact: true, icon: 'home', inverted: true },
   { name: 'About', path: '/about/', exact: true, icon: 'info circle' },
@@ -21,38 +18,41 @@ export interface LayoutProps {
     pathname: string
   }
   children: any
+  classes: any
 }
 
-const Layout = (props: LayoutProps) => {
-  const { pathname } = props.location
-  const isHome = pathname === '/'
-
-  return (
-    <Provider store={store}>
-      <Sidebar.Pushable as={Segment}>
-        <SidebarMenu Link={Link} pathname={pathname} items={menuItems} visible={false} />
-
-        <Sidebar.Pusher style={{ minHeight: '100vh' }}>
-          {/* Header */}
-          {isHome ? null : <HeaderMenu Link={Link} pathname={pathname} items={menuItems} />}
-
-          {/* Render children pages */}
-          <div style={{ paddingBottom: 60 }}>{props.children}</div>
-
-          {/* Footer */}
-          <Segment inverted vertical style={{ position: 'absolute', bottom: 0, width: '100%' }}>
-            <Container textAlign="center">
-              <p>
-                Powered with <Icon name="heart" /> by Gatsby 2.0
-              </p>
-            </Container>
-          </Segment>
-        </Sidebar.Pusher>
-      </Sidebar.Pushable>
-    </Provider>
-  )
+const styles = {
+  layout: {
+    fontSize: 26,
+  },
 }
 
+export class NoThemeLayout extends React.Component<LayoutProps> {
+  constructor(props: LayoutProps) {
+    super(props)
+    this.muiPageContext = PageThemeContext
+  }
+  muiPageContext: ThemeContext
+  render() {
+    const { classes } = this.props
+    return (
+      <Provider store={store}>
+        <JssProvider generateClassName={this.muiPageContext.generateClassName}>
+          <MuiThemeProvider theme={this.muiPageContext.theme} sheetsManager={this.muiPageContext.sheetsManager}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <div className={classes.layout}>hello world!</div>
+            <div>{/* 页头 */}</div>
+            {this.props.children}
+            <div>{/* 页尾 */}</div>
+          </MuiThemeProvider>
+        </JssProvider>
+      </Provider>
+    )
+  }
+}
+
+const Layout = withStyles(styles)(NoThemeLayout)
 export default Layout
 
 export const withLayout = <P extends object>(WrappedComponent: React.ComponentType<P>) =>

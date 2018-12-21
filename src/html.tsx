@@ -3,7 +3,6 @@
 
 import * as React from 'react'
 import Helmet from 'react-helmet'
-
 const config = require('../gatsby-config.js')
 
 interface HtmlProps {
@@ -24,10 +23,9 @@ export default (props: HtmlProps) => {
     <html lang="en">
       <head>
         {props.headComponents}
-        <title>My website</title>
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no" />
         {head.title.toComponent()}
         {head.meta.toComponent()}
         {head.link.toComponent()}

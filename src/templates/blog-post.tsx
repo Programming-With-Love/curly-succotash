@@ -169,7 +169,7 @@ export const pageQuery = graphql`
               avatar {
                 children {
                   ... on ImageSharp {
-                    fixed(width: 36, height: 36) {
+                    fixed(width: 100, height: 36) {
                       src
                       srcSet
                     }

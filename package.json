@@ -26,14 +26,19 @@
     "codeclimate": "codeclimate-test-reporter < coverage/lcov.info"
   },
   "dependencies": {
+    "@material-ui/core": "^3.7.0",
+    "@material-ui/icons": "^3.0.1",
+    "@types/jss": "^9.5.7",
     "@types/lodash": "^4.14.119",
     "@types/react-dom": "^16.0.11",
     "@types/react-helmet": "^5.0.7",
+    "@types/react-jss": "^8.6.0",
     "@types/react-redux": "^6.0.11",
     "babel-eslint": "^9",
     "codeclimate-test-reporter": "^0.5.1",
     "disqus-react": "^1.0.5",
     "gatsby": "^2.0.73",
+    "gatsby-plugin-jss": "^2.0.5",
     "gatsby-plugin-sharp": "^2.0.15",
     "gatsby-plugin-typescript": "^2.0.3",
     "gatsby-remark-prismjs": "^3.1.4",
@@ -44,6 +49,7 @@
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-helmet": "^5.2.0",
+    "react-jss": "^8.6.1",
     "react-redux": "^6.0.0",
     "react-typography": "^0.16.18",
     "redux": "^4.0.1",
@@ -87,5 +93,10 @@
     "redux-devtools-extension": "^2.13.7",
     "webpack": "^4.28.0",
     "xo": "^0.23.0"
+  },
+  "remarkConfig": {
+    "plugins": [
+      "remark-preset-lint-recommended"
+    ]
   }
 }
