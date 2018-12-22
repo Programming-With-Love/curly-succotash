@@ -5,12 +5,11 @@ import { store } from '../store'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import JssProvider from 'react-jss/lib/JssProvider'
 import PageThemeContext, { ThemeContext } from './PageThemeContext'
-import { MuiThemeProvider, withStyles } from '@material-ui/core/styles'
-import { Button } from '@material-ui/core'
+import { MuiThemeProvider, withStyles, WithStyles, Theme, createStyles } from '@material-ui/core/styles'
 export const menuItems = [
   { name: 'Home', path: '/', exact: true, icon: 'home', inverted: true },
   { name: 'About', path: '/about/', exact: true, icon: 'info circle' },
-  { name: 'Blog', path: '/blog/', exact: false, icon: 'newspaper' },
+  { name: 'Timeline', path: '/timeline/', exact: false, icon: 'newspaper' },
 ]
 
 export interface LayoutProps {
@@ -18,16 +17,44 @@ export interface LayoutProps {
     pathname: string
   }
   children: any
-  classes: any
+  classes: ExtraClasses
 }
 
-const styles = {
-  layout: {
-    fontSize: 26,
-  },
+interface ExtraClasses {
+  header: any
+  headerBg: any
+  heaederNav: any
+  headerLeft: any
 }
 
-export class NoThemeLayout extends React.Component<LayoutProps> {
+const styles = (theme: Theme) =>{
+  console.log(theme)
+  return createStyles({
+    header: {
+      position: 'relative',
+      width: '100%',
+      height: 480,
+      marginBottom: 90,
+      fontFamily: 'Helvetica Neue,Helvetica,Ubuntu,Arial,sans-serif',
+      color: '#fff',
+      overflowX: 'hidden',
+    },
+    headerBg: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      top: 0,
+      bottom: 0,
+      backgroundColor: 'black',
+      backgroundPosition: '50%',
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
+      animation: 'fadein 1s ease-in-out',
+    },
+  })
+}
+
+export class ThemeLayout extends React.Component<LayoutProps> {
   constructor(props: LayoutProps) {
     super(props)
     this.muiPageContext = PageThemeContext
@@ -41,8 +68,14 @@ export class NoThemeLayout extends React.Component<LayoutProps> {
           <MuiThemeProvider theme={this.muiPageContext.theme} sheetsManager={this.muiPageContext.sheetsManager}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
-            <div className={classes.layout}>hello world!</div>
-            <div>{/* 页头 */}</div>
+            <div>
+              {/* 页头 */}
+              <header className={classes.header}>
+                <div className={classes.headerBg} />
+                <nav className={classes.heaederNav} />
+                <div className={classes.headerLeft} />
+              </header>
+            </div>
             {this.props.children}
             <div>{/* 页尾 */}</div>
           </MuiThemeProvider>
@@ -52,7 +85,7 @@ export class NoThemeLayout extends React.Component<LayoutProps> {
   }
 }
 
-const Layout = withStyles(styles)(NoThemeLayout)
+const Layout = withStyles(styles)(ThemeLayout)
 export default Layout
 
 export const withLayout = <P extends object>(WrappedComponent: React.ComponentType<P>) =>

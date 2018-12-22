@@ -89,6 +89,7 @@
     "gatsby-remark-images": "^3.0.1",
     "gatsby-source-filesystem": "^2.0.12",
     "jest": "^23.6.0",
+    "plop": "^2.2.0",
     "prismjs": "^1.15.0",
     "redux-devtools-extension": "^2.13.7",
     "webpack": "^4.28.0",

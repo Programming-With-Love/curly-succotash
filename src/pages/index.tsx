@@ -5,12 +5,6 @@ import { withLayout, LayoutProps, menuItems } from '../components/Layout'
 // import { Button, Segment, Container, Grid, Header, Icon } from 'semantic-ui-react'
 import Button from '@material-ui/core/Button'
 
-const IndexPage = (props: LayoutProps) => (
-  <div>
-    <Button variant="contained" color="primary">
-      hello world
-    </Button>
-  </div>
-)
+const IndexPage = (props: LayoutProps) => <div />
 
 export default withLayout(IndexPage)
