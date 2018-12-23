@@ -6,9 +6,19 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import JssProvider from 'react-jss/lib/JssProvider'
 import PageThemeContext, { ThemeContext } from './PageThemeContext'
 import { MuiThemeProvider, withStyles, WithStyles, Theme, createStyles } from '@material-ui/core/styles'
+import Avatar from '@material-ui/core/Avatar'
+import Grid from '@material-ui/core/Grid'
+import { StaticQuery, graphql } from 'gatsby'
+import { ImageSharp } from '../graphql-types'
+import Drawer from '@material-ui/core/Drawer'
+import List from '@material-ui/core/List'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItem from '@material-ui/core/ListItem'
+import Icon from '@material-ui/core/Icon'
 export const menuItems = [
   { name: 'Home', path: '/', exact: true, icon: 'home', inverted: true },
-  { name: 'About', path: '/about/', exact: true, icon: 'info circle' },
+  { name: 'Archive', path: '/archive/', exact: true, icon: 'info circle' },
   { name: 'Timeline', path: '/timeline/', exact: false, icon: 'newspaper' },
 ]
 
@@ -17,39 +27,42 @@ export interface LayoutProps {
     pathname: string
   }
   children: any
-  classes: ExtraClasses
+  classes: any
 }
 
-interface ExtraClasses {
-  header: any
-  headerBg: any
-  heaederNav: any
-  headerLeft: any
-}
+let siderWidth = 200
 
-const styles = (theme: Theme) =>{
+const styles = (theme: Theme) => {
   console.log(theme)
   return createStyles({
+    root: {},
     header: {
-      position: 'relative',
       width: '100%',
       height: 480,
       marginBottom: 90,
       fontFamily: 'Helvetica Neue,Helvetica,Ubuntu,Arial,sans-serif',
-      color: '#fff',
       overflowX: 'hidden',
-    },
-    headerBg: {
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      backgroundColor: 'black',
-      backgroundPosition: '50%',
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'cover',
-      animation: 'fadein 1s ease-in-out',
+      backgroundPosition: 'center center',
+      zIndex: theme.zIndex.drawer + 1,
+    },
+
+    personHeader: {
+      position: 'absolute',
+      width: 480,
+      top: 280,
+      color: 'white',
+      '& .avatar': {
+        width: 80,
+        height: 80,
+      },
+      '& .headerNav': {
+        width: siderWidth,
+        position: 'absolute',
+        top: 200,
+        backgroundColor: theme.palette.background.paper,
+      },
     },
   })
 }
@@ -57,29 +70,80 @@ const styles = (theme: Theme) =>{
 export class ThemeLayout extends React.Component<LayoutProps> {
   constructor(props: LayoutProps) {
     super(props)
-    this.muiPageContext = PageThemeContext
   }
-  muiPageContext: ThemeContext
   render() {
     const { classes } = this.props
     return (
       <Provider store={store}>
-        <JssProvider generateClassName={this.muiPageContext.generateClassName}>
-          <MuiThemeProvider theme={this.muiPageContext.theme} sheetsManager={this.muiPageContext.sheetsManager}>
-            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-            <CssBaseline />
-            <div>
-              {/* 页头 */}
-              <header className={classes.header}>
-                <div className={classes.headerBg} />
-                <nav className={classes.heaederNav} />
-                <div className={classes.headerLeft} />
-              </header>
-            </div>
-            {this.props.children}
-            <div>{/* 页尾 */}</div>
-          </MuiThemeProvider>
-        </JssProvider>
+        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+
+        <StaticQuery
+          query={graphql`
+            query {
+              allMarkdownRemark {
+                totalCount
+              }
+              dataJson {
+                name
+                avatar {
+                  children {
+                    ... on ImageSharp {
+                      fixed(width: 180, height: 180) {
+                        src
+                        srcSet
+                      }
+                    }
+                  }
+                }
+                header {
+                  children {
+                    ... on ImageSharp {
+                      fixed(width: 1920, height: 480) {
+                        src
+                        srcSet
+                      }
+                    }
+                  }
+                }
+                bio
+              }
+              site {
+                siteMetadata {
+                  title
+                  description
+                }
+              }
+            }
+          `}
+          render={data => {
+            const avatar = data.dataJson.avatar.children[0] as ImageSharp
+            const authorName = data.dataJson.name as string
+            const postCount = data.allMarkdownRemark.totalCount
+            const { title, description } = data.site.siteMetadata
+            const headerImage = data.dataJson.header.children[0] as ImageSharp
+            return (
+              <div className={classes.root}>
+                <CssBaseline />
+                {/* 页头 */}
+                <header className={classes.header} style={{ backgroundImage: `url(${headerImage.fixed.src})` }}>
+                  <div className={classes.personHeader}>
+                    <Grid container justify="center" alignItems="center">
+                      <Avatar alt={authorName} src={avatar.fixed.src} srcSet={avatar.fixed.srcSet} className="avatar" />
+                      <div style={{ textAlign: 'left', marginLeft: 20 }}>
+                        <p>{postCount} 篇文章</p>
+                        <h2>{title}</h2>
+                        <p>{description}</p>
+                      </div>
+                    </Grid>
+                    <List component="nav" className="headerNav" />
+                  </div>
+                </header>
+                <main className={classes.content}>{this.props.children}</main>
+                <div>{/* 页尾 */}</div>
+              </div>
+            )
+          }}
+        />
       </Provider>
     )
   }
@@ -90,11 +154,20 @@ export default Layout
 
 export const withLayout = <P extends object>(WrappedComponent: React.ComponentType<P>) =>
   class WithLayout extends React.Component<P & LayoutProps> {
+    constructor(props: P & LayoutProps) {
+      super(props)
+      this.muiPageContext = PageThemeContext
+    }
+    muiPageContext: ThemeContext
     render() {
       return (
-        <Layout location={this.props.location}>
-          <WrappedComponent {...this.props} />
-        </Layout>
+        <JssProvider generateClassName={this.muiPageContext.generateClassName}>
+          <MuiThemeProvider theme={this.muiPageContext.theme} sheetsManager={this.muiPageContext.sheetsManager}>
+            <Layout location={this.props.location}>
+              <WrappedComponent {...this.props} />
+            </Layout>
+          </MuiThemeProvider>
+        </JssProvider>
       )
     }
   }

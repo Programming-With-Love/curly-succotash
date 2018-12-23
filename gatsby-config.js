@@ -1,11 +1,13 @@
 module.exports = {
   siteMetadata: {
-    title: `My website`,
-    googleVerification: `abcdefz`,
+    title: `zido的个人博客`,
+    description: `前后端全栈分享，java/js/golang`,
+    siteUrl: 'https://zido.site',
+    googleVerification: `7VK2ptM0UShN615leUj3BUB9sGRNN9-0Jf1psuV7rqw`,
     disqus: `gatsby-typescript`,
   },
   mapping: {
-    'MarkdownRemark.frontmatter.author': `AuthorJson`,
+    'site.siteMetadata.author': `AuthorJson`,
   },
   plugins: [
     `gatsby-plugin-jss`,
@@ -17,17 +19,10 @@ module.exports = {
         path: `${__dirname}/data`,
       },
     },
-
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
-        trackingId: 'YOUR_GOOGLE_ANALYTICS_TRACKING_ID',
-        // Puts tracking script in the head instead of the body
-        head: false,
-        // Setting this parameter is optional
-        anonymize: true,
-        // Setting this parameter is also optional
-        respectDNT: true,
+        trackingId: 'UA-120357572-1',
       },
     },
 

@@ -1,9 +1,6 @@
-[
-  {
-    "id": "zido",
-    "bio": "a full stack developer",
-    "avatar": "avatars/avatar.jpeg",
-    "twitter": "@zidoshare",
-    "github": "@zidoshare"
-  }
-]
+{
+  "name": "zido",
+  "avatar": "./avatar.jpg",
+  "bio": "a full stack developer",
+  "header": "./header.jpg"
+}
