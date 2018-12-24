@@ -5,17 +5,12 @@ import { store } from '../store'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import JssProvider from 'react-jss/lib/JssProvider'
 import PageThemeContext, { ThemeContext } from './PageThemeContext'
-import { MuiThemeProvider, withStyles, WithStyles, Theme, createStyles } from '@material-ui/core/styles'
+import { MuiThemeProvider, withStyles, Theme, createStyles } from '@material-ui/core/styles'
 import Avatar from '@material-ui/core/Avatar'
 import Grid from '@material-ui/core/Grid'
 import { StaticQuery, graphql } from 'gatsby'
 import { ImageSharp } from '../graphql-types'
-import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItem from '@material-ui/core/ListItem'
-import Icon from '@material-ui/core/Icon'
 export const menuItems = [
   { name: 'Home', path: '/', exact: true, icon: 'home', inverted: true },
   { name: 'Archive', path: '/archive/', exact: true, icon: 'info circle' },
@@ -32,9 +27,8 @@ export interface LayoutProps {
 
 let siderWidth = 200
 
-const styles = (theme: Theme) => {
-  console.log(theme)
-  return createStyles({
+const styles = (theme: Theme) =>
+  createStyles({
     root: {},
     header: {
       width: '100%',
@@ -64,8 +58,12 @@ const styles = (theme: Theme) => {
         backgroundColor: theme.palette.background.paper,
       },
     },
+    content: {
+      width: '960',
+      position: 'absolute',
+      top: '400',
+    },
   })
-}
 
 export class ThemeLayout extends React.Component<LayoutProps> {
   constructor(props: LayoutProps) {

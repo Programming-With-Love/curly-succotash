@@ -6,9 +6,6 @@ module.exports = {
     googleVerification: `7VK2ptM0UShN615leUj3BUB9sGRNN9-0Jf1psuV7rqw`,
     disqus: `gatsby-typescript`,
   },
-  mapping: {
-    'site.siteMetadata.author': `AuthorJson`,
-  },
   plugins: [
     `gatsby-plugin-jss`,
     // Expose `/data` to graphQL layer
