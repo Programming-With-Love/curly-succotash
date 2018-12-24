@@ -17,22 +17,24 @@ export interface IndexProps extends LayoutProps {
 const IndexPage = (props: IndexProps) => {
   const { data } = props
   return (
-    <div>
-      {data.posts.edges.map(({ node }: { node: MarkdownRemark }) => {
+    <div style={{ paddingTop: 80 }}>
+      {data.posts.edges.map(({ node }: { node: MarkdownRemark }, index: number) => {
         const {
           frontmatter,
           timeToRead,
           fields: { slug },
           excerpt,
+          wordCount,
         } = node
         const cover = get(frontmatter, 'image.children.0.fixed', {})
         return (
           <PostItem
+            words={wordCount.words}
             key={slug}
             cover={cover}
             title={frontmatter.title}
             timeToRead={timeToRead}
-            updateDate={frontmatter.updatedDate}
+            updatedDate={frontmatter.updatedDate}
             href={slug}
             excerpt={excerpt}
           />
@@ -63,6 +65,9 @@ export const pageQuery = graphql`
       totalCount
       edges {
         node {
+          wordCount {
+            words
+          }
           excerpt
           timeToRead
           fields {
@@ -74,7 +79,7 @@ export const pageQuery = graphql`
             image {
               children {
                 ... on ImageSharp {
-                  fixed(width: 700, height: 100) {
+                  fixed(width: 680, height: 440) {
                     src
                     srcSet
                   }

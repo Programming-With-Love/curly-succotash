@@ -257,3 +257,15 @@ export interface internal_12 {
   description: string | null
   owner: string | null
 }
+export interface ImageSharpFixed {
+  base64: string | null
+  tracedSVG: string | null
+  aspectRatio: number | null
+  width: number | null
+  height: number | null
+  src: string | null
+  srcSet: string | null
+  srcWebp: string | null
+  srcSetWebp: string | null
+  originalName: string | null
+}
