@@ -7,7 +7,8 @@ module.exports = {
     disqus: `gatsby-typescript`,
   },
   plugins: [
-    `gatsby-plugin-jss`,
+    `gatsby-plugin-sass`,
+    `gatsby-plugin-typography`,
     // Expose `/data` to graphQL layer
     {
       resolve: `gatsby-source-filesystem`,

@@ -1,20 +1,17 @@
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { store } from '../store'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import JssProvider from 'react-jss/lib/JssProvider'
-import PageThemeContext, { ThemeContext } from './PageThemeContext'
-import { MuiThemeProvider, withStyles, Theme, createStyles } from '@material-ui/core/styles'
-import Avatar from '@material-ui/core/Avatar'
-import Grid from '@material-ui/core/Grid'
-import { StaticQuery, graphql } from 'gatsby'
+import { StaticQuery, graphql, Link } from 'gatsby'
 import { ImageSharp } from '../graphql-types'
-import List from '@material-ui/core/List'
 import StarCanvas from './StarCanvas'
+import * as classes from './Layout.module.scss'
+import '../global.scss'
+import Bio from './Bio'
 export const menuItems = [
-  { name: 'Home', path: '/', exact: true, icon: 'home', inverted: true },
-  { name: 'Archive', path: '/archive/', exact: true, icon: 'info circle' },
-  { name: 'Timeline', path: '/timeline/', exact: false, icon: 'newspaper' },
+  { name: '首页', path: '/', exact: true, icon: 'home', inverted: true },
+  { name: '归档', path: '/archive/', exact: true, icon: 'info circle' },
+  { name: '时间轴', path: '/timeline/', exact: false, icon: 'newspaper' },
+  { name: '标签', path: '/tags/', exact: false, icon: 'tag' },
 ]
 
 export interface LayoutProps {
@@ -22,52 +19,15 @@ export interface LayoutProps {
     pathname: string
   }
   children: any
-  classes: any
 }
 
-let siderWidth = 200
-
-const styles = (theme: Theme) =>
-  createStyles({
-    root: {},
-    header: {
-      width: '100%',
-      height: 480,
-      fontFamily: 'Helvetica Neue,Helvetica,Ubuntu,Arial,sans-serif',
-      overflowX: 'hidden',
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center center',
-    },
-
-    personHeader: {
-      position: 'absolute',
-      width: 480,
-      top: 240,
-      color: 'white',
-      '& .avatar': {
-        width: 80,
-        height: 80,
-      },
-      '& .headerNav': {
-        width: siderWidth,
-        position: 'absolute',
-        top: 200,
-      },
-    },
-    content: {},
-  })
-
-export class ThemeLayout extends React.Component<LayoutProps> {
+export default class Layout extends React.Component<LayoutProps> {
   constructor(props: LayoutProps) {
     super(props)
   }
   render() {
-    const { classes } = this.props
     return (
       <Provider store={store}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-
         <StaticQuery
           query={graphql`
             query {
@@ -75,6 +35,7 @@ export class ThemeLayout extends React.Component<LayoutProps> {
                 totalCount
               }
               dataJson {
+                title
                 name
                 avatar {
                   children {
@@ -99,28 +60,51 @@ export class ThemeLayout extends React.Component<LayoutProps> {
           render={data => {
             const avatar = data.dataJson.avatar.children[0] as ImageSharp
             const authorName = data.dataJson.name as string
+            const siteTitle = data.dataJson.title as string
+            const bio = data.dataJson.bio as string[]
             const postCount = data.allMarkdownRemark.totalCount
             const { title, description } = data.site.siteMetadata
             return (
               <div className={classes.root}>
-                <CssBaseline />
                 {/* 页头 */}
                 <header className={classes.header}>
-                  <div style={{ position: 'absolute' }}>
-                    <StarCanvas height={480} />
-                  </div>
-                  <div className={classes.personHeader}>
-                    <Grid container justify="center" alignItems="center">
-                      <Avatar alt={authorName} src={avatar.fixed.src} srcSet={avatar.fixed.srcSet} className="avatar" />
-                      <div style={{ textAlign: 'left', marginLeft: 20 }}>
-                        <p>{postCount} 篇文章</p>
-                        <h2>{title}</h2>
-                        <p>{description}</p>
+                  <nav className={classes.headerNav}>
+                    <ul>
+                      {menuItems.map((item, index) => (
+                        <li key={index}>
+                          <Link to={item.path}>{item.name}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </nav>
+                  <h1 className={classes.headerTitle}>
+                    <Link to="/">{siteTitle}</Link>
+                  </h1>
+                  <div className={classes.banner}>
+                    <div className={classes.headerBgContainer}>
+                      <StarCanvas height={480} />
+                    </div>
+                    <div className={classes.personHeader}>
+                      <div className={classes.personInner}>
+                        <img
+                          alt={authorName}
+                          src={avatar.fixed.src}
+                          srcSet={avatar.fixed.srcSet}
+                          className={classes.avatar}
+                        />
+                        <div style={{ textAlign: 'left', marginLeft: 20 }}>
+                          <p>{postCount} 篇文章</p>
+                          <h1>{title}</h1>
+                          <p>{description}</p>
+                        </div>
                       </div>
-                    </Grid>
-                    <List component="nav" className="headerNav" />
+                      <div className={classes.innterBio}>
+                        <Bio text={bio} />
+                      </div>
+                    </div>
                   </div>
                 </header>
+
                 <main className={classes.content}>{this.props.children}</main>
                 <div>{/* 页尾 */}</div>
               </div>
@@ -132,25 +116,13 @@ export class ThemeLayout extends React.Component<LayoutProps> {
   }
 }
 
-const Layout = withStyles(styles)(ThemeLayout)
-export default Layout
-
 export const withLayout = <P extends object>(WrappedComponent: React.ComponentType<P>) =>
   class WithLayout extends React.Component<P & LayoutProps> {
-    constructor(props: P & LayoutProps) {
-      super(props)
-      this.muiPageContext = PageThemeContext
-    }
-    muiPageContext: ThemeContext
     render() {
       return (
-        <JssProvider generateClassName={this.muiPageContext.generateClassName}>
-          <MuiThemeProvider theme={this.muiPageContext.theme} sheetsManager={this.muiPageContext.sheetsManager}>
-            <Layout location={this.props.location}>
-              <WrappedComponent {...this.props} />
-            </Layout>
-          </MuiThemeProvider>
-        </JssProvider>
+        <Layout location={this.props.location}>
+          <WrappedComponent {...this.props} />
+        </Layout>
       )
     }
   }

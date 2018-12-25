@@ -1,0 +1,60 @@
+.postItem {
+  margin: 0 auto 100px;
+  width: 1200px;
+  a {
+    text-decoration: none;
+    color: #333;
+  }
+  &:nth-child(odd) {
+    text-align: left;
+  }
+  &:nth-child(even) {
+    text-align: right;
+  }
+  &:nth-child(odd) .itemElse {
+    left: 660px;
+  }
+  &:nth-child(even) .itemElse {
+    right: 660px;
+  }
+}
+.itemMain {
+  display: 'block';
+  position: relative;
+  &:hover {
+    text-decoration: 'none';
+  }
+}
+.cover {
+  display: inline-block;
+  width: 680px;
+  height: 440px;
+  overflow: hidden;
+  max-width: 100%;
+  position: relative;
+  z-index: 3;
+}
+.itemElse {
+  text-decoration: none;
+  position: absolute;
+  background: #fff;
+  top: 20px;
+  height: 398px;
+  width: 498px;
+  margin: 0;
+  text-align: left;
+  padding: 60px 80px 20px;
+  border: 1px solid #eaeaea;
+  & p.first-child {
+    color: #999;
+    font-size: 12px;
+    margin: 80px 0 0 80px;
+  }
+}
+.here {
+  position: absolute;
+  left: 80;
+  bottom: 80;
+  color: #999;
+  font-size: 12;
+}

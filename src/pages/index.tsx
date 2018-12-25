@@ -1,11 +1,12 @@
 import * as React from 'react'
-import { withLayout, LayoutProps, menuItems } from '../components/Layout'
+import { withLayout } from '../components/Layout'
 import { graphql } from 'gatsby'
 import { get } from 'lodash'
 import PostItem from '../components/PostItem'
 import { MarkdownRemark, MarkdownRemarkConnection, Site, DataJson, ImageSharp } from '../graphql-types'
+import * as classes from './Index.module.scss'
 
-export interface IndexProps extends LayoutProps {
+export interface IndexProps {
   data: {
     posts: MarkdownRemarkConnection
     recents: MarkdownRemarkConnection
@@ -17,7 +18,7 @@ export interface IndexProps extends LayoutProps {
 const IndexPage = (props: IndexProps) => {
   const { data } = props
   return (
-    <div style={{ paddingTop: 80 }}>
+    <div className={classes.indexContent}>
       {data.posts.edges.map(({ node }: { node: MarkdownRemark }, index: number) => {
         const {
           frontmatter,
@@ -44,7 +45,7 @@ const IndexPage = (props: IndexProps) => {
   )
 }
 
-export default withLayout(IndexPage)
+export default IndexPage
 
 export const pageQuery = graphql`
   query PageBlog {

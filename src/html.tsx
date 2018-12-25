@@ -1,6 +1,3 @@
-/* tslint:disable no-var-requires */
-/* tslint:disable no-console */
-
 import * as React from 'react'
 import Helmet from 'react-helmet'
 const config = require('../gatsby-config.js')
@@ -13,7 +10,6 @@ interface HtmlProps {
 
 export default (props: HtmlProps) => {
   const head = Helmet.rewind()
-
   const verification =
     config.siteMetadata && config.siteMetadata.googleVerification ? (
       <meta name="google-site-verification" content={config.siteMetadata.googleVerification} />

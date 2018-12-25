@@ -1,0 +1,25 @@
+$animation: blink 0.5s infinite;
+
+.ityped-cursor {
+  opacity: 1;
+  animation: $animation;
+  animation-direction: alternate;
+}
+
+@keyframes blink {
+  100% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes blink {
+  100% {
+    opacity: 0;
+  }
+}
+
+@-moz-keyframes blink {
+  100% {
+    opacity: 0;
+  }
+}

@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { Drawer } from '@material-ui/core'
 
 export interface StarCanvasProps {
   width?: number | null

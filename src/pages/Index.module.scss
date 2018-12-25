@@ -1,0 +1,15 @@
+.indexContent {
+  padding-top: 80px;
+  position: relative;
+  &::before {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 180%;
+    position: absolute;
+    left: 50%;
+    background: #eaeaea;
+    top: -50%;
+    z-index: -1;
+  }
+}
