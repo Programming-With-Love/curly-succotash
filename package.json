@@ -36,6 +36,7 @@
     "gatsby-plugin-sharp": "^2.0.15",
     "gatsby-plugin-typescript": "^2.0.3",
     "gatsby-plugin-typography": "^2.2.4",
+    "gatsby-remark-emojis": "^0.2.3",
     "gatsby-remark-prismjs": "^3.1.4",
     "gatsby-transformer-json": "^2.1.6",
     "gatsby-transformer-remark": "^2.1.17",

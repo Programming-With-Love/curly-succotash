@@ -26,6 +26,7 @@ export default class Layout extends React.Component<LayoutProps> {
     super(props)
   }
   render() {
+    const { pathname } = this.props.location
     return (
       <Provider store={store}>
         <StaticQuery
@@ -84,24 +85,26 @@ export default class Layout extends React.Component<LayoutProps> {
                     <div className={classes.headerBgContainer}>
                       <StarCanvas height={480} />
                     </div>
-                    <div className={classes.personHeader}>
-                      <div className={classes.personInner}>
-                        <img
-                          alt={authorName}
-                          src={avatar.fixed.src}
-                          srcSet={avatar.fixed.srcSet}
-                          className={classes.avatar}
-                        />
-                        <div style={{ textAlign: 'left', marginLeft: 20 }}>
-                          <p>{postCount} 篇文章</p>
-                          <h1>{title}</h1>
-                          <p>{description}</p>
+                    {pathname.startsWith('/blog/') ? null : (
+                      <div className={classes.personHeader}>
+                        <div className={classes.personInner}>
+                          <img
+                            alt={authorName}
+                            src={avatar.fixed.src}
+                            srcSet={avatar.fixed.srcSet}
+                            className={classes.avatar}
+                          />
+                          <div style={{ textAlign: 'left', marginLeft: 20 }}>
+                            <p>{postCount} 篇文章</p>
+                            <h1>{title}</h1>
+                            <p>{description}</p>
+                          </div>
+                        </div>
+                        <div className={classes.innterBio}>
+                          <Bio text={bio} />
                         </div>
                       </div>
-                      <div className={classes.innterBio}>
-                        <Bio text={bio} />
-                      </div>
-                    </div>
+                    )}
                   </div>
                 </header>
 

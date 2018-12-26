@@ -27,7 +27,7 @@ const PostItem = (props: PostItemProps) => {
           <h3>
             <Link to={href}>{title}</Link>
           </h3>
-          <p>{excerpt}</p>
+          <p dangerouslySetInnerHTML={{ __html: excerpt }} />
           <p className={classes.here}>
             共{words}字-大约需要阅读{timeToRead}min
           </p>
