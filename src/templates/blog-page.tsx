@@ -33,7 +33,9 @@ export const pageQuery = graphql`
           }
           frontmatter {
             title
-            updatedDate(formatString: "DD MMMM, YYYY")
+            updatedDate(formatString: "YYYY年MM月DD日")
+            tags
+            origin
             image {
               children {
                 ... on ImageSharp {

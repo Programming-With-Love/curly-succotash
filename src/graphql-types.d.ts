@@ -269,3 +269,16 @@ export interface ImageSharpFixed {
   srcSetWebp: string | null
   originalName: string | null
 }
+
+export interface markdownRemarkGroupConnectionConnection {
+  pageInfo: PageInfo
+  edges: Array<markdownRemarkGroupConnectionEdge> | null
+  field: string | null
+  fieldValue: string | null
+  totalCount: number | null
+}
+export interface markdownRemarkGroupConnectionEdge {
+  node: MarkdownRemark | null
+  next: MarkdownRemark | null
+  previous: MarkdownRemark | null
+}

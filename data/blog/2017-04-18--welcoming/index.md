@@ -7,6 +7,7 @@ tags:
   - first
   - welcome
 image: pexels-photo-253092.jpeg
+origin: true
 draft: false
 ---
 
@@ -41,9 +42,10 @@ Welcome to My WebSite!
 Welcome to My WebSite!
 
 Welcome to My WebSite!
+
 ```javascript
-const plop = "coucou";
-const toto = "tata";
+const plop = 'coucou'
+const toto = 'tata'
 ```
 
 coucou `plop` comment tu vas ?

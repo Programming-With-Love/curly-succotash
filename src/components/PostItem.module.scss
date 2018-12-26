@@ -1,6 +1,7 @@
 .postItem {
   margin: 0 auto 100px;
   width: 1200px;
+  position: relative;
   a {
     text-decoration: none;
     color: #333;
@@ -16,6 +17,45 @@
   }
   &:nth-child(even) .itemElse {
     right: 660px;
+  }
+  .timeLabel {
+    position: absolute;
+    top: -30px;
+    p {
+      margin-top: -5px;
+    }
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      border: 1px solid #aaa;
+      width: 12px;
+      height: 12px;
+      background: #fff;
+      border-radius: 50%;
+    }
+  }
+  &:nth-child(odd) .timeLabel {
+    left: 50%;
+    vertical-align: middle;
+    text-align: left;
+    &:before {
+      left: -6px;
+    }
+    p {
+      margin-left: 20px;
+    }
+  }
+  &:nth-child(even) .timeLabel {
+    right: 50%;
+    vertical-align: middle;
+    text-align: right;
+    &:before {
+      right: -6px;
+    }
+    p {
+      margin-right: 20px;
+    }
   }
 }
 .itemMain {
@@ -49,6 +89,17 @@
     color: #999;
     font-size: 12px;
     margin: 80px 0 0 80px;
+  }
+  > .original {
+    position: absolute;
+    background-color: rgba(242, 174, 67, 0.25);
+    color: rgb(242, 174, 67);
+    margin-left: -33px;
+    margin-right: 10px;
+    padding: 0 6px;
+    font-size: 14px;
+    line-height: 26px;
+    border-radius: 11px;
   }
 }
 .here {

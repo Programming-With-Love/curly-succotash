@@ -1,0 +1,23 @@
+.tagContainer {
+  margin-bottom: 8px;
+  > .tag {
+    &:hover {
+      background: #1565c0;
+    }
+    a {
+      color: white;
+    }
+    background-color: #237bd9;
+    color: #fff;
+    list-style: none;
+    display: inline-block;
+    line-height: 20px;
+    height: 22px;
+    padding: 0 7px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-right: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+}

@@ -2,7 +2,8 @@ import * as React from 'react'
 import { Link } from 'gatsby'
 import { ImageSharpFixed } from '../graphql-types'
 import * as classes from './PostItem.module.scss'
-export interface PostItemProps {
+import TagsCard, { TagsCardProps } from './TagsCard'
+export interface PostItemProps extends TagsCardProps {
   cover: ImageSharpFixed
   title: string
   updatedDate: Date
@@ -10,12 +11,17 @@ export interface PostItemProps {
   excerpt: string
   timeToRead: number
   words: number
+  origin: boolean
 }
 
 const PostItem = (props: PostItemProps) => {
-  const { cover, title, updatedDate, href, excerpt, timeToRead, words } = props
+  const { cover, title, updatedDate, href, excerpt, timeToRead, words, origin } = props
+  console.log(origin)
   return (
     <div className={classes.postItem}>
+      <div className={classes.timeLabel}>
+        <p>{updatedDate}</p>
+      </div>
       <div className={classes.itemMain}>
         <div className={classes.cover}>
           <Link to={href}>
@@ -23,7 +29,8 @@ const PostItem = (props: PostItemProps) => {
           </Link>
         </div>
         <div className={classes.itemElse}>
-          <p>{updatedDate}</p>
+          {origin ? <div className={classes.original}>原</div> : null}
+          <TagsCard Link={Link} tags={props.tags} />
           <h3>
             <Link to={href}>{title}</Link>
           </h3>

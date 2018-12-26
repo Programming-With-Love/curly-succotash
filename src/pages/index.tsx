@@ -1,11 +1,9 @@
 import * as React from 'react'
-import { withLayout } from '../components/Layout'
-import { graphql } from 'gatsby'
+import { graphql, Link } from 'gatsby'
 import { get } from 'lodash'
 import PostItem from '../components/PostItem'
 import { MarkdownRemark, MarkdownRemarkConnection, Site, DataJson, ImageSharp } from '../graphql-types'
 import * as classes from './Index.module.scss'
-
 export interface IndexProps {
   data: {
     posts: MarkdownRemarkConnection
@@ -28,16 +26,20 @@ const IndexPage = (props: IndexProps) => {
           wordCount,
         } = node
         const cover = get(frontmatter, 'image.children.0.fixed', {})
+        const tags = node.frontmatter.tags
         return (
           <PostItem
             words={wordCount.words}
             key={slug}
             cover={cover}
             title={frontmatter.title}
+            origin={frontmatter.origin}
             timeToRead={timeToRead}
             updatedDate={frontmatter.updatedDate}
             href={slug}
             excerpt={excerpt}
+            Link={Link}
+            tags={tags}
           />
         )
       })}
@@ -49,14 +51,6 @@ export default IndexPage
 
 export const pageQuery = graphql`
   query PageBlog {
-    # Get tags
-    tags: allMarkdownRemark(filter: { frontmatter: { draft: { ne: true } } }) {
-      group(field: frontmatter___tags) {
-        fieldValue
-        totalCount
-      }
-    }
-
     # Get posts
     posts: allMarkdownRemark(
       sort: { order: DESC, fields: [frontmatter___updatedDate] }
@@ -76,7 +70,9 @@ export const pageQuery = graphql`
           }
           frontmatter {
             title
-            updatedDate(formatString: "DD MMMM, YYYY")
+            updatedDate(formatString: "YYYY年MM月DD日")
+            tags
+            origin
             image {
               children {
                 ... on ImageSharp {
