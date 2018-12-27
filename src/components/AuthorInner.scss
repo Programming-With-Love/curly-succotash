@@ -1,0 +1,21 @@
+.person-header {
+  position: absolute;
+  color: white;
+  top: 160px;
+  left: 0;
+  right: 0;
+  .person-inner {
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+    }
+  }
+  .innter-bio {
+    text-align: center;
+  }
+}

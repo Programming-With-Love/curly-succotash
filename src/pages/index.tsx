@@ -51,6 +51,12 @@ export default IndexPage
 
 export const pageQuery = graphql`
   query PageBlog {
+    site {
+      siteMetadata {
+        title
+        description
+      }
+    }
     # Get posts
     posts: allMarkdownRemark(
       sort: { order: DESC, fields: [frontmatter___updatedDate] }
@@ -89,10 +95,11 @@ export const pageQuery = graphql`
     }
 
     dataJson {
+      homeTitle
       avatar {
         children {
           ... on ImageSharp {
-            fixed(width: 35, height: 35) {
+            fixed(width: 80, height: 80) {
               src
               srcSet
             }

@@ -99,6 +99,7 @@ export interface siteMetadata_2 {
   title: string | null
   googleVerification: string | null
   disqus: string | null
+  description: string | null
 }
 export interface internal_16 {
   contentDigest: string | null
@@ -195,11 +196,12 @@ export interface DataJson extends Node {
   id: string | null
   parent: Node | null
   children: Array<Node> | null
-  name: String | null
+  name: string | null
   avatar: File | null
-  bio: String | null
+  bio: string[] | null
   header: File | null
   internal: internal_13 | null
+  homeTitle: string | null
 }
 export interface internal_13 {
   contentDigest: string | null

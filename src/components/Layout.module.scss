@@ -1,4 +1,3 @@
-$siderWidth: 200px;
 .root {
   padding: 0;
   margin: 0;
@@ -30,57 +29,6 @@ $siderWidth: 200px;
   position: relative;
 }
 
-.personHeader {
-  position: absolute;
-  color: white;
-  top: 160px;
-  left: 0;
-  right: 0;
-  .personInner {
-    width: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .avatar {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-    }
-  }
-  .innterBio {
-    text-align: center;
-  }
-}
-
-.headerNav {
-  position: absolute;
-  text-align: right;
-  width: 100%;
-  padding: 0 80px;
-  top: 0;
-  z-index: 4;
-  line-height: 60px;
-  > ul {
-    list-style-type: none;
-    &:after {
-      content: '';
-      display: block;
-      clear: both;
-    }
-    > li {
-      display: inline-block;
-      padding: 0;
-      margin: 0 15px;
-      font-size: 18px;
-      cursor: pointer;
-      a {
-        color: #d4d3d3;
-        text-decoration: none;
-        background: transparent;
-      }
-    }
-  }
-}
 .content {
   position: relative;
 }
