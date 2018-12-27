@@ -1,0 +1,82 @@
+@import '../theme.scss';
+.root {
+  padding: 0;
+  margin: 0;
+}
+.header {
+  width: 100%;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  .headerBgContainer {
+    width: 100%;
+    height: 100%;
+  }
+  .headerTitle {
+    color: white;
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    z-index: 1000;
+    a {
+      text-decoration: none;
+      color: white;
+    }
+  }
+  .headerNav {
+    position: absolute;
+    text-align: right;
+    width: 100%;
+    padding: 0 80px;
+    top: 0;
+    z-index: 4;
+    line-height: 60px;
+    > ul {
+      list-style-type: none;
+      &:after {
+        content: '';
+        display: block;
+        clear: both;
+      }
+      > li {
+        display: inline-block;
+        padding: 0;
+        margin: 0 15px;
+        font-size: 18px;
+        cursor: pointer;
+        a {
+          color: #d4d3d3;
+          text-decoration: none;
+          background: transparent;
+        }
+      }
+    }
+  }
+}
+
+.banner {
+  position: relative;
+}
+
+.personHeader {
+  position: absolute;
+  color: white;
+  top: 160px;
+  left: 0;
+  right: 0;
+  .personInner {
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+    }
+  }
+  .innterBio {
+    text-align: center;
+  }
+}

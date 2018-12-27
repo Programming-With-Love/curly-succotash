@@ -6,7 +6,6 @@ import StarCanvas from './StarCanvas'
 import * as classes from './Layout.module.scss'
 import '../global.scss'
 import Bio from './Bio'
-import { HeaderAction } from '../actions/header'
 export const menuItems = [
   { name: '首页', path: '/', exact: true, icon: 'home', inverted: true },
   { name: '归档', path: '/archive/', exact: true, icon: 'info circle' },
