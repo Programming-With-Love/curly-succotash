@@ -16,7 +16,6 @@ export interface PostItemProps extends TagsCardProps {
 
 const PostItem = (props: PostItemProps) => {
   const { cover, title, updatedDate, href, excerpt, timeToRead, words, origin } = props
-  console.log(origin)
   return (
     <div className={classes.postItem}>
       <div className={classes.timeLabel}>
