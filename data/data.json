@@ -1,0 +1,21 @@
+{
+  "author": {
+    "name": "zido",
+    "avatar": "./avatar.jpg"
+  },
+  "pin": [
+    {
+      "name": "github",
+      "url": "https://github.com/zidoshare"
+    },
+    {
+      "name": "email",
+      "url": "mailto:wuhongxu1208@gmail.com"
+    },
+    {
+      "name": "resume",
+      "url": "https://resume.zido.site"
+    }
+  ],
+  "speech": ["hello～", "I'm zido,a full stack developer", "welcome to visit my blog!"]
+}

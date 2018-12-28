@@ -1,62 +1,10 @@
-import * as React from 'react'
-import { graphql, Link } from 'gatsby'
-import { get } from 'lodash'
-import PostItem from '../components/PostItem'
-import { MarkdownRemark, MarkdownRemarkConnection, Site, DataJson, ImageSharp } from '../graphql-types'
-import * as classes from './Index.module.scss'
-export interface IndexProps {
-  data: {
-    posts: MarkdownRemarkConnection
-    recents: MarkdownRemarkConnection
-    site: Site
-    dataJson: DataJson
-  }
-}
-
-const IndexPage = (props: IndexProps) => {
-  const { data } = props
-  return (
-    <div className={classes.indexContent}>
-      {data.posts.edges.map(({ node }: { node: MarkdownRemark }, index: number) => {
-        const {
-          frontmatter,
-          timeToRead,
-          fields: { slug },
-          excerpt,
-          wordCount,
-        } = node
-        const cover = get(frontmatter, 'image.children.0.fixed', {})
-        const tags = node.frontmatter.tags
-        return (
-          <PostItem
-            words={wordCount.words}
-            key={slug}
-            cover={cover}
-            title={frontmatter.title}
-            origin={frontmatter.origin}
-            timeToRead={timeToRead}
-            updatedDate={frontmatter.updatedDate}
-            href={slug}
-            excerpt={excerpt}
-            Link={Link}
-            tags={tags}
-          />
-        )
-      })}
-    </div>
-  )
-}
-
-export default IndexPage
+import Blog from '../containers/BlogContainer'
+import { graphql } from 'gatsby'
+import { withLayout } from '../containers/LayoutContainer'
+export default withLayout(Blog, true)
 
 export const pageQuery = graphql`
   query PageBlog {
-    site {
-      siteMetadata {
-        title
-        description
-      }
-    }
     # Get posts
     posts: allMarkdownRemark(
       sort: { order: DESC, fields: [frontmatter___updatedDate] }
@@ -93,15 +41,16 @@ export const pageQuery = graphql`
         }
       }
     }
-
+    # json data
     dataJson {
-      homeTitle
-      avatar {
-        children {
-          ... on ImageSharp {
-            fixed(width: 80, height: 80) {
-              src
-              srcSet
+      author {
+        avatar {
+          children {
+            ... on ImageSharp {
+              fixed(width: 80, height: 80) {
+                src
+                srcSet
+              }
             }
           }
         }

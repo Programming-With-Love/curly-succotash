@@ -196,12 +196,16 @@ export interface DataJson extends Node {
   id: string | null
   parent: Node | null
   children: Array<Node> | null
-  name: string | null
-  avatar: File | null
+  author: Author | null
   bio: string[] | null
   header: File | null
   internal: internal_13 | null
-  homeTitle: string | null
+  home: string | null
+}
+
+export interface Author {
+  name: string | null
+  avatar: File | null
 }
 export interface internal_13 {
   contentDigest: string | null

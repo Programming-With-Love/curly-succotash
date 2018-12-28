@@ -1,7 +1,8 @@
-import Blog from '../pages'
+import Blog from '../containers/BlogContainer'
 import { graphql } from 'gatsby'
+import { withLayout } from '../containers/LayoutContainer'
 
-export default Blog
+export default withLayout(Blog, false)
 
 export const pageQuery = graphql`
   query TemplateBlogPage($skip: Int) {
@@ -51,12 +52,14 @@ export const pageQuery = graphql`
       }
     }
     dataJson {
-      avatar {
-        children {
-          ... on ImageSharp {
-            fixed(width: 35, height: 35) {
-              src
-              srcSet
+      author {
+        avatar {
+          children {
+            ... on ImageSharp {
+              fixed(width: 35, height: 35) {
+                src
+                srcSet
+              }
             }
           }
         }

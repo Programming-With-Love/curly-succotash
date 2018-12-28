@@ -3,6 +3,7 @@ import { ImageSharp } from '../graphql-types'
 import { GatsbyLinkProps, Link } from 'gatsby'
 import * as classes from './Header.module.scss'
 import StarCanvas from './StarCanvas'
+import { HOME_TITLE } from '../contants/layout'
 export interface MenuItem {
   name: string
   path: string
@@ -12,12 +13,11 @@ export interface MenuItem {
 export interface HeaderProps {
   background?: string | ImageSharp | null
   menuItems: MenuItem[]
-  topLeft: string
   children: any
 }
 
 export default (props: HeaderProps) => {
-  const { menuItems, topLeft, children } = props
+  const { menuItems, children } = props
   return (
     <header className={classes.header}>
       <nav className={classes.headerNav}>
@@ -30,7 +30,7 @@ export default (props: HeaderProps) => {
         </ul>
       </nav>
       <h1 className={classes.headerTitle}>
-        <Link to="/">{topLeft}</Link>
+        <Link to="/">{HOME_TITLE}</Link>
       </h1>
       <div className={classes.banner}>
         <div className={classes.headerBgContainer}>

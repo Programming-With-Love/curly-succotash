@@ -2,8 +2,9 @@ import * as React from 'react'
 import { Link } from 'gatsby'
 import { DataJson, MarkdownRemarkConnection, Site, ImageSharp } from '../graphql-types'
 import * as classes from './Layout.module.scss'
+import { StaticQuery, graphql } from 'gatsby'
+import AuthorInner from './inner/AuthorInner'
 import '../global.scss'
-import Bio from './Bio'
 import Header from './Header'
 export const menuItems = [
   { name: '首页', path: '/', exact: true, icon: 'home', inverted: true, Link },
@@ -12,18 +13,53 @@ export const menuItems = [
   { name: '标签', path: '/tags/', exact: false, icon: 'tag', Link },
 ]
 
+const authorInner = (
+  <StaticQuery
+    query={graphql`
+      {
+        allMarkdownRemark {
+          totalCount
+        }
+        dataJson {
+          author {
+            name
+            avatar {
+              children {
+                ... on ImageSharp {
+                  fixed(width: 80, height: 80) {
+                    src
+                    srcSet
+                  }
+                }
+              }
+            }
+          }
+          speech
+        }
+      }
+    `}
+    render={data => {
+      const props = {
+        totalCount: data.allMarkdownRemark.totalCount,
+        title: 'xxx的个人博客',
+        description: 'xxxx',
+        speech: data.dataJson.speech,
+        author: {
+          name: data.dataJson.author.name,
+          avatar: data.dataJson.author.avatar,
+        },
+      }
+      return <AuthorInner {...props} />
+    }}
+  />
+)
+
 export interface LayoutProps {
   location: {
     pathname: string
   }
   showMain: boolean
   children: any
-  data: {
-    dataJson: DataJson
-    posts: MarkdownRemarkConnection
-    site: Site
-  }
-  inner: any
 }
 
 export default class Layout extends React.Component<Readonly<LayoutProps>> {
@@ -31,17 +67,11 @@ export default class Layout extends React.Component<Readonly<LayoutProps>> {
     super(props)
   }
   render() {
-    const { data, inner } = this.props
-    const avatar = data.dataJson.avatar.children[0] as ImageSharp
-    const { name, homeTitle, bio } = data.dataJson
-    const { totalCount } = data.posts
-    const { title, description } = data.site.siteMetadata
+    const { showMain } = this.props
     return (
       <div className={classes.root}>
         {/* 页头 */}
-        <Header menuItems={menuItems} topLeft={homeTitle}>
-          {inner}
-        </Header>
+        <Header menuItems={menuItems}>{showMain ? authorInner : null}</Header>
 
         <main className={classes.content}>{this.props.children}</main>
         <div>{/* 页尾 */}</div>

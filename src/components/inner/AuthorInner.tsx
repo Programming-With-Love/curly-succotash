@@ -1,16 +1,19 @@
 import * as React from 'react'
-import { DataJson, ImageSharp } from '../graphql-types'
-import Bio from './Bio'
+import { ImageSharp, Author } from '../../graphql-types'
+import Bio from '../Bio'
 import './AuthorInner.scss'
-export interface AuthorProps extends DataJson {
+export interface AuthorProps {
   totalCount: number
   title: string
   description: string
+  author: Author
+  speech: string[]
 }
 
 export default (props: AuthorProps) => {
-  const avatar = props.avatar.children[0] as ImageSharp
-  const { name, bio, totalCount, title, description } = props
+  const avatar = props.author.avatar.children[0] as ImageSharp
+  const { speech, totalCount, title, description } = props
+  const { name } = props.author
   return (
     <div className="person-header">
       <div className="author-inner">
@@ -22,7 +25,7 @@ export default (props: AuthorProps) => {
         </div>
       </div>
       <div className={'inner-bio'}>
-        <Bio text={bio} />
+        <Bio text={speech} />
       </div>
     </div>
   )
