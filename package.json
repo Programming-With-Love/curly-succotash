@@ -24,11 +24,13 @@
     "codeclimate": "codeclimate-test-reporter < coverage/lcov.info"
   },
   "dependencies": {
+    "@types/classnames": "^2.2.6",
     "@types/lodash": "^4.14.119",
     "@types/react-dom": "^16.0.11",
     "@types/react-helmet": "^5.0.7",
     "@types/react-redux": "^6.0.11",
     "babel-eslint": "^9",
+    "classnames": "^2.2.6",
     "codeclimate-test-reporter": "^0.5.1",
     "disqus-react": "^1.0.5",
     "gatsby": "^2.0.73",

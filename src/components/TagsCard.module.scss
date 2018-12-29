@@ -1,5 +1,6 @@
 .tagContainer {
   margin-bottom: 8px;
+  position: relative;
   > .tag {
     &:hover {
       background: #1565c0;
@@ -19,5 +20,16 @@
     margin-right: 8px;
     cursor: pointer;
     white-space: nowrap;
+  }
+  > .original {
+    position: absolute;
+    background-color: rgba(242, 174, 67, 0.25);
+    color: rgb(242, 174, 67);
+    margin-left: -33px;
+    margin-right: 10px;
+    padding: 0 6px;
+    font-size: 14px;
+    line-height: 26px;
+    border-radius: 11px;
   }
 }

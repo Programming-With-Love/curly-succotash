@@ -4,7 +4,7 @@ export const withDefaultProps = <P extends object, DP extends Partial<P> = Parti
   defaultProps: DP,
   Cmp: React.ComponentType<P>
 ) => {
-  type RequiredProps = Pick<P, Exclude<keyof P, DP>>
+  type RequiredProps = Pick<P, Exclude<keyof P, keyof DP>>
   type Props = Partial<DP> & RequiredProps
   Cmp.defaultProps = defaultProps
   return (Cmp as React.ComponentType<any>) as React.ComponentType<Props>

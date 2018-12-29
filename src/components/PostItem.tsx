@@ -28,8 +28,7 @@ const PostItem = (props: PostItemProps) => {
           </Link>
         </div>
         <div className={classes.itemElse}>
-          {origin ? <div className={classes.original}>原</div> : null}
-          <TagsCard Link={Link} tags={props.tags} />
+          <TagsCard Link={Link} tags={props.tags} origin={origin}/>
           <h3>
             <Link to={href}>{title}</Link>
           </h3>

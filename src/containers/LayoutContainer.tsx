@@ -31,7 +31,6 @@ export const withLayout = <P extends object>(
   //the type WithLayoutProps skip type P. it's must be (WithLayoutProps & P)
   class WithLayout extends React.Component<WithLayoutProps> {
     componentWillMount() {
-      console.log(this.props.showMain, showAuthorInner)
       if (this.props.showMain != showAuthorInner) {
         this.props.showHeader(showAuthorInner)
       }
