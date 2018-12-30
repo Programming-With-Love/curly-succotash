@@ -14,7 +14,7 @@ export interface AffixProps {
   offsetTop: number
   offsetBottom: number
   onPin(): void
-  onUnPin(): void
+  onUnpin(): void
 }
 
 interface WrapStyles {
@@ -61,16 +61,56 @@ class Affix extends React.PureComponent<AffixProps, AffixState> {
     }
   }
 
+  pin() {
+    const { onPin } = this.props
+    this.affix = true
+    this.setWidth()
+    this.setState({
+      position: 'fixed',
+    })
+    onPin && onPin()
+  }
+
+  unpin() {
+    const { onUnpin } = this.props
+    this.affix = false
+    this.setState({
+      position: 'static',
+      width: null,
+      placeHoldStyle: { overflow: 'hidden' },
+    })
+    onUnpin && onUnpin()
+  }
+
+  setWidth() {
+    const element = ReactDOM.findDOMNode(this) as HTMLElement
+    this.setState({
+      width: element.offsetWidth,
+      placeHoldStyle: {
+        width: '100%',
+        height: element.offsetHeight,
+      },
+    })
+  }
+
   updatePin() {
     const affix = this.affix
     const props = this.props
-    const element = ReactDOM.findDOMNode(this)
-    if (!(element instanceof Element)) {
-      return
-    }
+    const element = ReactDOM.findDOMNode(this) as HTMLElement
     let readllyNum, propsNum
     if (props.offsetBottom !== null) {
       readllyNum = getViewPortSize().height - element.getBoundingClientRect().bottom
+      propsNum = props.offsetBottom
+    } else {
+      readllyNum = element.getBoundingClientRect().top
+      propsNum = props.offsetTop
+    }
+
+    if (affix && readllyNum > propsNum) {
+      this.unpin()
+    }
+    if (!affix && readllyNum <= propsNum) {
+      this.pin()
     }
   }
 
