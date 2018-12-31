@@ -10,6 +10,6 @@ export interface PostInnerProps extends TagsCardProps {
 export default (props: PostInnerProps) => (
   <div className="post-inner">
     <TagsCard {...props} />
-    <h1>{props.title}</h1>
+    <h1>{props.blogTitle}</h1>
   </div>
 )

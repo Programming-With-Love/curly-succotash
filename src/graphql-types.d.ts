@@ -201,6 +201,16 @@ export interface DataJson extends Node {
   header: File | null
   internal: internal_13 | null
   home: string | null
+  gitment: CommentOptions | null
+}
+
+export interface CommentOptions {
+  owner: string
+  repo: string
+  oauth: {
+    client_id: string
+    client_secret: string
+  }
 }
 
 export interface Author {

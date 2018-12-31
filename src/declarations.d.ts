@@ -9,13 +9,23 @@ declare module '*.scss' {
   export = content
 }
 
-declare const graphql: (query: TemplateStringsArray) => void
-
-declare module 'typography-theme-funston' {
-  import { TypographyOptions } from 'typography'
-  let FunstonTheme: TypographyOptions
-  export default FunstonTheme
+declare module 'gitment' {
+  export interface GitmentOptions {
+    id: string
+    owner: string
+    repo: string
+    oauth: {
+      client_id: string
+      client_secret: string
+    }
+  }
+  export default class Gitment {
+    constructor(options?: GitmentOptions)
+    render(node: string | Element): void
+  }
 }
+
+declare const graphql: (query: TemplateStringsArray) => void
 
 declare module 'disqus-react' {
   export class DiscussionEmbed extends React.Component<

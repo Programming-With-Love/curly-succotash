@@ -6690,6 +6690,13 @@ github-slugger@^1.1.1:
   dependencies:
     emoji-regex ">=6.0.0 <=6.1.1"
 
+gitment@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/gitment/-/gitment-0.0.3.tgz#dbccbad7480b1345b656913bd70eff792a7b38b8"
+  integrity sha1-28y610gLE0W2VpE71w7/eSp7OLg=
+  dependencies:
+    mobx "^3.1.7"
+
 glob-base@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/glob-base/-/glob-base-0.3.0.tgz#dbb164f6221b1c0b1ccf82aea328b497df0ea3c4"
@@ -10128,6 +10135,11 @@ mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdi
   integrity sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
   dependencies:
     minimist "0.0.8"
+
+mobx@^3.1.7:
+  version "3.6.2"
+  resolved "https://registry.yarnpkg.com/mobx/-/mobx-3.6.2.tgz#fb9f5ff5090539a1ad54e75dc4c098b602693320"
+  integrity sha512-Dq3boJFLpZEvuh5a/MbHLUIyN9XobKWIb0dBfkNOJffNkE3vtuY0C9kSDVpfH8BB0BPkVw8g22qCv7d05LEhKg==
 
 modularscale@^1.0.2:
   version "1.0.2"
@@ -14497,6 +14509,13 @@ typography-normalize@^0.16.18:
   version "0.16.18"
   resolved "https://registry.yarnpkg.com/typography-normalize/-/typography-normalize-0.16.18.tgz#19e8db32c6881d3745b7d67dc63ee6f6cfb681d1"
   integrity sha512-HZCOoyg4bbwuy0W6kFOKS8duMhUUO1Oxl8/NgRKDG7kJYGjfmqj6LBjQ4dYGrcuPabYHhP0xmAaYNasEUooYBw==
+
+typography-theme-bootstrap@^0.16.18:
+  version "0.16.18"
+  resolved "https://registry.yarnpkg.com/typography-theme-bootstrap/-/typography-theme-bootstrap-0.16.18.tgz#7110cbeb844419d460bc478c4b261a7b194047ab"
+  integrity sha512-b2pB4E4WCYGNpcVNCvNf7QIJSjKVCo9EUtCclfKRzl3uazNkdi3vj1mIgcOYAOLbq+owDpaU6puK6wHGhtdCbw==
+  dependencies:
+    gray-percentage "^2.0.0"
 
 typography-theme-funston@^0.16.18:
   version "0.16.18"

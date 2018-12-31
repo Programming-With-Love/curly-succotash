@@ -3,6 +3,7 @@ import { LayoutProps } from '../components/Layout'
 import { MarkdownRemark, MarkdownRemarkConnection, Site, DataJson } from '../graphql-types'
 import { get } from 'lodash'
 import { withLayout } from '../containers/LayoutContainer'
+import BlogPost from '../components/BlogPost'
 import { graphql } from 'gatsby'
 interface BlogPostProps extends LayoutProps {
   data: {
@@ -12,17 +13,29 @@ interface BlogPostProps extends LayoutProps {
     dataJson: DataJson
   }
 }
-const BlogPost = (props: BlogPostProps) => {
-  const { frontmatter, html, timeToRead } = props.data.post
+const PostPage = (props: BlogPostProps) => {
+  const { post, dataJson } = props.data
   const recents = props.data.recents.edges.map(({ node }) => {
     const recentCover = get(node, 'frontmatter.image.children.0.fixed', {})
   })
-  return <div dangerouslySetInnerHTML={{ __html: html }} />
+  const { slug } = post.fields
+  const gitmentOptions = dataJson.gitment
+  return <BlogPost slug={slug} commentOptions={gitmentOptions} post={post} />
 }
-export default withLayout(BlogPost, false)
+export default withLayout(PostPage, false)
 
 export const pageQuery = graphql`
   query TemplateBlogPost($slug: String!) {
+    dataJson {
+      gitment {
+        owner
+        repo
+        oauth {
+          client_id
+          client_secret
+        }
+      }
+    }
     post: markdownRemark(fields: { slug: { eq: $slug } }) {
       html
       excerpt

@@ -10,7 +10,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-typography`,
       options: {
-        pathToConfigModule: `src/typography.ts`,
+        pathToConfigModule: `src/typography.js`,
       },
     },
     // Expose `/data` to graphQL layer
