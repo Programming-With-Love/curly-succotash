@@ -29,6 +29,7 @@
     "@types/react-dom": "^16.0.11",
     "@types/react-helmet": "^5.0.7",
     "@types/react-redux": "^6.0.11",
+    "@types/typography": "^0.16.1",
     "babel-eslint": "^9",
     "classnames": "^2.2.6",
     "codeclimate-test-reporter": "^0.5.1",
@@ -53,7 +54,8 @@
     "react-typography": "^0.16.18",
     "redux": "^4.0.1",
     "slash": "^2.0.0",
-    "typography": "^0.16.18"
+    "typography": "^0.16.18",
+    "typography-theme-funston": "^0.16.18"
   },
   "devDependencies": {
     "@babel/core": "^7",

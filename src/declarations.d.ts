@@ -11,6 +11,12 @@ declare module '*.scss' {
 
 declare const graphql: (query: TemplateStringsArray) => void
 
+declare module 'typography-theme-funston' {
+  import { TypographyOptions } from 'typography'
+  let FunstonTheme: TypographyOptions
+  export default FunstonTheme
+}
+
 declare module 'disqus-react' {
   export class DiscussionEmbed extends React.Component<
     {

@@ -969,6 +969,11 @@
   resolved "https://registry.yarnpkg.com/@types/tmp/-/tmp-0.0.32.tgz#0d3cb31022f8427ea58c008af32b80da126ca4e3"
   integrity sha1-DTyzECL4Qn6ljACK8yuA2hJspOM=
 
+"@types/typography@^0.16.1":
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/@types/typography/-/typography-0.16.1.tgz#b063d6f8611e5c63180528a863d288bf0f197c51"
+  integrity sha512-DlB/Xcx6J0ah9zZzVQCeVx0G9sDZTRrPtoaZMR3WjYAyDVjxAkyudzuaPesNCkG1kXMor9h9pPMibVAMAoIilg==
+
 "@types/webpack-env@^1.13.6":
   version "1.13.6"
   resolved "https://registry.yarnpkg.com/@types/webpack-env/-/webpack-env-1.13.6.tgz#128d1685a7c34d31ed17010fc87d6a12c1de6976"
@@ -14483,10 +14488,23 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
+typography-breakpoint-constants@^0.16.18:
+  version "0.16.18"
+  resolved "https://registry.yarnpkg.com/typography-breakpoint-constants/-/typography-breakpoint-constants-0.16.18.tgz#5b1e24a31879662ca0456828b8f8f8158cd2b436"
+  integrity sha512-9V3cyN4Lh9SUecjirf6F0+bNvIpI0aLx8qXBzErDRdDizPXOojjdSudFr3kv5wx0qseVzUiFkm8LNXvKGOrZKQ==
+
 typography-normalize@^0.16.18:
   version "0.16.18"
   resolved "https://registry.yarnpkg.com/typography-normalize/-/typography-normalize-0.16.18.tgz#19e8db32c6881d3745b7d67dc63ee6f6cfb681d1"
   integrity sha512-HZCOoyg4bbwuy0W6kFOKS8duMhUUO1Oxl8/NgRKDG7kJYGjfmqj6LBjQ4dYGrcuPabYHhP0xmAaYNasEUooYBw==
+
+typography-theme-funston@^0.16.18:
+  version "0.16.18"
+  resolved "https://registry.yarnpkg.com/typography-theme-funston/-/typography-theme-funston-0.16.18.tgz#c28b2791689f25c6a86eeb6722af9fcf114368a6"
+  integrity sha512-h0zk4ElNhv+Ji0PNK+dna9ngIniNiGy89XL1CnQmv+t0sZolaHbc3zENdr0SsFK3FTJFCgHNrsBkaS0cmSrqiA==
+  dependencies:
+    gray-percentage "^2.0.0"
+    typography-breakpoint-constants "^0.16.18"
 
 typography@^0.16.18:
   version "0.16.18"

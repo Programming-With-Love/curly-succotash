@@ -1,8 +1,10 @@
-import * as React from 'react'
-import { Provider } from 'react-redux'
-import { renderToString } from 'react-dom/server'
+const React = require('react')
+const { Provider } = require('react-redux')
+const { renderToString } = require('react-dom/server')
 
-import { store } from './src/store'
+const { store } = require('./src/store')
+
+console.log('ok')
 
 exports.replaceRenderer = ({ bodyComponent, replaceBodyHTMLString }) => {
   const ConnectedBody = () => <Provider store={store}>{bodyComponent}</Provider>
