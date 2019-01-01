@@ -4,4 +4,10 @@
   top: 160px;
   left: 0;
   right: 0;
+  text-align: center;
+  width: auto;
+  .tags-header-container {
+    width: fit-content;
+    margin: auto;
+  }
 }

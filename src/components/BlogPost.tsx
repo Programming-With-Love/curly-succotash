@@ -26,7 +26,7 @@ class BlogPost extends React.Component<BlogPostProps> {
     return (
       <div className={classes.post}>
         <Helmet title={`${title}`} />
-        <PostInner tags={tags} blogTitle={title} Link={Link} />
+        <PostInner tags={tags} blogTitle={title} Link={Link} origin={origin} />
         <div className={classes.postContent} dangerouslySetInnerHTML={{ __html: html }} />
         <div id="comment-container" />
       </div>

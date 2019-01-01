@@ -71,7 +71,9 @@ export default class Layout extends React.Component<Readonly<LayoutProps>> {
     return (
       <div className={classes.root}>
         {/* 页头 */}
-        <Header menuItems={menuItems}>{showMain ? authorInner : null}</Header>
+        <Header menuItems={menuItems}>
+          {showMain ? authorInner : null}
+        </Header>
 
         <main className={classes.content}>{this.props.children}</main>
         <div>{/* 页尾 */}</div>

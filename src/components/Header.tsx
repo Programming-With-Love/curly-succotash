@@ -10,7 +10,7 @@ export interface MenuItem {
   Link: React.ComponentClass<GatsbyLinkProps<any>>
 }
 
-export interface HeaderProps {
+export interface HeaderProps extends React.HTMLProps<HTMLHeadingElement> {
   background?: string | ImageSharp | null
   menuItems: MenuItem[]
   children: any
@@ -18,8 +18,13 @@ export interface HeaderProps {
 
 export default (props: HeaderProps) => {
   const { menuItems, children } = props
+  const tProps = { ...props }
+  delete tProps.className
+  delete tProps.background
+  delete tProps.menuItems
+  delete tProps.children
   return (
-    <header className={classes.header}>
+    <header className={classes.header} {...tProps}>
       <nav className={classes.headerNav}>
         <ul>
           {menuItems.map((item, index) => (
@@ -36,6 +41,7 @@ export default (props: HeaderProps) => {
         <div className={classes.headerBgContainer}>
           <StarCanvas height={480} />
         </div>
+        <div id="main-header" />
         {children}
       </div>
     </header>
