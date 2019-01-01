@@ -1,4 +1,11 @@
 .post {
   max-width: 720px;
   margin: 80px auto;
+  position: relative;
+  .rightNav {
+    position: absolute;
+    width: 200px;
+    left: 720px;
+    top: 0;
+  }
 }

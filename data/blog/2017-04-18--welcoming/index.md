@@ -11,9 +11,9 @@ origin: true
 draft: false
 ---
 
-# :smile: Welcome to My WebSite!
+# Welcome to My WebSite!
 
-dd Welcome to My WebSite!
+:smile: Welcome to My WebSite!
 
 Welcome to My WebSite!
 

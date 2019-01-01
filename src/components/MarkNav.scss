@@ -1,0 +1,8 @@
+.mark-nav {
+  a.head-nav-item {
+    display: block;
+    &.active {
+      color: red;
+    }
+  }
+}

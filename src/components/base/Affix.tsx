@@ -5,16 +5,17 @@ import WindowEventHandler from './WindowEventHandler'
 import getViewPortSize from '../../utils/getViewPortSize'
 import { withDefaultProps } from '../../utils/props'
 import { throttle } from 'lodash'
+import './Affix.scss'
 
 export interface AffixProps {
-  placeHoldClassName: string
-  className: string
-  prefix: string
-  zIndex: number
-  offsetTop: number
-  offsetBottom: number
-  onPin(): void
-  onUnpin(): void
+  placeHoldClassName?: string
+  className?: string
+  prefix?: string
+  zIndex?: number
+  offsetTop?: number
+  offsetBottom?: number
+  onPin?(): void
+  onUnpin?(): void
 }
 
 interface WrapStyles {
@@ -37,8 +38,8 @@ class Affix extends React.PureComponent<AffixProps, AffixState> {
   constructor(props: AffixProps) {
     super(props)
     this.state = {
-      position: 'fixed',
-      width: 0,
+      position: 'static',
+      width: null,
       placeHoldStyle: {},
     }
   }
@@ -98,14 +99,13 @@ class Affix extends React.PureComponent<AffixProps, AffixState> {
     const props = this.props
     const element = ReactDOM.findDOMNode(this) as HTMLElement
     let readllyNum, propsNum
-    if (props.offsetBottom !== null) {
+    if (props.offsetBottom !== undefined) {
       readllyNum = getViewPortSize().height - element.getBoundingClientRect().bottom
       propsNum = props.offsetBottom
     } else {
       readllyNum = element.getBoundingClientRect().top
       propsNum = props.offsetTop
     }
-
     if (affix && readllyNum > propsNum) {
       this.unpin()
     }
@@ -128,7 +128,7 @@ class Affix extends React.PureComponent<AffixProps, AffixState> {
     const wrapClass = classnames(`${prefix}-affix`, className)
     return (
       <div className={placeHoldClassName} style={this.state.placeHoldStyle}>
-        <div className={wrapClass} style={{ ...this.getStyles }}>
+        <div className={wrapClass} style={{ ...this.getStyles() }}>
           {this.props.children}
         </div>
         <WindowEventHandler eventName="scroll" callback={this.handleScroll} />

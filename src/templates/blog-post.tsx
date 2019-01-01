@@ -43,6 +43,10 @@ export const pageQuery = graphql`
       fields {
         slug
       }
+      headings {
+        value
+        depth
+      }
       frontmatter {
         tags
         title
