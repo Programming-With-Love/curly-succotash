@@ -68,8 +68,7 @@ class MarkNav extends React.Component<MarkNavProps, MarkNavState> {
   componentDidMount() {
     let scrollHeadings = this.props.headings.map(heading => {
       const key = mapHeading(heading.value)
-      let h = document.getElementById(key)
-      //TODO fix mao
+      let h = document.querySelector(`[data-id=${key}`) as HTMLElement
       if (h) {
         let mao = h.querySelector('a.anchor') as HTMLAnchorElement
         let top = getElementTop(h)
