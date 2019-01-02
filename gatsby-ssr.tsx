@@ -2,11 +2,9 @@ const React = require('react')
 const { Provider } = require('react-redux')
 const { renderToString } = require('react-dom/server')
 
-const { store } = require('./src/store')
-
-console.log('ok')
-
+const createStore = require('./src/store/createStore')
 exports.replaceRenderer = ({ bodyComponent, replaceBodyHTMLString }) => {
-  const ConnectedBody = () => <Provider store={store}>{bodyComponent}</Provider>
+  const store = createStore()
+  const ConnectedBody = () => <div id="rooooot"><Provider store={store}>{bodyComponent}</Provider></div>
   replaceBodyHTMLString(renderToString(<ConnectedBody />))
 }

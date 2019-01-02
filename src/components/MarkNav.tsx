@@ -4,6 +4,7 @@ import { withDefaultProps } from '../utils/props'
 import WindowEventHandler from './base/WindowEventHandler'
 import classnames from 'classnames'
 import './MarkNav.scss'
+const slugs = require(`github-slugger`)()
 export interface MarkNavProps {
   headings: Array<MarkdownHeading>
   ordered: boolean
@@ -53,7 +54,7 @@ function mapNav(headings: Array<ScrollHeading>): Array<Object> {
   ))
 }
 function mapHeading(heading: string): string {
-  return heading.toLowerCase().replace(' ', '-')
+  return slugs.slug(heading, false)
 }
 
 class MarkNav extends React.Component<MarkNavProps, MarkNavState> {
@@ -68,7 +69,7 @@ class MarkNav extends React.Component<MarkNavProps, MarkNavState> {
   componentDidMount() {
     let scrollHeadings = this.props.headings.map(heading => {
       const key = mapHeading(heading.value)
-      let h = document.querySelector(`[data-id=${key}`) as HTMLElement
+      let h = document.querySelector(`[data-id=${key}]`) as HTMLElement
       if (h) {
         let mao = h.querySelector('a.anchor') as HTMLAnchorElement
         let top = getElementTop(h)

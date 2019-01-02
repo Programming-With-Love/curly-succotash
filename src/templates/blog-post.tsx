@@ -22,6 +22,7 @@ const PostPage = (props: BlogPostProps) => {
   const gitmentOptions = dataJson.gitment
   return <BlogPost slug={slug} commentOptions={gitmentOptions} post={post} />
 }
+
 export default withLayout(PostPage, false)
 
 export const pageQuery = graphql`

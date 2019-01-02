@@ -16,24 +16,14 @@ export interface BlogPostProps {
 
 class BlogPost extends React.Component<BlogPostProps> {
   div: HTMLDivElement = null
-  //for seo
-  componentWillMount() {
-    if (!this.div) {
-      let div = document.createElement('div')
-      document.body.appendChild(div)
-      this.div = div
-    }
+  componentDidMount() {
+    this.div = document.createElement('div')
     var gitment = new Gitment({
       id: this.props.slug,
       ...this.props.commentOptions,
     })
     gitment.render(this.div)
-  }
-  componentDidMount() {
-    if (this.div) {
-      document.body.removeChild(this.div)
-      document.getElementById('comment-container').replaceWith(this.div)
-    }
+    document.getElementById('comment-container').replaceWith(this.div)
   }
   componentWillUnmount() {
     if (this.div) {

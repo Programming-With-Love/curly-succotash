@@ -27,6 +27,12 @@ module.exports = {
         trackingId: 'UA-120357572-1',
       },
     },
+    {
+      resolve: `gatsby-plugin-layout`,
+      options: {
+        component: require.resolve('./src/containers/LayoutContainer.tsx'),
+      },
+    },
 
     // Parse all markdown files (each plugin add/parse some data into graphQL layer)
     {
