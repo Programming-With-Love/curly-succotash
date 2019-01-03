@@ -2,9 +2,15 @@ import { createStore } from 'redux'
 import rootReducer from '../reducers/index'
 
 export default () => {
-  const w = window as Window & {
-    __REDUX_DEVTOOLS_EXTENSION__: any
-    devToolsExtension: boolean
+  let w: {
+    __REDUX_DEVTOOLS_EXTENSION__?: any
+    devToolsExtension?: boolean
+  } = {}
+  if (typeof window !== `undefined`) {
+    w = window as Window & {
+      __REDUX_DEVTOOLS_EXTENSION__: any
+      devToolsExtension: boolean
+    }
   }
   const devtools =
     process.env.NODE_ENV === 'development' && w.devToolsExtension

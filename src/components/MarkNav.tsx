@@ -4,7 +4,8 @@ import { withDefaultProps } from '../utils/props'
 import WindowEventHandler from './base/WindowEventHandler'
 import classnames from 'classnames'
 import './MarkNav.scss'
-const slugs = require(`github-slugger`)()
+import { throttle } from 'lodash'
+const slugs = require(`github-slugger`)
 export interface MarkNavProps {
   headings: Array<MarkdownHeading>
   ordered: boolean
@@ -36,27 +37,6 @@ function getElementTop(el: HTMLElement): number {
   return actualTop
 }
 
-function mapNav(headings: Array<ScrollHeading>): Array<Object> {
-  return headings.map((heading, index) => (
-    <a
-      key={index}
-      className={classnames('head-nav-item', { active: heading.active })}
-      href={`#${heading.value}`}
-      onClick={e => {
-        e.preventDefault()
-        window.scrollTo({
-          top: heading.top + 1,
-        })
-      }}
-    >
-      {heading.value}
-    </a>
-  ))
-}
-function mapHeading(heading: string): string {
-  return slugs.slug(heading, false)
-}
-
 class MarkNav extends React.Component<MarkNavProps, MarkNavState> {
   constructor(props: MarkNavProps) {
     super(props)
@@ -68,7 +48,7 @@ class MarkNav extends React.Component<MarkNavProps, MarkNavState> {
 
   componentDidMount() {
     let scrollHeadings = this.props.headings.map(heading => {
-      const key = mapHeading(heading.value)
+      const key = this.mapHeading(heading.value)
       let h = document.querySelector(`[data-id=${key}]`) as HTMLElement
       if (h) {
         let mao = h.querySelector('a.anchor') as HTMLAnchorElement
@@ -115,16 +95,35 @@ class MarkNav extends React.Component<MarkNavProps, MarkNavState> {
       scrollHeadings,
     })
   }
-
-  private handleScroll() {
-    this.updateScroll(this.state.scrollHeadings)
+  private mapNav(headings: Array<ScrollHeading>): Array<Object> {
+    return headings.map((heading, index) => (
+      <a
+        key={index}
+        className={classnames('head-nav-item', { active: heading.active })}
+        href={`#${heading.value}`}
+        onClick={e => {
+          e.preventDefault()
+          window.scrollTo({
+            top: heading.top + 1,
+          })
+        }}
+      >
+        {heading.value}
+      </a>
+    ))
+  }
+  private mapHeading(heading: string): string {
+    return slugs().slug(heading, false)
   }
 
+  private handleScroll = throttle(() => {
+    this.updateScroll(this.state.scrollHeadings)
+  }, 20)
   render() {
     return (
       <div className="mark-nav">
-        {mapNav(this.state.scrollHeadings)}
-        <WindowEventHandler eventName={'scroll'} callback={this.handleScroll.bind(this)} />
+        {this.mapNav(this.state.scrollHeadings)}
+        <WindowEventHandler eventName={'scroll'} callback={this.handleScroll} />
       </div>
     )
   }

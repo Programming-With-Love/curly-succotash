@@ -17,7 +17,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
     dispatch
   )
 }
-// const ConnectedLayout = connect(mapStateToProps)(Layout)
+const ConnectedLayout = connect(mapStateToProps)(Layout)
 
 export interface WithLayoutProps {
   showMain: boolean
@@ -31,16 +31,19 @@ export const withLayout = <P extends object>(
   //the type WithLayoutProps skip type P. it's must be (WithLayoutProps & P)
   class WithLayout extends React.Component<WithLayoutProps> {
     componentWillMount() {
-      // if (this.props.showMain != showAuthorInner) {
-      //   this.props.showHeader(showAuthorInner)
-      // }
+      if (this.props.showMain != showAuthorInner) {
+        this.props.showHeader(showAuthorInner)
+      }
     }
     render() {
       return <WrappedComponent {...this.props as P & WithLayoutProps} />
     }
   }
 
-  return WithLayout
+  return connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(WithLayout)
 }
 
-export default Layout
+export default ConnectedLayout

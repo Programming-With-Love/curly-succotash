@@ -42,20 +42,5 @@ export const pageQuery = graphql`
         }
       }
     }
-    # json data
-    dataJson {
-      author {
-        avatar {
-          children {
-            ... on ImageSharp {
-              fixed(width: 80, height: 80) {
-                src
-                srcSet
-              }
-            }
-          }
-        }
-      }
-    }
   }
 `

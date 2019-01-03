@@ -5,11 +5,11 @@
     content: '';
     display: block;
     width: 1px;
-    height: 180%;
+    height: 100%;
     position: absolute;
     left: 50%;
+    top: -5px;
     background: #eaeaea;
-    top: -50%;
     z-index: -1;
   }
 }

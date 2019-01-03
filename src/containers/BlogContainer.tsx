@@ -4,15 +4,10 @@ import { get } from 'lodash'
 import PostItem from '../components/PostItem'
 import { MarkdownRemark, MarkdownRemarkConnection, Site, DataJson, ImageSharp } from '../graphql-types'
 import * as classes from './blog.module.scss'
-import { StoreState } from '../state'
-import { connect } from 'react-redux'
-import { bindActionCreators, Dispatch } from 'redux'
-import { showHeader } from '../actions/header'
 export interface IndexProps {
   data: {
     posts: MarkdownRemarkConnection
     recents: MarkdownRemarkConnection
-    dataJson: DataJson
   }
 }
 
@@ -49,17 +44,4 @@ const BlogPage = (props: IndexProps) => {
     </div>
   )
 }
-
-// const mapStateToProps = (state: StoreState) => ({
-//   header: state.header.showMain,
-// })
-
-// function mapDispatchToProps(dispatch: Dispatch) {
-//   return bindActionCreators({ showHeader }, dispatch)
-// }
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(BlogPage)
 export default BlogPage

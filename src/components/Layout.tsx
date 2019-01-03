@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Link } from 'gatsby'
-import { DataJson, MarkdownRemarkConnection, Site, ImageSharp } from '../graphql-types'
+import { Query } from '../graphql-types'
 import * as classes from './Layout.module.scss'
 import { StaticQuery, graphql } from 'gatsby'
 import AuthorInner from './inner/AuthorInner'
@@ -17,6 +17,12 @@ const authorInner = (
   <StaticQuery
     query={graphql`
       {
+        site {
+          siteMetadata {
+            title
+            description
+          }
+        }
         allMarkdownRemark {
           totalCount
         }
@@ -38,11 +44,11 @@ const authorInner = (
         }
       }
     `}
-    render={data => {
+    render={(data: Query) => {
       const props = {
         totalCount: data.allMarkdownRemark.totalCount,
-        title: 'xxx的个人博客',
-        description: 'xxxx',
+        title: data.site.siteMetadata.title,
+        description: data.site.siteMetadata.description,
         speech: data.dataJson.speech,
         author: {
           name: data.dataJson.author.name,
@@ -71,9 +77,7 @@ export default class Layout extends React.Component<Readonly<LayoutProps>> {
     return (
       <div className={classes.root}>
         {/* 页头 */}
-        <Header menuItems={menuItems}>
-          {showMain ? authorInner : null}
-        </Header>
+        <Header menuItems={menuItems}>{showMain ? authorInner : null}</Header>
 
         <main className={classes.content}>{this.props.children}</main>
         <div>{/* 页尾 */}</div>

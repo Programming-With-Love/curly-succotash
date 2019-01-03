@@ -1,3 +1,11 @@
+export interface Query {
+  allMarkdownRemark: MarkdownRemarkConnection | null
+  site: Site | null
+  file: File | null
+  imageSharp: ImageSharp | null
+  markdownRemark: MarkdownRemark | null
+  dataJson: DataJson | null
+}
 export interface MarkdownRemark extends Node {
   id: string
   parent: Node | null
@@ -197,11 +205,11 @@ export interface DataJson extends Node {
   parent: Node | null
   children: Array<Node> | null
   author: Author | null
-  bio: string[] | null
   header: File | null
   internal: internal_13 | null
   home: string | null
   gitment: CommentOptions | null
+  speech:string[] | null
 }
 
 export interface CommentOptions {
