@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
-const r = <T extends object>(WrappedComponent: React.ComponentType<T>) => {
+export default <T extends object>(WrappedComponent: React.ComponentType<T>) => {
   class Proxy extends React.Component<T> {
     componentDidMount() {
       ReactDOM.render(<WrappedComponent {...this.props} />, document.getElementById('main-header'))
@@ -16,5 +16,3 @@ const r = <T extends object>(WrappedComponent: React.ComponentType<T>) => {
   }
   return Proxy
 }
-
-export default r
