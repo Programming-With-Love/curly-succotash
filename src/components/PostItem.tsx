@@ -14,7 +14,7 @@ export interface PostItemProps extends TagsCardProps {
   origin: boolean
 }
 
-const PostItem = (props: PostItemProps) => {
+export default (props: PostItemProps) => {
   const { cover, title, updatedDate, href, excerpt, timeToRead, words, origin } = props
   return (
     <div className={classes.postItem}>
@@ -28,7 +28,7 @@ const PostItem = (props: PostItemProps) => {
           </Link>
         </div>
         <div className={classes.itemElse}>
-          <TagsCard Link={Link} tags={props.tags} origin={origin}/>
+          <TagsCard Link={Link} tags={props.tags} origin={origin} />
           <h3>
             <Link to={href}>{title}</Link>
           </h3>
@@ -41,4 +41,3 @@ const PostItem = (props: PostItemProps) => {
     </div>
   )
 }
-export default PostItem
