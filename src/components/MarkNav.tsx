@@ -99,7 +99,7 @@ class MarkNav extends React.Component<MarkNavProps, MarkNavState> {
     return headings.map((heading, index) => (
       <a
         key={index}
-        className={classnames('head-nav-item', { active: heading.active })}
+        className={classnames('head-nav-item', `nav-item-${heading.depth}`, { active: heading.active })}
         href={`#${heading.value}`}
         onClick={e => {
           e.preventDefault()

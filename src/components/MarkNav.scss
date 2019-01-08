@@ -1,8 +1,32 @@
 .mark-nav {
+  border-left: 1px solid #eee;
   a.head-nav-item {
     display: block;
+    text-decoration: inherit;
+    transition: all 0.2s;
     &.active {
-      color: red;
+      color: #007fff;
+      border-left: 2px solid #007fff;
     }
+    &:hover,
+    &.active {
+      background-color: #f8f8f8;
+    }
+  }
+  a.nav-item-1 {
+    color: #000;
+    font-size: 1.2em;
+    padding-left: 1em;
+    font-weight: 400;
+  }
+  a.nav-item-2,
+  a.nav-item-3,
+  a.nav-item-4,
+  a.nav-item-5,
+  a.nav-item-6 {
+    color: #333;
+    font-size: 1em;
+    padding-left: 2em;
+    font-weight: 400;
   }
 }
