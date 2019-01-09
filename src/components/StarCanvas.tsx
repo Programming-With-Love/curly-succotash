@@ -8,8 +8,62 @@ export interface StarCanvasProps {
 interface LapOptions {
   width: number
   height: number
+  //与鼠标排斥距离，0无互动，正数排除，负数吸引
   rejectDistance?: number
+  //hsl中的色相
+  hue?: number
+  //星星的最大数量
+  max?: number
 }
+
+/**
+ * 获取随机数
+ * @param min 最小值，如果不传递max，则此参数为最大值
+ * @param max 最大值
+ */
+const random = (min: number, max?: number): number => {
+  if (arguments.length < 2) {
+    max = min
+    min = 0
+  }
+
+  if (min > max) {
+    var hold = max
+    max = min
+    min = hold
+  }
+
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+/**
+ * 获取最大轨道半径
+ * @param x x坐标
+ * @param y y坐标
+ */
+const maxOrbit = (x: number, y: number): number => {
+  var max = Math.max(x, y),
+    diameter = Math.round(Math.sqrt(max * max + max * max))
+  return diameter / 2
+}
+
+//requestAnimationFrame兼容
+const requestAnimationFrame: (callback: FrameRequestCallback) => number =
+  window.requestAnimationFrame ||
+  window.webkitRequestAnimationFrame ||
+  ((callback: FrameRequestCallback): number => {
+    return window.setTimeout(callback, 6000 / 60)
+  })
+
+//cancelAnimationFrame兼容
+const cancelAnimationFrame: (handle: number) => void =
+  window.cancelAnimationFrame ||
+  window.webkitCancelAnimationFrame ||
+  ((handle: number) => {
+    window.clearTimeout(handle)
+  })
+class Star {}
+
 class CanvasLap {
   constructor(
     canvas: HTMLCanvasElement,
@@ -27,18 +81,7 @@ class CanvasLap {
   private canvas: HTMLCanvasElement
   private animationId: number = 0
   private ctx: CanvasRenderingContext2D
-  private requestAnimationFrame =
-    window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    ((callback: FrameRequestCallback): number => {
-      return window.setTimeout(callback, 6000 / 60)
-    })
-  private cancelAnimationFrame: (handle: number) => void =
-    window.cancelAnimationFrame ||
-    window.webkitCancelAnimationFrame ||
-    ((handle: number) => {
-      window.clearTimeout(handle)
-    })
+  private stars: Array<Star> = []
 }
 
 export default class StarCanvas extends React.Component<StarCanvasProps> {
@@ -101,27 +144,6 @@ export default class StarCanvas extends React.Component<StarCanvasProps> {
     ctx2.beginPath()
     ctx2.arc(half, half, half, 0, Math.PI * 2)
     ctx2.fill()
-
-    function random(min: number, max?: number) {
-      if (arguments.length < 2) {
-        max = min
-        min = 0
-      }
-
-      if (min > max) {
-        var hold = max
-        max = min
-        min = hold
-      }
-
-      return Math.floor(Math.random() * (max - min + 1)) + min
-    }
-
-    function maxOrbit(x: number, y: number) {
-      var max = Math.max(x, y),
-        diameter = Math.round(Math.sqrt(max * max + max * max))
-      return diameter / 2
-    }
 
     class Star {
       constructor() {
