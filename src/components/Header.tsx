@@ -75,7 +75,7 @@ export default class Header extends React.Component<HeaderProps, HeadState> {
         </h1>
         <div className={classes.banner}>
           <div className={classes.headerBgContainer}>
-            <StarCanvas />
+            <StarCanvas height={480} />
           </div>
           <div id="main-header" />
           {children}

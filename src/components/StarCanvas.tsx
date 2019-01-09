@@ -4,43 +4,81 @@ export interface StarCanvasProps {
   width?: number | null
   height?: number | null
 }
+
+interface LapOptions {
+  width: number
+  height: number
+  rejectDistance?: number
+}
+class CanvasLap {
+  constructor(
+    canvas: HTMLCanvasElement,
+    options: LapOptions = {
+      rejectDistance: 0,
+      width: 0,
+      height: 0,
+    }
+  ) {
+    this.canvas = canvas
+    this.ctx = canvas.getContext('2d')
+    this.options = options
+  }
+  private options: LapOptions
+  private canvas: HTMLCanvasElement
+  private animationId: number = 0
+  private ctx: CanvasRenderingContext2D
+  private requestAnimationFrame =
+    window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    ((callback: FrameRequestCallback): number => {
+      return window.setTimeout(callback, 6000 / 60)
+    })
+  private cancelAnimationFrame: (handle: number) => void =
+    window.cancelAnimationFrame ||
+    window.webkitCancelAnimationFrame ||
+    ((handle: number) => {
+      window.clearTimeout(handle)
+    })
+}
+
 export default class StarCanvas extends React.Component<StarCanvasProps> {
-  state: any
   constructor(props: StarCanvasProps) {
     super(props)
     this.state = {
       id: 0,
-      pause: false,
+      width: 0,
+      height: this.props.height,
     }
   }
 
   private handleResize = () => {
     let canvas = this.refs.canvas as HTMLCanvasElement
     let w = (canvas.width = this.props.width || window.innerWidth)
-    if (w <= 720) {
-      this.setState({ pause: true })
-    } else {
-      this.setState({ pause: false })
+  }
+
+  /**
+   * 生命周期提前
+   * @param props 接收到的props
+   */
+  static getDerivedStateFromProps(props: StarCanvasProps) {}
+  /**
+   * 总是阻止更新，因为xml没有任何更新，全部更新来自于数据处理的api变化
+   * 计算如果
+   */
+  shouldComponentUpdate(nextProps: StarCanvasProps) {
+    //触发动画的计算更新即可
+    if (nextProps.height !== this.props.height || nextProps.width !== this.props.width) {
+      this.handleResize()
     }
+    return false
   }
 
   componentDidMount() {
-    const tWin = window as any
-    tWin.requestAnimFrame = (function() {
-      return (
-        tWin.requestAnimationFrame ||
-        tWin.webkitRequestAnimationFrame ||
-        tWin.mozRequestAnimationFrame ||
-        function(callback: TimerHandler) {
-          window.setTimeout(callback, 6000 / 60)
-        }
-      )
-    })()
     var canvas = this.refs.canvas as HTMLCanvasElement,
       ctx = canvas.getContext('2d'),
       w = (canvas.width = this.props.width || window.innerWidth),
       h = (canvas.height = this.props.height || window.innerHeight),
-      hue = 217,
+      hue = 287,
       stars = new Array(),
       count = 0,
       maxStars = 120
@@ -135,16 +173,14 @@ export default class StarCanvas extends React.Component<StarCanvasProps> {
       new Star()
     }
     function animation() {
-      if (!_this.state.pause) {
-        ctx.globalCompositeOperation = 'source-over'
-        ctx.globalAlpha = 0.8
-        ctx.fillStyle = 'hsla(' + hue + ', 64%, 6%, 1)'
-        ctx.fillRect(0, 0, w, h)
+      ctx.globalCompositeOperation = 'source-over'
+      ctx.globalAlpha = 0.8
+      ctx.fillStyle = 'hsla(' + hue + ', 64%, 6%, 1)'
+      ctx.fillRect(0, 0, w, h)
 
-        ctx.globalCompositeOperation = 'lighter'
-        for (var i = 1, l = stars.length; i < l; i++) {
-          stars[i].draw()
-        }
+      ctx.globalCompositeOperation = 'lighter'
+      for (var i = 1, l = stars.length; i < l; i++) {
+        stars[i].draw()
       }
       var id = window.requestAnimationFrame(animation)
       _this.setState({ id: id })
