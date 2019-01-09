@@ -83,15 +83,15 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Gatsby website`,
-        short_name: `Gatsby website`,
+        name: `zido的个人博客`,
+        short_name: `zido的个人博客`,
         start_url: `/`,
         background_color: `#f7f7f7`,
         theme_color: `#191919`,
-        display: `minimal-ui`,
+        display: `standalone`,
+        icon: `data/avatar.jpg`,
       },
     },
-    /* eslint-enable camelcase */
 
     // This plugin generates a service worker and AppShell
     // html file so the site works offline and is otherwise

@@ -14,6 +14,16 @@ export default class StarCanvas extends React.Component<StarCanvasProps> {
     }
   }
 
+  private handleResize = () => {
+    let canvas = this.refs.canvas as HTMLCanvasElement
+    let w = (canvas.width = this.props.width || window.innerWidth)
+    if (w <= 720) {
+      this.setState({ pause: true })
+    } else {
+      this.setState({ pause: false })
+    }
+  }
+
   componentDidMount() {
     const tWin = window as any
     tWin.requestAnimFrame = (function() {
@@ -37,15 +47,6 @@ export default class StarCanvas extends React.Component<StarCanvasProps> {
     if (w <= 720) {
       return
     }
-    window.onresize = () => {
-      w = canvas.width = this.props.width || window.innerWidth
-      if (w <= 720) {
-        this.setState({ pause: true })
-      } else {
-        this.setState({ pause: false })
-      }
-      h = canvas.height = this.props.height || window.innerHeight
-    }
     const _this = this
     var canvas2 = document.createElement('canvas'),
       ctx2 = canvas2.getContext('2d')
@@ -62,8 +63,6 @@ export default class StarCanvas extends React.Component<StarCanvasProps> {
     ctx2.beginPath()
     ctx2.arc(half, half, half, 0, Math.PI * 2)
     ctx2.fill()
-
-    // End cache
 
     function random(min: number, max?: number) {
       if (arguments.length < 2) {

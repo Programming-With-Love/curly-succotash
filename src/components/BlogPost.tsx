@@ -2,12 +2,12 @@ import * as React from 'react'
 import Gitment from 'gitment'
 import 'gitment/style/default.css'
 import { CommentOptions, MarkdownRemark } from '../graphql-types'
-import Helmet from 'react-helmet'
 import * as classes from './BlogPost.module.scss'
 import PostInner from './inner/PostInner'
 import { Link } from 'gatsby'
 import Affix from './base/Affix'
 import MarkNav from './MarkNav'
+import Position from './base/Position'
 export interface BlogPostProps {
   slug: string
   commentOptions: CommentOptions
@@ -35,7 +35,7 @@ class BlogPost extends React.Component<BlogPostProps> {
     const { title, tags, updatedDate, origin } = this.props.post.frontmatter
     return (
       <div className={classes.post}>
-        <Helmet title={`${title}`} />
+        <Position title={`${title}`} />
         <div className={classes.rightNav}>
           <Affix>
             <MarkNav headings={headings} />

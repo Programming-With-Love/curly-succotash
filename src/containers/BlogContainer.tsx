@@ -4,6 +4,7 @@ import { get } from 'lodash'
 import PostItem from '../components/PostItem'
 import { MarkdownRemark, MarkdownRemarkConnection, Site, DataJson, ImageSharp } from '../graphql-types'
 import * as classes from './blog.module.scss'
+import Position from '../components/base/Position'
 export interface IndexProps {
   data: {
     posts: MarkdownRemarkConnection
@@ -15,6 +16,7 @@ const BlogPage = (props: IndexProps) => {
   const { data } = props
   return (
     <div className={classes.indexContent}>
+      <Position />
       {data.posts.edges.map(({ node }: { node: MarkdownRemark }, index: number) => {
         const {
           frontmatter,

@@ -6,59 +6,13 @@ import { StaticQuery, graphql } from 'gatsby'
 import AuthorInner from './inner/AuthorInner'
 import '../global.scss'
 import Header from './Header'
+import { Helmet } from 'react-helmet'
 export const menuItems = [
   { name: '首页', path: '/', exact: true, icon: 'home', inverted: true, Link },
   { name: '归档', path: '/archive/', exact: true, icon: 'info circle', Link },
   { name: '时间轴', path: '/timeline/', exact: false, icon: 'newspaper', Link },
   { name: '标签', path: '/tags/', exact: false, icon: 'tag', Link },
 ]
-
-const authorInner = (
-  <StaticQuery
-    query={graphql`
-      {
-        site {
-          siteMetadata {
-            title
-            description
-          }
-        }
-        allMarkdownRemark {
-          totalCount
-        }
-        dataJson {
-          author {
-            name
-            avatar {
-              children {
-                ... on ImageSharp {
-                  fixed(width: 80, height: 80) {
-                    src
-                    srcSet
-                  }
-                }
-              }
-            }
-          }
-          speech
-        }
-      }
-    `}
-    render={(data: Query) => {
-      const props = {
-        totalCount: data.allMarkdownRemark.totalCount,
-        title: data.site.siteMetadata.title,
-        description: data.site.siteMetadata.description,
-        speech: data.dataJson.speech,
-        author: {
-          name: data.dataJson.author.name,
-          avatar: data.dataJson.author.avatar,
-        },
-      }
-      return <AuthorInner {...props} />
-    }}
-  />
-)
 
 export interface LayoutProps {
   location: {
@@ -76,8 +30,58 @@ export default class Layout extends React.Component<Readonly<LayoutProps>> {
     const { showMain } = this.props
     return (
       <div className={classes.root}>
+        <StaticQuery
+          query={graphql`
+            {
+              site {
+                siteMetadata {
+                  title
+                  description
+                }
+              }
+              allMarkdownRemark {
+                totalCount
+              }
+              dataJson {
+                author {
+                  name
+                  avatar {
+                    children {
+                      ... on ImageSharp {
+                        fixed(width: 80, height: 80) {
+                          src
+                          srcSet
+                        }
+                      }
+                    }
+                  }
+                }
+                speech
+              }
+            }
+          `}
+          render={(data: Query) => {
+            const props = {
+              totalCount: data.allMarkdownRemark.totalCount,
+              title: data.site.siteMetadata.title,
+              description: data.site.siteMetadata.description,
+              speech: data.dataJson.speech,
+              author: {
+                name: data.dataJson.author.name,
+                avatar: data.dataJson.author.avatar,
+              },
+            }
+            return (
+              <Header menuItems={menuItems}>
+                <Helmet>
+                  <meta name="description" content={props.description} />
+                </Helmet>
+                {showMain ? <AuthorInner {...props} /> : null}
+              </Header>
+            )
+          }}
+        />
         {/* 页头 */}
-        <Header menuItems={menuItems}>{showMain ? authorInner : null}</Header>
 
         <main className={classes.content}>{this.props.children}</main>
         <div>{/* 页尾 */}</div>
