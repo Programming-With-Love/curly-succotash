@@ -153,12 +153,22 @@ class CanvasLap {
     ctx2.arc(half, half, half, 0, Math.PI * 2)
     ctx2.fill()
     this.cacheCanvas = canvas2
+    this.canvas = canvas
+    if (options.rejectDistance !== 0) {
+      canvas.onmousemove = (e: MouseEvent): void => {
+        this.rejectX = options.rejectDistance + (e.clientX - canvas.width / 2)
+        this.rejectY = options.rejectDistance + (e.clientY - canvas.height / 2)
+      }
+    }
   }
   private options: LapOptions
   private animationId: number = 0
   private ctx: CanvasRenderingContext2D
   private stars: Array<Star>
   private cacheCanvas: HTMLCanvasElement
+  private canvas: HTMLCanvasElement
+  private rejectX: number = 0
+  private rejectY: number = 0
   //requestAnimationFrame兼容
   private requestAnimationFrame: (callback: FrameRequestCallback) => number =
     window.requestAnimationFrame ||
@@ -177,6 +187,7 @@ class CanvasLap {
   }
   stop() {
     this.cancelAnimationFrame.call(window, this.animationId)
+    this.canvas.onmousemove = null
   }
   resize = throttle((w: number, h: number) => {
     this.options.width = w
@@ -185,6 +196,20 @@ class CanvasLap {
       this.stars[i].resize(w, h)
     }
   })
+  private getMouseLocation(x: number, y: number) {
+    var bbox = this.canvas.getBoundingClientRect()
+    return {
+      x: (x - bbox.left) * (this.canvas.width / bbox.width),
+      y: (y - bbox.top) * (this.canvas.height / bbox.height),
+
+      /*
+				 * 此处不用下面两行是为了防止使用CSS和JS改变了canvas的高宽之后是表面积拉大而实际
+				 * 显示像素不变而造成的坐标获取不准的情况
+				x: (x - bbox.left),
+				y: (y - bbox.top)
+				*/
+    }
+  }
   private animation = () => {
     const ctx = this.ctx
     const hue = this.options.hue
@@ -196,6 +221,8 @@ class CanvasLap {
     ctx.globalCompositeOperation = 'lighter'
     for (let i = 0; i < this.stars.length; i++) {
       let p = this.stars[i].next()
+      p.sx = p.sx + this.rejectX
+      p.sy = p.sy + this.rejectY
       if (
         p.sx > this.options.width ||
         p.sy > this.options.height ||
@@ -213,14 +240,6 @@ class CanvasLap {
 }
 
 export default class StarCanvas extends React.Component<StarCanvasProps> {
-  constructor(props: StarCanvasProps) {
-    super(props)
-    this.state = {
-      id: 0,
-      width: 0,
-      height: this.props.height,
-    }
-  }
   private lap: CanvasLap
   /**
    * 总是阻止更新，全部更新来自于数据处理的api变化
@@ -237,6 +256,7 @@ export default class StarCanvas extends React.Component<StarCanvasProps> {
     this.lap = new CanvasLap(canvas, {
       width: this.props.width || window.innerWidth,
       height: this.props.height || window.innerHeight,
+      rejectDistance: -100,
     })
     this.lap.start()
   }
