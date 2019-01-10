@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { throttle } from 'lodash'
 
 export interface StarCanvasProps {
   width?: number | null
@@ -22,13 +23,13 @@ interface LapOptions {
  * @param max 最大值
  */
 const random = (min: number, max?: number): number => {
-  if (arguments.length < 2) {
+  if (max == null) {
     max = min
     min = 0
   }
 
   if (min > max) {
-    var hold = max
+    let hold = max
     max = min
     min = hold
   }
@@ -42,46 +43,173 @@ const random = (min: number, max?: number): number => {
  * @param y y坐标
  */
 const maxOrbit = (x: number, y: number): number => {
-  var max = Math.max(x, y),
+  let max = Math.max(x, y),
     diameter = Math.round(Math.sqrt(max * max + max * max))
   return diameter / 2
 }
 
-//requestAnimationFrame兼容
-const requestAnimationFrame: (callback: FrameRequestCallback) => number =
-  window.requestAnimationFrame ||
-  window.webkitRequestAnimationFrame ||
-  ((callback: FrameRequestCallback): number => {
-    return window.setTimeout(callback, 6000 / 60)
-  })
+interface StarPosition {
+  //透明度
+  alpha: number
+  //x坐标
+  sx: number
+  //y坐标
+  sy: number
+  //裁剪宽度
+  swidth: number
+  //裁剪高度
+  sheight: number
+}
 
-//cancelAnimationFrame兼容
-const cancelAnimationFrame: (handle: number) => void =
-  window.cancelAnimationFrame ||
-  window.webkitCancelAnimationFrame ||
-  ((handle: number) => {
-    window.clearTimeout(handle)
-  })
-class Star {}
+class Star {
+  private orbitRadius: number
+  private radius: number
+  //原点x坐标
+  private orbitX: number
+  // 远点y坐标
+  private orbitY: number
+  private timePassed: number
+  // 速度
+  private speed: number
+  //透明度
+  alpha: number
+  constructor(w: number, h: number, maxStars: number) {
+    this.timePassed = random(0, maxStars)
+    this.resize(w, h)
+  }
+  /**
+   * 更新画布宽高，重新绘制
+   * @param w 画布宽度
+   * @param h 画布高度
+   */
+  resize(w: number, h: number) {
+    this.orbitRadius = random(maxOrbit(w, h))
+    this.radius = random(60, this.orbitRadius) / 12
+    this.orbitX = w / 2
+    this.orbitY = h / 2
+    this.speed = random(this.orbitRadius) / 300000
+    this.alpha = random(2, 10) / 10
+  }
+  next(): StarPosition {
+    let x = Math.sin(this.timePassed) * this.orbitRadius + this.orbitX,
+      y = Math.cos(this.timePassed) * this.orbitRadius + this.orbitY,
+      twinkle = random(10)
+
+    if (twinkle === 1 && this.alpha > 0) {
+      this.alpha -= 0.05
+    } else if (twinkle === 2 && this.alpha < 1) {
+      this.alpha += 0.05
+    }
+    this.timePassed += this.speed
+    return {
+      sx: x - this.radius / 2,
+      sy: y - this.radius / 2,
+      swidth: this.radius,
+      sheight: this.radius,
+      alpha: this.alpha,
+    }
+  }
+}
 
 class CanvasLap {
-  constructor(
-    canvas: HTMLCanvasElement,
-    options: LapOptions = {
-      rejectDistance: 0,
-      width: 0,
-      height: 0,
-    }
-  ) {
-    this.canvas = canvas
+  static defaultOptions = {
+    rejectDistance: 0,
+    width: 0,
+    height: 0,
+    hue: 217,
+    max: 1000,
+  }
+  constructor(canvas: HTMLCanvasElement, options: LapOptions) {
     this.ctx = canvas.getContext('2d')
+    options = {
+      ...CanvasLap.defaultOptions,
+      ...options,
+    }
+    canvas.width = options.width
+    canvas.height = options.height
     this.options = options
+    if (options.width !== 0 && options.height !== 0 && options.max > 0) {
+      this.stars = new Array(options.max)
+      for (let i = 0; i < options.max; i++) {
+        this.stars[i] = new Star(options.width, options.height, options.max)
+      }
+    } else {
+      this.stars = []
+    }
+
+    let canvas2 = document.createElement('canvas'),
+      ctx2 = canvas2.getContext('2d')
+    canvas2.width = 100
+    canvas2.height = 100
+    let half = canvas2.width / 2,
+      gradient2 = ctx2.createRadialGradient(half, half, 0, half, half, half)
+    gradient2.addColorStop(0.025, '#fff')
+    gradient2.addColorStop(0.1, 'hsl(' + options.hue + ', 61%, 33%)')
+    gradient2.addColorStop(0.25, 'hsl(' + options.hue + ', 64%, 6%)')
+    gradient2.addColorStop(1, 'transparent')
+
+    ctx2.fillStyle = gradient2
+    ctx2.beginPath()
+    ctx2.arc(half, half, half, 0, Math.PI * 2)
+    ctx2.fill()
+    this.cacheCanvas = canvas2
   }
   private options: LapOptions
-  private canvas: HTMLCanvasElement
   private animationId: number = 0
   private ctx: CanvasRenderingContext2D
-  private stars: Array<Star> = []
+  private stars: Array<Star>
+  private cacheCanvas: HTMLCanvasElement
+  //requestAnimationFrame兼容
+  private requestAnimationFrame: (callback: FrameRequestCallback) => number =
+    window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    ((callback: FrameRequestCallback): number => window.setTimeout(callback, 6000 / 60))
+
+  //cancelAnimationFrame兼容
+  private cancelAnimationFrame: (handle: number) => void =
+    window.cancelAnimationFrame ||
+    window.webkitCancelAnimationFrame ||
+    ((handle: number) => {
+      window.clearTimeout(handle)
+    })
+  start() {
+    this.animation()
+  }
+  stop() {
+    this.cancelAnimationFrame.call(window, this.animationId)
+  }
+  resize = throttle((w: number, h: number) => {
+    this.options.width = w
+    this.options.height = h
+    for (let i = 0; i < this.stars.length; i++) {
+      this.stars[i].resize(w, h)
+    }
+  })
+  private animation = () => {
+    const ctx = this.ctx
+    const hue = this.options.hue
+    ctx.globalCompositeOperation = 'source-over'
+    ctx.globalAlpha = 0.8
+    ctx.fillStyle = 'hsla(' + hue + ', 64%, 6%, 1)'
+    ctx.fillRect(0, 0, this.options.width, this.options.height)
+
+    ctx.globalCompositeOperation = 'lighter'
+    for (let i = 0; i < this.stars.length; i++) {
+      let p = this.stars[i].next()
+      if (
+        p.sx > this.options.width ||
+        p.sy > this.options.height ||
+        p.sx < -this.options.width ||
+        p.sy < -this.options.height
+      ) {
+        //屏幕外的不再绘制
+        continue
+      }
+      ctx.globalAlpha = p.alpha
+      ctx.drawImage(this.cacheCanvas, p.sx, p.sy, p.swidth, p.sheight)
+    }
+    this.animationId = this.requestAnimationFrame.call(window, this.animation)
+  }
 }
 
 export default class StarCanvas extends React.Component<StarCanvasProps> {
@@ -93,124 +221,27 @@ export default class StarCanvas extends React.Component<StarCanvasProps> {
       height: this.props.height,
     }
   }
-
-  private handleResize = () => {
-    let canvas = this.refs.canvas as HTMLCanvasElement
-    let w = (canvas.width = this.props.width || window.innerWidth)
-  }
-
+  private lap: CanvasLap
   /**
-   * 生命周期提前
-   * @param props 接收到的props
-   */
-  static getDerivedStateFromProps(props: StarCanvasProps) {}
-  /**
-   * 总是阻止更新，因为xml没有任何更新，全部更新来自于数据处理的api变化
-   * 计算如果
+   * 总是阻止更新，全部更新来自于数据处理的api变化
    */
   shouldComponentUpdate(nextProps: StarCanvasProps) {
-    //触发动画的计算更新即可
-    if (nextProps.height !== this.props.height || nextProps.width !== this.props.width) {
-      this.handleResize()
+    if (nextProps.width !== this.props.width || nextProps.height !== this.props.height) {
+      this.lap.resize(this.props.width || window.innerWidth, this.props.height || window.innerHeight)
     }
     return false
   }
 
   componentDidMount() {
-    var canvas = this.refs.canvas as HTMLCanvasElement,
-      ctx = canvas.getContext('2d'),
-      w = (canvas.width = this.props.width || window.innerWidth),
-      h = (canvas.height = this.props.height || window.innerHeight),
-      hue = 287,
-      stars = new Array(),
-      count = 0,
-      maxStars = 120
-    if (w <= 720) {
-      return
-    }
-    const _this = this
-    var canvas2 = document.createElement('canvas'),
-      ctx2 = canvas2.getContext('2d')
-    canvas2.width = 100
-    canvas2.height = 100
-    var half = canvas2.width / 2,
-      gradient2 = ctx2.createRadialGradient(half, half, 0, half, half, half)
-    gradient2.addColorStop(0.025, '#fff')
-    gradient2.addColorStop(0.1, 'hsl(' + hue + ', 61%, 33%)')
-    gradient2.addColorStop(0.25, 'hsl(' + hue + ', 64%, 6%)')
-    gradient2.addColorStop(1, 'transparent')
-
-    ctx2.fillStyle = gradient2
-    ctx2.beginPath()
-    ctx2.arc(half, half, half, 0, Math.PI * 2)
-    ctx2.fill()
-
-    class Star {
-      constructor() {
-        this.orbitRadius = random(maxOrbit(w, h))
-        this.radius = random(60, this.orbitRadius) / 12
-        this.orbitX = w / 2
-        this.orbitY = h / 2
-        this.timePassed = random(0, maxStars)
-        this.speed = random(this.orbitRadius) / 900000
-        this.alpha = random(2, 10) / 10
-
-        count++
-        stars[count] = this
-      }
-      orbitRadius: number
-      radius: number
-      orbitX: number
-      orbitY: number
-      timePassed: number
-      speed: number
-      alpha: number
-      draw() {
-        w = _this.props.width || window.innerWidth
-        h = _this.props.height || window.innerHeight
-        if (this.orbitX != w / 2 || this.orbitY != h / 2) {
-          this.orbitX = w / 2
-          this.orbitRadius = random(maxOrbit(w, h))
-          this.orbitY = h / 2
-          this.radius = random(60, this.orbitRadius) / 12
-          this.speed = random(this.orbitRadius) / 900000
-        }
-        var x = Math.sin(this.timePassed) * this.orbitRadius + this.orbitX,
-          y = Math.cos(this.timePassed) * this.orbitRadius + this.orbitY,
-          twinkle = random(10)
-
-        if (twinkle === 1 && this.alpha > 0) {
-          this.alpha -= 0.05
-        } else if (twinkle === 2 && this.alpha < 1) {
-          this.alpha += 0.05
-        }
-
-        ctx.globalAlpha = this.alpha
-        ctx.drawImage(canvas2, x - this.radius / 2, y - this.radius / 2, this.radius, this.radius)
-        this.timePassed += this.speed
-      }
-    }
-
-    for (var i = 0; i < maxStars; i++) {
-      new Star()
-    }
-    function animation() {
-      ctx.globalCompositeOperation = 'source-over'
-      ctx.globalAlpha = 0.8
-      ctx.fillStyle = 'hsla(' + hue + ', 64%, 6%, 1)'
-      ctx.fillRect(0, 0, w, h)
-
-      ctx.globalCompositeOperation = 'lighter'
-      for (var i = 1, l = stars.length; i < l; i++) {
-        stars[i].draw()
-      }
-      var id = window.requestAnimationFrame(animation)
-      _this.setState({ id: id })
-    }
-    animation()
+    const canvas = this.refs.canvas as HTMLCanvasElement
+    this.lap = new CanvasLap(canvas, {
+      width: this.props.width || window.innerWidth,
+      height: this.props.height || window.innerHeight,
+    })
+    this.lap.start()
   }
   componentWillUnmount() {
-    window.cancelAnimationFrame(this.state.id)
+    this.lap.stop()
   }
   render() {
     return <canvas ref="canvas" />
