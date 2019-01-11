@@ -8,7 +8,7 @@ import WindowEventHandler from '../components/base/WindowEventHandler'
 export interface MenuItem {
   name: string
   path: string
-  Link: React.ComponentClass<GatsbyLinkProps<any>>
+  Link: React.ComponentType<GatsbyLinkProps<any>>
 }
 
 export interface HeaderProps extends React.HTMLProps<HTMLHeadingElement> {
@@ -19,35 +19,37 @@ export interface HeaderProps extends React.HTMLProps<HTMLHeadingElement> {
 
 interface HeadState {
   starHeight: number
-}
-function getClientHeight() {
-  var clientHeight = 0
-  if (document.body.clientHeight && document.documentElement.clientHeight) {
-    var clientHeight =
-      document.body.clientHeight < document.documentElement.clientHeight
-        ? document.body.clientHeight
-        : document.documentElement.clientHeight
-  } else {
-    var clientHeight =
-      document.body.clientHeight > document.documentElement.clientHeight
-        ? document.body.clientHeight
-        : document.documentElement.clientHeight
+  starWidth: number
+  rejectClient: {
+    x: number
+    y: number
   }
-  return clientHeight
 }
 export default class Header extends React.Component<HeaderProps, HeadState> {
   constructor(props: HeaderProps) {
     super(props)
     this.state = {
       starHeight: 480,
+      starWidth: 0,
+      rejectClient: null,
     }
   }
-  componentDidMount() {}
-  private adaptHeight = () => {
-    const height = getClientHeight()
-    console.log(height)
+
+  handleResize = () => {
+    let winWidth = 0
+    if (window.innerWidth) winWidth = window.innerWidth
+    else if (document.body && document.body.clientWidth) winWidth = document.body.clientWidth
+
     this.setState({
-      starHeight: getClientHeight(),
+      starWidth: winWidth,
+    })
+  }
+  handleReject = (e: any) => {
+    this.setState({
+      rejectClient: {
+        x: e.clientX,
+        y: e.clientY,
+      },
     })
   }
   render() {
@@ -59,8 +61,18 @@ export default class Header extends React.Component<HeaderProps, HeadState> {
     delete tProps.menuItems
     delete tProps.children
     return (
-      <header className={classes.header} {...tProps}>
-        {/* <WindowEventHandler eventName="resize" callback={this.adaptHeight} /> */}
+      <header
+        className={classes.header}
+        {...tProps}
+        onMouseMove={this.handleReject}
+        onMouseLeave={() => {
+          this.setState({
+            rejectClient: null,
+          })
+        }}
+      >
+        <WindowEventHandler eventName="resize" callback={this.handleResize} />
+
         <nav className={classes.headerNav}>
           <ul>
             {menuItems.map((item, index) => (
@@ -70,12 +82,17 @@ export default class Header extends React.Component<HeaderProps, HeadState> {
             ))}
           </ul>
         </nav>
+
         <h1 className={classes.headerTitle}>
           <Link to="/">{HOME_TITLE}</Link>
         </h1>
         <div className={classes.banner}>
           <div className={classes.headerBgContainer}>
-            <StarCanvas height={480} />
+            <StarCanvas
+              height={this.state.starHeight}
+              width={this.state.starWidth}
+              rejectClient={this.state.rejectClient}
+            />
           </div>
           <div id="main-header" />
           {children}

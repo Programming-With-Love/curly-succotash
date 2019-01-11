@@ -32,6 +32,7 @@ interface AffixState {
   position: AffixPosition
   width: number
   placeHoldStyle: object
+  active: boolean
 }
 
 class Affix extends React.PureComponent<AffixProps, AffixState> {
@@ -41,6 +42,7 @@ class Affix extends React.PureComponent<AffixProps, AffixState> {
       position: 'static',
       width: null,
       placeHoldStyle: {},
+      active: false,
     }
   }
   affix = false
@@ -68,6 +70,7 @@ class Affix extends React.PureComponent<AffixProps, AffixState> {
     this.setWidth()
     this.setState({
       position: 'fixed',
+      active: true,
     })
     onPin && onPin()
   }
@@ -79,6 +82,7 @@ class Affix extends React.PureComponent<AffixProps, AffixState> {
       position: 'static',
       width: null,
       placeHoldStyle: { overflow: 'hidden' },
+      active: false,
     })
     onUnpin && onUnpin()
   }
@@ -125,7 +129,13 @@ class Affix extends React.PureComponent<AffixProps, AffixState> {
 
   render() {
     const { prefix, className, placeHoldClassName } = this.props
-    const wrapClass = classnames(`${prefix}-affix`, className)
+    const wrapClass = classnames(
+      `${prefix}-affix`,
+      {
+        [`${prefix}-affix-active`]: this.state.active,
+      },
+      className
+    )
     return (
       <div className={placeHoldClassName} style={this.state.placeHoldStyle}>
         <div className={wrapClass} style={{ ...this.getStyles() }}>

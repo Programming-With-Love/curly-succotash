@@ -3,15 +3,16 @@ import { Link } from 'gatsby'
 import { Query } from '../graphql-types'
 import * as classes from './Layout.module.scss'
 import { StaticQuery, graphql } from 'gatsby'
+import OutLink from './base/OutLink'
 import AuthorInner from './inner/AuthorInner'
 import '../global.scss'
 import Header from './Header'
 import { Helmet } from 'react-helmet'
 export const menuItems = [
-  { name: '首页', path: '/', exact: true, icon: 'home', inverted: true, Link },
-  { name: '归档', path: '/archive/', exact: true, icon: 'info circle', Link },
-  { name: '时间轴', path: '/timeline/', exact: false, icon: 'newspaper', Link },
-  { name: '标签', path: '/tags/', exact: false, icon: 'tag', Link },
+  { name: '首页', path: '/', Link },
+  { name: '归档', path: '/archive/', Link },
+  { name: '标签', path: '/tags/', Link },
+  { name: '关于我', path: 'http://resume.zido.site', Link: OutLink },
 ]
 
 export interface LayoutProps {

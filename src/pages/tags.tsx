@@ -16,9 +16,11 @@ export default class TagsPage extends React.Component<TagsPageProps> {
   render() {
     const { tags } = this.props.data
     return (
-      <div>
+      <div className="">
         {tags.group.map((tag, index) => (
-          <h3 key={index}>{tag.fieldValue}</h3>
+          <h3 key={index}>
+            {tag.fieldValue}({tag.totalCount})
+          </h3>
         ))}
       </div>
     )

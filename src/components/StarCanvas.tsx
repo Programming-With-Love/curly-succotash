@@ -1,20 +1,27 @@
 import * as React from 'react'
 import { throttle } from 'lodash'
+import { reject } from 'q'
 
-export interface StarCanvasProps {
-  width?: number | null
-  height?: number | null
-}
+export interface StarCanvasProps extends LapOptions {}
 
 interface LapOptions {
   width: number
   height: number
   //与鼠标排斥距离，0无互动，正数排除，负数吸引
-  rejectDistance?: number
+  rejectDistance?: {
+    width: number
+    height: number
+  }
+  rejectClient?: {
+    x: number
+    y: number
+  }
   //hsl中的色相
   hue?: number
   //星星的最大数量
   max?: number
+  //缓动系数
+  easing?: number
 }
 
 /**
@@ -75,7 +82,13 @@ class Star {
   alpha: number
   constructor(w: number, h: number, maxStars: number) {
     this.timePassed = random(0, maxStars)
+
     this.resize(w, h)
+
+    this.orbitRadius = random(maxOrbit(w, h))
+    this.radius = random(60, this.orbitRadius) / 12
+    this.speed = random(this.orbitRadius) / 300000
+    this.alpha = random(2, 10) / 10
   }
   /**
    * 更新画布宽高，重新绘制
@@ -83,12 +96,8 @@ class Star {
    * @param h 画布高度
    */
   resize(w: number, h: number) {
-    this.orbitRadius = random(maxOrbit(w, h))
-    this.radius = random(60, this.orbitRadius) / 12
     this.orbitX = w / 2
     this.orbitY = h / 2
-    this.speed = random(this.orbitRadius) / 300000
-    this.alpha = random(2, 10) / 10
   }
   next(): StarPosition {
     let x = Math.sin(this.timePassed) * this.orbitRadius + this.orbitX,
@@ -113,11 +122,15 @@ class Star {
 
 class CanvasLap {
   static defaultOptions = {
-    rejectDistance: 0,
+    rejectDistance: {
+      width: 0,
+      height: 0,
+    },
     width: 0,
     height: 0,
     hue: 217,
-    max: 1000,
+    max: 200,
+    easing: 0.15,
   }
   constructor(canvas: HTMLCanvasElement, options: LapOptions) {
     this.ctx = canvas.getContext('2d')
@@ -139,8 +152,8 @@ class CanvasLap {
 
     let canvas2 = document.createElement('canvas'),
       ctx2 = canvas2.getContext('2d')
-    canvas2.width = 100
-    canvas2.height = 100
+    canvas2.width = 50
+    canvas2.height = 50
     let half = canvas2.width / 2,
       gradient2 = ctx2.createRadialGradient(half, half, 0, half, half, half)
     gradient2.addColorStop(0.025, '#fff')
@@ -154,11 +167,15 @@ class CanvasLap {
     ctx2.fill()
     this.cacheCanvas = canvas2
     this.canvas = canvas
-    if (options.rejectDistance !== 0) {
-      canvas.onmousemove = (e: MouseEvent): void => {
-        this.rejectX = options.rejectDistance + (e.clientX - canvas.width / 2)
-        this.rejectY = options.rejectDistance + (e.clientY - canvas.height / 2)
+    if (options.rejectDistance != null) {
+      if (options.rejectClient == null) {
+        options.rejectClient = {
+          x: options.width / 2,
+          y: options.height / 2,
+        }
       }
+      this.rejectX = options.rejectDistance.width * (options.rejectClient.x - options.width / 2)
+      this.rejectY = options.rejectDistance.height * (options.rejectClient.y - options.height / 2)
     }
   }
   private options: LapOptions
@@ -187,51 +204,38 @@ class CanvasLap {
   }
   stop() {
     this.cancelAnimationFrame.call(window, this.animationId)
-    this.canvas.onmousemove = null
   }
-  resize = throttle((w: number, h: number) => {
+  resize = (w: number, h: number) => {
+    this.stop()
+    this.canvas.width = w
+    this.canvas.height = h
     this.options.width = w
     this.options.height = h
     for (let i = 0; i < this.stars.length; i++) {
       this.stars[i].resize(w, h)
     }
-  })
-  private getMouseLocation(x: number, y: number) {
-    var bbox = this.canvas.getBoundingClientRect()
-    return {
-      x: (x - bbox.left) * (this.canvas.width / bbox.width),
-      y: (y - bbox.top) * (this.canvas.height / bbox.height),
-
-      /*
-				 * 此处不用下面两行是为了防止使用CSS和JS改变了canvas的高宽之后是表面积拉大而实际
-				 * 显示像素不变而造成的坐标获取不准的情况
-				x: (x - bbox.left),
-				y: (y - bbox.top)
-				*/
-    }
+    this.start()
   }
+  rereject = throttle((rejectClient: { x: number; y: number }) => {
+    const options = this.options
+    if (rejectClient == null) {
+      this.rejectX = 0
+      this.rejectY = 0
+      return
+    }
+    this.rejectX = options.rejectDistance.width * (rejectClient.x - options.width / 2)
+    this.rejectY = options.rejectDistance.height * (rejectClient.y - options.height / 2)
+  }, 20)
+
   private animation = () => {
     const ctx = this.ctx
-    const hue = this.options.hue
     ctx.globalCompositeOperation = 'source-over'
-    ctx.globalAlpha = 0.8
-    ctx.fillStyle = 'hsla(' + hue + ', 64%, 6%, 1)'
+    ctx.globalAlpha = 0.6
     ctx.fillRect(0, 0, this.options.width, this.options.height)
 
     ctx.globalCompositeOperation = 'lighter'
     for (let i = 0; i < this.stars.length; i++) {
       let p = this.stars[i].next()
-      p.sx = p.sx + this.rejectX
-      p.sy = p.sy + this.rejectY
-      if (
-        p.sx > this.options.width ||
-        p.sy > this.options.height ||
-        p.sx < -this.options.width ||
-        p.sy < -this.options.height
-      ) {
-        //屏幕外的不再绘制
-        continue
-      }
       ctx.globalAlpha = p.alpha
       ctx.drawImage(this.cacheCanvas, p.sx, p.sy, p.swidth, p.sheight)
     }
@@ -248,6 +252,17 @@ export default class StarCanvas extends React.Component<StarCanvasProps> {
     if (nextProps.width !== this.props.width || nextProps.height !== this.props.height) {
       this.lap.resize(this.props.width || window.innerWidth, this.props.height || window.innerHeight)
     }
+    if (nextProps.rejectClient != null && this.props.rejectClient != null) {
+      if (
+        nextProps.rejectClient.x !== this.props.rejectClient.x ||
+        nextProps.rejectClient.y !== this.props.rejectClient.y
+      ) {
+        this.lap.rereject(nextProps.rejectClient)
+      }
+    } else if (nextProps.rejectClient == null && this.props.rejectClient != null) {
+      this.lap.rereject(null)
+    }
+
     return false
   }
 
@@ -256,7 +271,10 @@ export default class StarCanvas extends React.Component<StarCanvasProps> {
     this.lap = new CanvasLap(canvas, {
       width: this.props.width || window.innerWidth,
       height: this.props.height || window.innerHeight,
-      rejectDistance: -100,
+      rejectDistance: {
+        width: 0.3,
+        height: 0.3,
+      },
     })
     this.lap.start()
   }
