@@ -1,4 +1,4 @@
-import { HeaderAction, SHOW_HEADER } from '../actions/header'
+import { HeaderAction, TYPE_HEADER_INNER } from '../actions/header'
 
 const initialState = {
   showMain: true,
@@ -6,10 +6,10 @@ const initialState = {
 
 export default (state = initialState, action: HeaderAction) => {
   switch (action.type) {
-    case SHOW_HEADER:
+    case TYPE_HEADER_INNER:
       return {
         ...state,
-        showMain: action.showMain,
+        headerType: action.payload,
       }
   }
   return state

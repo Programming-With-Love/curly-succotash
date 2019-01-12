@@ -3,8 +3,6 @@ import Gitment from 'gitment'
 import 'gitment/style/default.css'
 import { CommentOptions, MarkdownRemark } from '../graphql-types'
 import * as classes from './BlogPost.module.scss'
-import PostInner from './inner/PostInner'
-import { Link } from 'gatsby'
 import Affix from './base/Affix'
 import MarkNav from './MarkNav'
 import Position from './base/Position'
@@ -41,7 +39,6 @@ class BlogPost extends React.Component<BlogPostProps> {
             <MarkNav headings={headings} />
           </Affix>
         </div>
-        <PostInner tags={tags} blogTitle={title} Link={Link} origin={origin} />
         <div className={classes.postContent} dangerouslySetInnerHTML={{ __html: html }} />
 
         <div id="comment-container" />

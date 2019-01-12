@@ -1,12 +1,16 @@
 import { TYPE } from './index'
-export const SHOW_HEADER: TYPE = 'SHOW_HEADER'
+import { HeaderType } from '../contants/header'
+export const TYPE_HEADER_INNER = 'TYPE_HEADER_INNER'
+
 export interface HeaderAction {
   type: TYPE
-  showMain: boolean
+  payload: HeaderType
 }
-export function showHeader(showMain: boolean): HeaderAction {
+
+//控制header inner显示
+export function showHeader(headerType: HeaderType): HeaderAction {
   return {
-    type: SHOW_HEADER,
-    showMain,
+    type: TYPE_HEADER_INNER,
+    payload: headerType,
   }
 }

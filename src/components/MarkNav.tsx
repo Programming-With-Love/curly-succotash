@@ -37,6 +37,13 @@ function getElementTop(el: HTMLElement): number {
   return actualTop
 }
 
+const handleMaoClick = (top: number, hash: string) => (e: MouseEvent) => {
+  e.preventDefault()
+  window.scrollTo({
+    top: top + 1,
+  })
+}
+
 class MarkNav extends React.Component<MarkNavProps, MarkNavState> {
   constructor(props: MarkNavProps) {
     super(props)
@@ -53,12 +60,7 @@ class MarkNav extends React.Component<MarkNavProps, MarkNavState> {
       if (h) {
         let mao = h.querySelector('a.anchor') as HTMLAnchorElement
         let top = getElementTop(h)
-        mao.onclick = e => {
-          e.preventDefault()
-          window.scrollTo({
-            top: top + 1,
-          })
-        }
+        mao.onclick = handleMaoClick(top, key)
         return {
           ...heading,
           top,
@@ -100,13 +102,8 @@ class MarkNav extends React.Component<MarkNavProps, MarkNavState> {
       <a
         key={index}
         className={classnames('head-nav-item', `nav-item-${heading.depth}`, { active: heading.active })}
-        href={`#${heading.value}`}
-        onClick={e => {
-          e.preventDefault()
-          window.scrollTo({
-            top: heading.top + 1,
-          })
-        }}
+        href={`#${heading.showValue}`}
+        onClick={e => handleMaoClick(heading.top, heading.showValue)(e.nativeEvent)}
       >
         {heading.value}
       </a>

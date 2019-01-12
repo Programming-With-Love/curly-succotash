@@ -3,10 +3,11 @@ import { connect } from 'react-redux'
 import Layout from '../components/Layout'
 import { StoreState } from '../state'
 import { Dispatch, bindActionCreators } from 'redux'
-import { showHeader, HeaderAction } from '../actions/header'
+import { showHeader } from '../actions/header'
+import { HeaderType } from '../contants/header'
 function mapStateToProps(state: StoreState) {
   return {
-    showMain: state.header.showMain,
+    headerType: state.headerType,
   }
 }
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -20,20 +21,15 @@ function mapDispatchToProps(dispatch: Dispatch) {
 const ConnectedLayout = connect(mapStateToProps)(Layout)
 
 export interface WithLayoutProps {
-  showMain: boolean
-  showHeader: (showMain: boolean) => HeaderAction
+  headerType: HeaderType
+  showHeader(headerType: HeaderType): void
 }
 
-export const withLayout = <P extends object>(
-  WrappedComponent: React.ComponentType<P>,
-  showAuthorInner: boolean = false
-) => {
+export const withLayout = <P extends object>(WrappedComponent: React.ComponentType<P>, headerType: HeaderType) => {
   //the type WithLayoutProps skip type P. it's must be (WithLayoutProps & P)
   class WithLayout extends React.Component<WithLayoutProps> {
     componentWillMount() {
-      if (this.props.showMain != showAuthorInner) {
-        this.props.showHeader(showAuthorInner)
-      }
+      this.props.showHeader(headerType)
     }
     render() {
       return <WrappedComponent {...this.props as P & WithLayoutProps} />

@@ -5,6 +5,9 @@ import * as classes from './Header.module.scss'
 import StarCanvas from './StarCanvas'
 import { HOME_TITLE } from '../contants/layout'
 import WindowEventHandler from '../components/base/WindowEventHandler'
+import { HeaderType } from '../contants/header'
+import AuthorInner from './inner/AuthorInner'
+import PostInner from './inner/PostInner'
 export interface MenuItem {
   name: string
   path: string

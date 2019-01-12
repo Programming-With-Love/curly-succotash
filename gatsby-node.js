@@ -17,8 +17,14 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
   switch (node.internal.type) {
     case `MarkdownRemark`:
       const fileNode = getNode(node.parent)
-      const [basePath, name] = fileNode.relativePath.split('/')
-      slug = `/${basePath}/${name}/`
+      const filepath = fileNode.relativePath.split('/')
+      //第一层的markdown文件直接使用文件名做为路径
+      if (filepath.length == 1) {
+        filepath[0] = filepath[0].substring(0, filepath[0].indexOf('.'))
+      } else {
+        filepath.splice(filepath.length - 1)
+      }
+      slug = '/' + filepath.join('/') + '/'
       break
   }
   if (slug) {
@@ -34,21 +40,23 @@ exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
 
   return new Promise((resolve, reject) => {
-    const templates = ['blogPost', 'tagsPage', 'blogPage'].reduce((mem, templateName) => {
+    const templates = ['blogPost', 'tagsPage', 'blogPage', 'blogArchives'].reduce((mem, templateName) => {
       return Object.assign({}, mem, { [templateName]: path.resolve(`src/templates/${kebabCase(templateName)}.tsx`) })
     }, {})
 
     graphql(
       `
         {
-          posts: allMarkdownRemark {
+          posts: allMarkdownRemark(sort: { order: DESC, fields: [frontmatter___createdDate] }) {
             edges {
               node {
                 fields {
                   slug
                 }
                 frontmatter {
+                  title
                   tags
+                  createdDate(formatString: "YYYY-MM-DD")
                 }
               }
             }
@@ -60,22 +68,21 @@ exports.createPages = ({ graphql, actions }) => {
         return reject(result.errors)
       }
       const posts = result.data.posts.edges.map(p => p.node)
-
-      // Create blog pages
-      posts
-        .filter(post => post.fields.slug.startsWith('/blog/'))
-        .forEach(post => {
-          createPage({
-            path: post.fields.slug,
-            component: slash(templates.blogPost),
-            context: {
-              slug: post.fields.slug,
-            },
-          })
+      // 确认是博文的页面
+      const blogPosts = posts.filter(post => post.fields.slug.startsWith('/blog/'))
+      // 创建文章页面，所有的markdown文件都会创建，可以通过markdown文件创建其他的静态页面，类似【关于我】页面
+      posts.forEach(post => {
+        createPage({
+          path: post.fields.slug,
+          component: slash(templates.blogPost),
+          context: {
+            slug: post.fields.slug,
+          },
         })
+      })
 
       // Create tags pages
-      posts
+      blogPosts
         .reduce((mem, post) => cleanArray(mem.concat(get(post, 'frontmatter.tags'))), [])
         .forEach(tag => {
           createPage({
@@ -88,7 +95,7 @@ exports.createPages = ({ graphql, actions }) => {
         })
 
       // Create blog pagination
-      const pageCount = Math.ceil(posts.length / POSTS_PER_PAGE)
+      const pageCount = Math.ceil(blogPosts.length / POSTS_PER_PAGE)
       times(pageCount, index => {
         createPage({
           path: `/blog/page/${index + 1}/`,
@@ -98,7 +105,23 @@ exports.createPages = ({ graphql, actions }) => {
           },
         })
       })
-
+      // Create archives pages
+      const archives = {}
+      blogPosts.forEach(node => {
+        const year = node.frontmatter.createdDate.slice(0, 4)
+        if (!archives[`${year}`]) {
+          archives[`${year}`] = []
+        }
+        archives[`${year}`].push(node)
+      })
+      createPage({
+        path: 'archives',
+        component: slash(templates.blogArchives),
+        context: {
+          archives,
+          totalCount: blogPosts.length,
+        },
+      })
       resolve()
     })
   })

@@ -8,80 +8,63 @@ import AuthorInner from './inner/AuthorInner'
 import '../global.scss'
 import Header from './Header'
 import { Helmet } from 'react-helmet'
+import { HeaderType } from '../contants/header'
+import PostInner from './inner/PostInner'
 export const menuItems = [
   { name: '首页', path: '/', Link },
-  { name: '归档', path: '/archive/', Link },
+  { name: '归档', path: '/archives/', Link },
   { name: '标签', path: '/tags/', Link },
-  { name: '关于我', path: 'http://resume.zido.site', Link: OutLink },
+  { name: '关于我', path: '/about', Link },
+  { name: '简历', path: 'http://resume.zido.site', Link: OutLink },
 ]
 
 export interface LayoutProps {
   location: {
     pathname: string
   }
-  showMain: boolean
   children: any
+  headerType: HeaderType
 }
 
 export default class Layout extends React.Component<Readonly<LayoutProps>> {
   constructor(props: LayoutProps) {
     super(props)
   }
+  private getHeaderInner() {
+    const { headerType } = this.props
+    switch (headerType) {
+      case HeaderType.NO_HEADER_INNER:
+        return null
+      case HeaderType.POST_HEADER:
+        return <PostInner />
+      case HeaderType.AUTHOR_HEADER:
+      default:
+        return <AuthorInner />
+    }
+  }
   render() {
-    const { showMain } = this.props
     return (
       <div className={classes.root}>
-        <StaticQuery
-          query={graphql`
-            {
-              site {
-                siteMetadata {
-                  title
-                  description
-                }
-              }
-              allMarkdownRemark {
-                totalCount
-              }
-              dataJson {
-                author {
-                  name
-                  avatar {
-                    children {
-                      ... on ImageSharp {
-                        fixed(width: 80, height: 80) {
-                          src
-                          srcSet
-                        }
-                      }
-                    }
+        <Header menuItems={menuItems}>
+          <StaticQuery
+            query={graphql`
+              {
+                site {
+                  siteMetadata {
+                    description
                   }
                 }
-                speech
               }
-            }
-          `}
-          render={(data: Query) => {
-            const props = {
-              totalCount: data.allMarkdownRemark.totalCount,
-              title: data.site.siteMetadata.title,
-              description: data.site.siteMetadata.description,
-              speech: data.dataJson.speech,
-              author: {
-                name: data.dataJson.author.name,
-                avatar: data.dataJson.author.avatar,
-              },
-            }
-            return (
-              <Header menuItems={menuItems}>
+            `}
+            render={(data: Query) => {
+              return (
                 <Helmet>
-                  <meta name="description" content={props.description} />
+                  <meta name="description" content={data.site.siteMetadata.description} />
                 </Helmet>
-                {showMain ? <AuthorInner {...props} /> : null}
-              </Header>
-            )
-          }}
-        />
+              )
+            }}
+          />
+        </Header>
         {/* 页头 */}
 
         <main className={classes.content}>{this.props.children}</main>

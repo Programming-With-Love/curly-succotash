@@ -18,13 +18,14 @@ export default (props: TagsCardProps) => (
         原
       </div>
     ) : null}
-    {props.tags.map(tag => {
-      const tagLink = `/blog/tags/${tag}/`
-      return (
-        <span key={tag} className={classes.tag}>
-          <props.Link to={tagLink}>{tag}</props.Link>
-        </span>
-      )
-    })}
+    {props.tags &&
+      props.tags.map(tag => {
+        const tagLink = `/blog/tags/${tag}/`
+        return (
+          <span key={tag} className={classes.tag}>
+            <props.Link to={tagLink}>{tag}</props.Link>
+          </span>
+        )
+      })}
   </div>
 )

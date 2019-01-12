@@ -2,7 +2,7 @@ import Blog from '../containers/BlogContainer'
 import { graphql } from 'gatsby'
 import { withLayout } from '../containers/LayoutContainer'
 
-export default withLayout(Blog, false)
+export default Blog
 
 export const pageQuery = graphql`
   query TemplateBlogPage($skip: Int) {

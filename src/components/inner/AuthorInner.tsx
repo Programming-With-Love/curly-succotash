@@ -1,32 +1,61 @@
 import * as React from 'react'
-import { ImageSharp, Author } from '../../graphql-types'
+import { ImageSharp, Author, Query } from '../../graphql-types'
 import Bio from '../Bio'
 import './AuthorInner.scss'
-export interface AuthorProps {
-  totalCount: number
-  title: string
-  description: string
-  author: Author
-  speech: string[]
-}
+import { StaticQuery, graphql } from 'gatsby'
 
-export default (props: AuthorProps) => {
-  const avatar = props.author.avatar.children[0] as ImageSharp
-  const { speech, totalCount, title, description } = props
-  const { name } = props.author
+export default () => {
   return (
-    <div className="person-header">
-      <div className="author-inner">
-        <img alt={name} src={avatar.fixed.src} srcSet={avatar.fixed.srcSet} className="avatar" />
-        <div style={{ textAlign: 'left', marginLeft: 20 }}>
-          <p>{totalCount} 篇文章</p>
-          <h1>{title}</h1>
-          <p>{description}</p>
-        </div>
-      </div>
-      <div className={'inner-bio'}>
-        <Bio text={speech} />
-      </div>
-    </div>
+    <StaticQuery
+      query={graphql`
+        {
+          site {
+            siteMetadata {
+              title
+              description
+            }
+          }
+          allMarkdownRemark {
+            totalCount
+          }
+          dataJson {
+            author {
+              name
+              avatar {
+                children {
+                  ... on ImageSharp {
+                    fixed(width: 80, height: 80) {
+                      src
+                      srcSet
+                    }
+                  }
+                }
+              }
+            }
+            speech
+          }
+        }
+      `}
+      render={(data: Query) => {
+        const avatar = data.dataJson.author.avatar.children[0] as ImageSharp
+        const totalCount = data.allMarkdownRemark.totalCount
+        const { name } = data.dataJson.author
+        return (
+          <div className="person-header">
+            <div className="author-inner">
+              <img alt={name} {...avatar.fixed} className="avatar" />
+              <div style={{ textAlign: 'left', marginLeft: 20 }}>
+                <p>{totalCount} 篇文章</p>
+                <h1>{data.site.siteMetadata.title}</h1>
+                <p>{data.site.siteMetadata.description}</p>
+              </div>
+            </div>
+            <div className={'inner-bio'}>
+              <Bio text={data.dataJson.speech} />
+            </div>
+          </div>
+        )
+      }}
+    />
   )
 }

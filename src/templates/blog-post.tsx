@@ -5,6 +5,7 @@ import { get } from 'lodash'
 import { withLayout } from '../containers/LayoutContainer'
 import BlogPost from '../components/BlogPost'
 import { graphql } from 'gatsby'
+import { HeaderType } from '../contants/header'
 interface BlogPostProps extends LayoutProps {
   data: {
     post: MarkdownRemark
@@ -23,7 +24,7 @@ const PostPage = (props: BlogPostProps) => {
   return <BlogPost slug={slug} commentOptions={gitmentOptions} post={post} />
 }
 
-export default withLayout(PostPage, false)
+export default withLayout(PostPage, HeaderType.POST_HEADER)
 
 export const pageQuery = graphql`
   query TemplateBlogPost($slug: String!) {
@@ -39,6 +40,7 @@ export const pageQuery = graphql`
     }
     post: markdownRemark(fields: { slug: { eq: $slug } }) {
       html
+      # 摘要
       excerpt
       timeToRead
       fields {
@@ -49,14 +51,11 @@ export const pageQuery = graphql`
         depth
       }
       frontmatter {
-        tags
-        title
         updatedDate(formatString: "YYYY年MM月DD日")
-        origin
         image {
           children {
             ... on ImageSharp {
-              fixed(width: 900, height: 300, quality: 100) {
+              fixed(width: 720, quality: 100) {
                 src
                 srcSet
               }

@@ -1,7 +1,5 @@
-export interface HeaderState {
-  showMain: boolean
-}
+import { HeaderType } from './contants/header'
 
 export interface StoreState {
-  header: HeaderState
+  headerType: HeaderType
 }

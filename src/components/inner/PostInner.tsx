@@ -1,23 +1,31 @@
 import * as React from 'react'
 import './PostInner.scss'
-import Render from './Render'
-import TagsCard, { TagsCardProps } from '../TagsCard'
-
-export interface PostInnerProps extends TagsCardProps {
-  blogTitle: string
-}
-
-export class PostInner extends React.Component<PostInnerProps> {
-  render() {
-    return (
-      <div className="post-inner">
-        <div className="tags-header-container">
-          <TagsCard {...this.props} />
+import TagsCard from '../TagsCard'
+import { StaticQuery, graphql, Link } from 'gatsby'
+import { MarkdownRemark } from '../../graphql-types'
+export default () => (
+  <StaticQuery
+    query={graphql`
+      query InnerPost($slug: String!) {
+        post: markdownRemark(fields: { slug: { eq: $slug } }) {
+          frontmatter {
+            tags
+            title
+            origin
+          }
+        }
+      }
+    `}
+    render={(data: { post: MarkdownRemark }) => {
+      const { post } = data
+      return (
+        <div className="post-inner">
+          <div className="tags-header-container">
+            <TagsCard tags={post.frontmatter.tags} Link={Link} origin={post.frontmatter.origin} />
+          </div>
+          <h1>{post.frontmatter.title}</h1>
         </div>
-        <h1>{this.props.blogTitle}</h1>
-      </div>
-    )
-  }
-}
-
-export default Render(PostInner)
+      )
+    }}
+  />
+)
