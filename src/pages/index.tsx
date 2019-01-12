@@ -1,7 +1,14 @@
-import Blog from '../containers/BlogContainer'
+import * as React from 'react'
+import Blog, { IndexProps } from '../containers/BlogContainer'
 import { graphql } from 'gatsby'
+import { WithLayout } from '../containers/LayoutContainer'
+import { HeaderType } from '../contants/header'
 
-export default Blog
+export default (props: IndexProps) => (
+  <WithLayout headerType={HeaderType.AUTHOR_HEADER}>
+    <Blog {...props} />
+  </WithLayout>
+)
 
 export const pageQuery = graphql`
   query PageBlog {

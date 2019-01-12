@@ -9,7 +9,8 @@ import '../global.scss'
 import Header from './Header'
 import { Helmet } from 'react-helmet'
 import { HeaderType } from '../contants/header'
-import PostInner from './inner/PostInner'
+import PostInner, { PostInnerProps } from './inner/PostInner'
+import { InnerProps } from './inner'
 export const menuItems = [
   { name: '首页', path: '/', Link },
   { name: '归档', path: '/archives/', Link },
@@ -24,6 +25,7 @@ export interface LayoutProps {
   }
   children: any
   headerType: HeaderType
+  innerProps: InnerProps
 }
 
 export default class Layout extends React.Component<Readonly<LayoutProps>> {
@@ -36,7 +38,7 @@ export default class Layout extends React.Component<Readonly<LayoutProps>> {
       case HeaderType.NO_HEADER_INNER:
         return null
       case HeaderType.POST_HEADER:
-        return <PostInner />
+        return <PostInner {...this.props.innerProps} />
       case HeaderType.AUTHOR_HEADER:
       default:
         return <AuthorInner />
@@ -46,6 +48,7 @@ export default class Layout extends React.Component<Readonly<LayoutProps>> {
     return (
       <div className={classes.root}>
         <Header menuItems={menuItems}>
+          {this.getHeaderInner()}
           <StaticQuery
             query={graphql`
               {

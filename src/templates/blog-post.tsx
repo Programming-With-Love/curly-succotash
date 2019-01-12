@@ -2,7 +2,7 @@ import * as React from 'react'
 import { LayoutProps } from '../components/Layout'
 import { MarkdownRemark, MarkdownRemarkConnection, Site, DataJson } from '../graphql-types'
 import { get } from 'lodash'
-import { withLayout } from '../containers/LayoutContainer'
+import { WithLayout } from '../containers/LayoutContainer'
 import BlogPost from '../components/BlogPost'
 import { graphql } from 'gatsby'
 import { HeaderType } from '../contants/header'
@@ -21,10 +21,14 @@ const PostPage = (props: BlogPostProps) => {
   })
   const { slug } = post.fields
   const gitmentOptions = dataJson.gitment
-  return <BlogPost slug={slug} commentOptions={gitmentOptions} post={post} />
+  return (
+    <WithLayout headerType={HeaderType.POST_HEADER} data={post.frontmatter}>
+      <BlogPost slug={slug} commentOptions={gitmentOptions} post={post} />
+    </WithLayout>
+  )
 }
 
-export default withLayout(PostPage, HeaderType.POST_HEADER)
+export default PostPage
 
 export const pageQuery = graphql`
   query TemplateBlogPost($slug: String!) {
@@ -51,6 +55,9 @@ export const pageQuery = graphql`
         depth
       }
       frontmatter {
+        title
+        tags
+        origin
         updatedDate(formatString: "YYYY年MM月DD日")
         image {
           children {

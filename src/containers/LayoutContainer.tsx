@@ -3,11 +3,14 @@ import { connect } from 'react-redux'
 import Layout from '../components/Layout'
 import { StoreState } from '../state'
 import { Dispatch, bindActionCreators } from 'redux'
-import { showHeader } from '../actions/header'
+import { showHeader, HeaderAction } from '../actions/header'
 import { HeaderType } from '../contants/header'
+import { PostInnerProps } from '../components/inner/PostInner'
+import { InnerProps } from '../components/inner'
 function mapStateToProps(state: StoreState) {
   return {
-    headerType: state.headerType,
+    headerType: state.header.headerType,
+    innerProps: state.header.data,
   }
 }
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -20,26 +23,24 @@ function mapDispatchToProps(dispatch: Dispatch) {
 }
 const ConnectedLayout = connect(mapStateToProps)(Layout)
 
-export interface WithLayoutProps {
-  headerType: HeaderType
-  showHeader(headerType: HeaderType): void
-}
+export interface WithLayoutProps {}
 
-export const withLayout = <P extends object>(WrappedComponent: React.ComponentType<P>, headerType: HeaderType) => {
-  //the type WithLayoutProps skip type P. it's must be (WithLayoutProps & P)
-  class WithLayout extends React.Component<WithLayoutProps> {
+export const WithLayout = connect(
+  null,
+  mapDispatchToProps
+)(
+  class WithLayout extends React.Component<{
+    headerType: HeaderType
+    data?: PostInnerProps
+    showHeader(headerType: HeaderType, data?: PostInnerProps): HeaderAction
+  }> {
     componentWillMount() {
-      this.props.showHeader(headerType)
+      this.props.showHeader(this.props.headerType, this.props.data)
     }
     render() {
-      return <WrappedComponent {...this.props as P & WithLayoutProps} />
+      return this.props.children
     }
   }
-
-  return connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(WithLayout)
-}
+)
 
 export default ConnectedLayout

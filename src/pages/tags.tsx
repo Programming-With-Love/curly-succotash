@@ -1,5 +1,7 @@
 import * as React from 'react'
 import { graphql } from 'gatsby'
+import { WithLayout } from '../containers/LayoutContainer'
+import { HeaderType } from '../contants/header'
 
 export interface TagsPageProps {
   data: {
@@ -16,13 +18,15 @@ export default class TagsPage extends React.Component<TagsPageProps> {
   render() {
     const { tags } = this.props.data
     return (
-      <div className="">
-        {tags.group.map((tag, index) => (
-          <h3 key={index}>
-            {tag.fieldValue}({tag.totalCount})
-          </h3>
-        ))}
-      </div>
+      <WithLayout headerType={HeaderType.AUTHOR_HEADER}>
+        <div className="">
+          {tags.group.map((tag, index) => (
+            <h3 key={index}>
+              {tag.fieldValue}({tag.totalCount})
+            </h3>
+          ))}
+        </div>
+      </WithLayout>
     )
   }
 }

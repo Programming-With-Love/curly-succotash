@@ -9,7 +9,8 @@ export default (state = initialState, action: HeaderAction) => {
     case TYPE_HEADER_INNER:
       return {
         ...state,
-        headerType: action.payload,
+        headerType: action.headerType,
+        data: action.data,
       }
   }
   return state
