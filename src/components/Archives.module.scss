@@ -1,0 +1,24 @@
+@import '../themes.scss';
+.archivesContent {
+  width: $content-width;
+  margin: auto;
+}
+.year {
+  color: #34495e;
+}
+.time,
+.title {
+  display: inline-block;
+}
+.time {
+  color: #adabac;
+}
+.title {
+  margin-left: 20px;
+  color: #237bd9;
+}
+.list {
+  li {
+    list-style: none;
+  }
+}

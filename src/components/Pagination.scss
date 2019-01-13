@@ -1,0 +1,34 @@
+.pagination {
+  text-align: center;
+  background: white;
+  a {
+    border-radius: 4px;
+    user-select: none;
+    min-width: 32px;
+    height: 32px;
+    line-height: 30px;
+    text-align: center;
+    list-style: none;
+    display: inline-block;
+    vertical-align: middle;
+    border: 1px solid #d9d9d9;
+    background-color: #fff;
+    margin-right: 8px;
+    font-family: Arial;
+    outline: 0;
+    text-decoration: none;
+    color: black;
+  }
+  span {
+    margin-right: 8px;
+  }
+  a.active {
+    border-color: #1890ff;
+    color: #1890ff;
+  }
+  a:hover {
+    transition: all 0.3s;
+    border-color: #1890ff;
+    color: #1890ff;
+  }
+}

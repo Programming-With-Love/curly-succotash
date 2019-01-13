@@ -2,7 +2,7 @@ import * as React from 'react'
 import { graphql } from 'gatsby'
 import { WithLayout } from '../containers/LayoutContainer'
 import { HeaderType } from '../contants/header'
-
+import Position from '../components/base/Position'
 export interface TagsPageProps {
   data: {
     tags: {
@@ -19,6 +19,7 @@ export default class TagsPage extends React.Component<TagsPageProps> {
     const { tags } = this.props.data
     return (
       <WithLayout headerType={HeaderType.AUTHOR_HEADER}>
+        <Position title="标签云" />
         <div className="">
           {tags.group.map((tag, index) => (
             <h3 key={index}>

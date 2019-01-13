@@ -209,7 +209,7 @@ export interface DataJson extends Node {
   internal: internal_13 | null
   home: string | null
   gitment: CommentOptions | null
-  speech:string[] | null
+  speech: string[] | null
 }
 
 export interface CommentOptions {

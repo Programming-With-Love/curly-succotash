@@ -205,7 +205,7 @@ class CanvasLap {
   stop() {
     this.cancelAnimationFrame.call(window, this.animationId)
   }
-  resize = (w: number, h: number) => {
+  resize = throttle((w: number, h: number) => {
     this.stop()
     this.canvas.width = w
     this.canvas.height = h
@@ -215,7 +215,7 @@ class CanvasLap {
       this.stars[i].resize(w, h)
     }
     this.start()
-  }
+  })
   rereject = throttle((rejectClient: { x: number; y: number }) => {
     const options = this.options
     if (rejectClient == null) {
@@ -250,12 +250,12 @@ export default class StarCanvas extends React.Component<StarCanvasProps> {
    */
   shouldComponentUpdate(nextProps: StarCanvasProps) {
     if (nextProps.width !== this.props.width || nextProps.height !== this.props.height) {
-      this.lap.resize(this.props.width || window.innerWidth, this.props.height || window.innerHeight)
+      this.lap.resize(nextProps.width || window.innerWidth, nextProps.height || window.innerHeight)
     }
     if (nextProps.rejectClient != null && this.props.rejectClient != null) {
       if (
-        nextProps.rejectClient.x !== this.props.rejectClient.x ||
-        nextProps.rejectClient.y !== this.props.rejectClient.y
+        nextProps.rejectClient.x !== nextProps.rejectClient.x ||
+        nextProps.rejectClient.y !== nextProps.rejectClient.y
       ) {
         this.lap.rereject(nextProps.rejectClient)
       }

@@ -1,16 +1,20 @@
-.root {
-  padding: 0;
-  margin: 0;
-}
+@import '../themes.scss';
 .header {
   width: 100%;
   overflow: hidden;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
   .headerBgContainer {
+    position: absolute;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    left: 0;
+    top: 0;
+    opacity: 0.3;
     width: 100%;
-    height: 100%;
+    height: $header-height;
+    margin: 0;
+    padding: 0;
+    transition: all 0.3s ease-out;
   }
   .headerTitle {
     color: white;

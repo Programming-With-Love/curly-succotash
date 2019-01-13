@@ -1,6 +1,6 @@
 const path = require('path')
 const slash = require('slash')
-const { kebabCase, uniq, get, compact, times } = require('lodash')
+const { kebabCase, uniq, get, compact, times, findIndex } = require('lodash')
 
 // Don't forget to update hard code values into:
 // - `templates/blog-page.tsx:23`
@@ -40,7 +40,7 @@ exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
 
   return new Promise((resolve, reject) => {
-    const templates = ['blogPost', 'tagsPage', 'blogPage', 'blogArchives'].reduce((mem, templateName) => {
+    const templates = ['blogPost', 'tagPage', 'blogPage', 'blogArchives'].reduce((mem, templateName) => {
       return Object.assign({}, mem, { [templateName]: path.resolve(`src/templates/${kebabCase(templateName)}.tsx`) })
     }, {})
 
@@ -86,8 +86,8 @@ exports.createPages = ({ graphql, actions }) => {
         .reduce((mem, post) => cleanArray(mem.concat(get(post, 'frontmatter.tags'))), [])
         .forEach(tag => {
           createPage({
-            path: `/blog/tags/${kebabCase(tag)}/`,
-            component: slash(templates.tagsPage),
+            path: `/blog/tag/${kebabCase(tag)}/`,
+            component: slash(templates.tagPage),
             context: {
               tag,
             },
@@ -106,13 +106,18 @@ exports.createPages = ({ graphql, actions }) => {
         })
       })
       // Create archives pages
-      const archives = {}
+      const archives = []
       blogPosts.forEach(node => {
         const year = node.frontmatter.createdDate.slice(0, 4)
-        if (!archives[`${year}`]) {
-          archives[`${year}`] = []
+        const index = findIndex(archives, obj => obj.year === year)
+        if (index !== -1) {
+          archives[index].posts.push(node)
+        } else {
+          archives.push({
+            year,
+            posts: [node],
+          })
         }
-        archives[`${year}`].push(node)
       })
       createPage({
         path: 'archives',

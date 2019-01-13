@@ -3,10 +3,11 @@ import Blog, { IndexProps } from '../containers/BlogContainer'
 import { graphql } from 'gatsby'
 import { WithLayout } from '../containers/LayoutContainer'
 import { HeaderType } from '../contants/header'
-
 export default (props: IndexProps) => (
   <WithLayout headerType={HeaderType.AUTHOR_HEADER}>
-    <Blog {...props} />
+    <main>
+      <Blog {...props} />
+    </main>
   </WithLayout>
 )
 

@@ -5,15 +5,20 @@ import PostItem from '../components/PostItem'
 import { MarkdownRemark, MarkdownRemarkConnection, Site, DataJson, ImageSharp } from '../graphql-types'
 import * as classes from './blog.module.scss'
 import Position from '../components/base/Position'
+import BlogPagination from '../components/Pagination'
 export interface IndexProps {
   data: {
     posts: MarkdownRemarkConnection
-    recents: MarkdownRemarkConnection
+  }
+  location: {
+    pathname: string
   }
 }
 
 const BlogPage = (props: IndexProps) => {
   const { data } = props
+  const pageCount = Math.ceil(props.data.posts.totalCount / 10)
+  const { pathname } = props.location
   return (
     <div className={classes.indexContent}>
       <Position />
@@ -43,6 +48,7 @@ const BlogPage = (props: IndexProps) => {
           />
         )
       })}
+      <BlogPagination Link={Link} pathname={pathname} pageCount={pageCount} />
     </div>
   )
 }

@@ -5,7 +5,6 @@ import { StoreState } from '../state'
 import { Dispatch, bindActionCreators } from 'redux'
 import { showHeader, HeaderAction } from '../actions/header'
 import { HeaderType } from '../contants/header'
-import { PostInnerProps } from '../components/inner/PostInner'
 import { InnerProps } from '../components/inner'
 function mapStateToProps(state: StoreState) {
   return {
@@ -31,8 +30,8 @@ export const WithLayout = connect(
 )(
   class WithLayout extends React.Component<{
     headerType: HeaderType
-    data?: PostInnerProps
-    showHeader(headerType: HeaderType, data?: PostInnerProps): HeaderAction
+    data?: InnerProps
+    showHeader(headerType: HeaderType, data?: InnerProps): HeaderAction
   }> {
     componentWillMount() {
       this.props.showHeader(this.props.headerType, this.props.data)

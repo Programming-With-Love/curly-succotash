@@ -1,11 +1,12 @@
 import * as React from 'react'
 import { LayoutProps } from '../components/Layout'
-import { MarkdownRemark, MarkdownRemarkConnection, Site, DataJson } from '../graphql-types'
+import { MarkdownRemark, MarkdownRemarkConnection, Site, DataJson, ImageSharp } from '../graphql-types'
 import { get } from 'lodash'
 import { WithLayout } from '../containers/LayoutContainer'
 import BlogPost from '../components/BlogPost'
 import { graphql } from 'gatsby'
 import { HeaderType } from '../contants/header'
+import Main from '../components/Main'
 interface BlogPostProps extends LayoutProps {
   data: {
     post: MarkdownRemark
@@ -22,8 +23,16 @@ const PostPage = (props: BlogPostProps) => {
   const { slug } = post.fields
   const gitmentOptions = dataJson.gitment
   return (
-    <WithLayout headerType={HeaderType.POST_HEADER} data={post.frontmatter}>
-      <BlogPost slug={slug} commentOptions={gitmentOptions} post={post} />
+    <WithLayout
+      headerType={HeaderType.POST_HEADER}
+      data={{
+        ...post.frontmatter,
+        image: post.frontmatter.image ? (post.frontmatter.image.children[0] as ImageSharp) : null,
+      }}
+    >
+      <Main>
+        <BlogPost slug={slug} commentOptions={gitmentOptions} post={post} />
+      </Main>
     </WithLayout>
   )
 }

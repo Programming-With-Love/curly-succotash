@@ -63,6 +63,18 @@ export default class Header extends React.Component<HeaderProps, HeadState> {
     delete tProps.background
     delete tProps.menuItems
     delete tProps.children
+    let style
+    if (props.background == null) {
+      style = {}
+    } else if (typeof props.background === 'string') {
+      style = {
+        backgroundImage: `url(${props.background})`,
+      }
+    } else {
+      style = {
+        backgroundImage: `url(${props.background.fixed.src})`,
+      }
+    }
     return (
       <header
         className={classes.header}
@@ -90,13 +102,12 @@ export default class Header extends React.Component<HeaderProps, HeadState> {
           <Link to="/">{HOME_TITLE}</Link>
         </h1>
         <div className={classes.banner}>
-          <div className={classes.headerBgContainer}>
-            <StarCanvas
-              height={this.state.starHeight}
-              width={this.state.starWidth}
-              rejectClient={this.state.rejectClient}
-            />
-          </div>
+          <StarCanvas
+            height={this.state.starHeight}
+            width={this.state.starWidth}
+            rejectClient={this.state.rejectClient}
+          />
+          <div className={classes.headerBgContainer} style={style} />
           <div id="main-header" />
           {children}
         </div>

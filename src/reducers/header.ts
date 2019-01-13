@@ -1,7 +1,11 @@
 import { HeaderAction, TYPE_HEADER_INNER } from '../actions/header'
+import { InnerProps } from '../components/inner'
+import { HeaderState } from '../state'
+import { HeaderType } from '../contants/header'
 
-const initialState = {
-  showMain: true,
+const initialState: HeaderState = {
+  headerType: HeaderType.AUTHOR_HEADER,
+  data: null,
 }
 
 export default (state = initialState, action: HeaderAction) => {
