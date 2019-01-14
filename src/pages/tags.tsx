@@ -1,8 +1,10 @@
 import * as React from 'react'
-import { graphql } from 'gatsby'
+import { graphql, Link } from 'gatsby'
 import { WithLayout } from '../containers/LayoutContainer'
 import { HeaderType } from '../contants/header'
 import Position from '../components/base/Position'
+import Main from '../components/Main'
+import TagsCard from '../components/TagsCard'
 export interface TagsPageProps {
   data: {
     tags: {
@@ -20,22 +22,28 @@ export default class TagsPage extends React.Component<TagsPageProps> {
     return (
       <WithLayout headerType={HeaderType.AUTHOR_HEADER}>
         <Position title="标签云" />
-        <div className="">
-          {tags.group.map((tag, index) => (
-            <h3 key={index}>
-              {tag.fieldValue}({tag.totalCount})
-            </h3>
-          ))}
-        </div>
+        <Main>
+          <TagsCard
+            tagSize="large"
+            tags={tags.group.map(tag => ({
+              name: tag.fieldValue,
+              count: tag.totalCount,
+            }))}
+            Link={Link}
+          />
+        </Main>
       </WithLayout>
     )
   }
 }
 
 export const pageQuery = graphql`
-  query {
-    tags: allMarkdownRemark(filter: { frontmatter: { draft: { ne: true } } }) {
-      group(field: frontmatter___tags) {
+  {
+    tags: allMarkdownRemark(
+      sort: { order: DESC, fields: [frontmatter___updatedDate] }
+      filter: { frontmatter: { draft: { ne: true } } }
+    ) {
+      group(field: frontmatter___tags, limit: 3) {
         fieldValue
         totalCount
       }

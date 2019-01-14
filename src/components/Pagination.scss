@@ -1,6 +1,8 @@
+@import '../themes.scss';
 .pagination {
   text-align: center;
   background: white;
+  padding-top: 10px;
   a {
     border-radius: 4px;
     user-select: none;
@@ -13,22 +15,22 @@
     vertical-align: middle;
     border: 1px solid #d9d9d9;
     background-color: #fff;
-    margin-right: 8px;
+    margin: 0 4px;
     font-family: Arial;
     outline: 0;
     text-decoration: none;
     color: black;
   }
   span {
-    margin-right: 8px;
+    margin: 0 4px;
   }
   a.active {
-    border-color: #1890ff;
-    color: #1890ff;
+    border-color: $tag-theme-color;
+    color: $tag-theme-color;
   }
   a:hover {
     transition: all 0.3s;
-    border-color: #1890ff;
-    color: #1890ff;
+    border-color: $tag-theme-color-hover;
+    color: $tag-theme-color-hover;
   }
 }

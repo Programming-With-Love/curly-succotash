@@ -16,6 +16,15 @@ export default (props: PaginationProps) => {
 
   return (
     <div className="pagination">
+      {1 == +activeItem ? null : (
+        <props.Link
+          to={+activeItem == 2 ? '/' : `/blog/page/${+activeItem - 1}/`}
+          activeClassName={'active'}
+          title="上一页"
+        >
+          {'<'}
+        </props.Link>
+      )}
       {times(pageCount, index => {
         const pageIndex = (index + 1).toString()
         const rangeStep = pageCount < 10 ? 5 : 3
@@ -37,6 +46,11 @@ export default (props: PaginationProps) => {
           return +pageIndex === props.pageCount - 1 || +pageIndex === 2 ? <span>...</span> : null
         }
       })}
+      {pageCount == +activeItem ? null : (
+        <props.Link to={`/blog/page/${+activeItem + 1}/`} activeClassName={'active'} title="下一页">
+          {'>'}
+        </props.Link>
+      )}
     </div>
   )
 }

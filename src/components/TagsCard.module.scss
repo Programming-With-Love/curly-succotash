@@ -1,25 +1,37 @@
+@import '../themes.scss';
 .tagContainer {
   margin-bottom: 8px;
   position: relative;
   > .tag {
     &:hover {
-      background: #1565c0;
+      background: $tag-theme-color;
     }
     a {
+      text-decoration: none;
       color: white;
       padding: 0 7px;
     }
-    background-color: #237bd9;
+    background-color: $tag-theme-color-hover;
     color: #fff;
     list-style: none;
     display: inline-block;
-    line-height: 20px;
-    height: 22px;
     border-radius: 4px;
-    font-size: 12px;
-    margin-right: 8px;
     cursor: pointer;
     white-space: nowrap;
+  }
+  > .tag.large {
+    line-height: 26px;
+    height: 28px;
+    margin-right: 16px;
+    margin-bottom: 8px;
+    font-size: 20px;
+  }
+  > .tag.small {
+    line-height: 20px;
+    height: 22px;
+    margin-right: 8px;
+    margin-bottom: 4px;
+    font-size: 12px;
   }
   > .original {
     position: absolute;
