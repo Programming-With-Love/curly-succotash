@@ -5,14 +5,8 @@ import * as classes from './Header.module.scss'
 import StarCanvas from './StarCanvas'
 import { HOME_TITLE } from '../contants/layout'
 import WindowEventHandler from '../components/base/WindowEventHandler'
-import { HeaderType } from '../contants/header'
-import AuthorInner from './inner/AuthorInner'
-import PostInner from './inner/PostInner'
-export interface MenuItem {
-  name: string
-  path: string
-  Link: React.ComponentType<GatsbyLinkProps<any>>
-}
+import Menu, { MenuItem } from './Menu'
+import OutLink from './base/OutLink'
 
 export interface HeaderProps extends React.HTMLProps<HTMLHeadingElement> {
   background?: string | ImageSharp | null
@@ -87,16 +81,16 @@ export default class Header extends React.Component<HeaderProps, HeadState> {
         }}
       >
         <WindowEventHandler eventName="resize" callback={this.handleResize} />
-
-        <nav className={classes.headerNav}>
-          <ul>
-            {menuItems.map((item, index) => (
-              <li key={index}>
-                <item.Link to={item.path}>{item.name}</item.Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <Menu
+          items={[
+            ...menuItems,
+            {
+              Link: OutLink,
+              name: 'rss',
+              path: '/rss.xml',
+            },
+          ]}
+        />
 
         <h1 className={classes.headerTitle}>
           <Link to="/">{HOME_TITLE}</Link>

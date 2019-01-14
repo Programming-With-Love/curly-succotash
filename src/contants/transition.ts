@@ -1,2 +1,2 @@
-export const timeout = 250
+export const timeout = 500
 export const historyExitingEventType = `history::exiting`

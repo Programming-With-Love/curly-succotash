@@ -41,7 +41,7 @@ export const pageQuery = graphql`
   {
     tags: allMarkdownRemark(
       sort: { order: DESC, fields: [frontmatter___updatedDate] }
-      filter: { frontmatter: { draft: { ne: true } } }
+      filter: { frontmatter: { draft: { ne: true } }, fileAbsolutePath: { regex: "/blog/" } }
     ) {
       group(field: frontmatter___tags, limit: 3) {
         fieldValue

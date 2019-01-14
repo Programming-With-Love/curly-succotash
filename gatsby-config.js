@@ -4,6 +4,7 @@ module.exports = {
     description: `前后端全栈分享，java/js/golang`,
     googleVerification: `7VK2ptM0UShN615leUj3BUB9sGRNN9-0Jf1psuV7rqw`,
     disqus: `gatsby-typescript`,
+    siteUrl: `https://www.zido.site`,
   },
   plugins: [
     `gatsby-plugin-sass`,
@@ -98,5 +99,58 @@ module.exports = {
     // resistant to bad networks. Works with almost any
     // site!
     `gatsby-plugin-offline`,
+    {
+      resolve: `gatsby-plugin-feed`,
+      options: {
+        query: `
+          {
+            site {
+              siteMetadata {
+                title
+                description
+                siteUrl
+              }
+            }
+          }
+        `,
+        feeds: [
+          {
+            serialize: ({ query: { site, allMarkdownRemark } }) => {
+              return allMarkdownRemark.edges.map(edge => {
+                return Object.assign({}, edge.node.frontmatter, {
+                  description: edge.node.excerpt,
+                  date: edge.node.frontmatter.createdDate,
+                  url: site.siteMetadata.siteUrl + edge.node.fields.slug,
+                  guid: site.siteMetadata.siteUrl + edge.node.fields.slug,
+                  custom_elements: [{ 'content:encoded': edge.node.html }],
+                })
+              })
+            },
+            query: `
+              {
+                allMarkdownRemark(
+                  limit: 1000,
+                  sort: { order: DESC, fields: [frontmatter___updatedDate] },
+                  filter: {frontmatter: { draft: { ne: true } }}
+                ) {
+                  edges {
+                    node {
+                      excerpt
+                      html
+                      fields { slug }
+                      frontmatter {
+                        title
+                        createdDate(formatString: "YYYY-MM-DD")
+                      }
+                    }
+                  }
+                }
+              }
+            `,
+            output: '/rss.xml',
+          },
+        ],
+      },
+    },
   ],
 }

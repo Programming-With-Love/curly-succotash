@@ -54,32 +54,34 @@ export default class Layout extends React.Component<Readonly<LayoutProps>> {
         headerExtraProps = {}
     }
     return (
-      <div className={classes.root}>
-        {/* 页头 */}
-        <Header menuItems={menuItems} {...headerExtraProps}>
-          {inner}
-          <StaticQuery
-            query={graphql`
-              {
-                site {
-                  siteMetadata {
-                    description
+      <div>
+        <div className={classes.root}>
+          {/* 页头 */}
+          <Header menuItems={menuItems} {...headerExtraProps}>
+            {inner}
+            <StaticQuery
+              query={graphql`
+                {
+                  site {
+                    siteMetadata {
+                      description
+                    }
                   }
                 }
-              }
-            `}
-            render={(data: Query) => {
-              return (
-                <Helmet>
-                  <meta name="description" content={data.site.siteMetadata.description} />
-                </Helmet>
-              )
-            }}
-          />
-        </Header>
+              `}
+              render={(data: Query) => {
+                return (
+                  <Helmet>
+                    <meta name="description" content={data.site.siteMetadata.description} />
+                  </Helmet>
+                )
+              }}
+            />
+          </Header>
 
-        {/* 内容 */}
-        {this.props.children}
+          {/* 内容 */}
+          {this.props.children}
+        </div>
         {/* 页尾 */}
         <Footer />
       </div>

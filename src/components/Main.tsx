@@ -6,5 +6,9 @@ export default (props: React.HTMLProps<HTMLMainElement>) => {
     ...props,
     className: classnames(classes.mainContainer, props.className),
   }
-  return <main {...tProps} />
+  return (
+    <div className={classes.mainRoot}>
+      <main {...tProps} />
+    </div>
+  )
 }
