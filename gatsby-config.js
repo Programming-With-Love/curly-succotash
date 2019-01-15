@@ -88,7 +88,7 @@ module.exports = {
         short_name: `zido的个人博客`,
         start_url: `/`,
         background_color: `#f7f7f7`,
-        theme_color: `#191919`,
+        theme_color: `#101012`,
         display: `standalone`,
         icon: `data/avatar.jpg`,
       },

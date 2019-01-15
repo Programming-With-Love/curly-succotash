@@ -1,9 +1,10 @@
+@import '../themes.scss';
 .menu {
   position: absolute;
   text-align: right;
   width: 100%;
   padding: 0 20px;
-  top: 0;
+  top: 8px;
   z-index: 4;
   line-height: 60px;
   > ul {
@@ -26,60 +27,93 @@
       }
     }
   }
-
-  .menuBtn {
-    position: relative;
-    width: 50px;
-    height: 40px;
-    background: transparent;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    display: inline-block;
-    vertical-align: middle;
-    div {
-      top: 50%;
-      transform: translateY(-50%);
-      transition: all 150ms;
-      opacity: 1;
-      position: absolute;
-      width: 100%;
-      height: 10%;
-      background: white;
-    }
+}
+.menuBtn {
+  position: relative;
+  width: 30px;
+  height: 20px;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block;
+  vertical-align: middle;
+  z-index: 1002;
+  div {
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 150ms;
+    opacity: 1;
+    position: absolute;
+    width: 100%;
+    height: 10%;
+    background: white;
+  }
+  &:before {
+    position: absolute;
+    width: 100%;
+    height: 10%;
+    background: white;
+    transition: all 300ms;
+    content: '';
+    display: block;
+    top: 0;
+  }
+  &:after {
+    position: absolute;
+    width: 100%;
+    height: 10%;
+    background: white;
+    transition: all 300ms;
+    content: '';
+    bottom: 0;
+    display: block;
+  }
+  &.menuBtnActive {
     &:before {
-      position: absolute;
-      width: 100%;
-      height: 10%;
-      background: white;
-      transition: all 300ms;
-      content: '';
-      display: block;
-      top: 0;
+      top: 50%;
+      transform: translateY(-50%) rotateZ(135deg);
     }
+
     &:after {
-      position: absolute;
-      width: 100%;
-      height: 10%;
-      background: white;
-      transition: all 300ms;
-      content: '';
-      bottom: 0;
-      display: block;
+      bottom: 50%;
+      transform: translateY(50%) rotateZ(45deg);
     }
-    &.menuBtnActive {
-      &:before {
-        top: 50%;
-        transform: translateY(-50%) rotateZ(135deg);
-      }
 
-      &:after {
-        bottom: 50%;
-        transform: translateY(50%) rotateZ(45deg);
-      }
-
-      div {
-        opacity: 0;
+    div {
+      opacity: 0;
+    }
+  }
+}
+.menuInner {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 1001;
+  text-align: center;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: $gloal-background-color;
+  padding-top: 100px;
+  visibility: hidden;
+  ul {
+    li {
+      list-style: none;
+      a {
+        text-decoration: none;
+        display: block;
+        font-size: 22px;
+        color: white;
       }
     }
   }
+  &.show {
+    visibility: visible;
+  }
+}
+
+.menuOpen {
+  overflow: hidden;
+  height: 100%;
 }
