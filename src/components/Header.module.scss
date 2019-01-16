@@ -2,6 +2,7 @@
 .header {
   width: 100%;
   overflow: hidden;
+  background: $global-background-color;
   .headerBgContainer {
     position: absolute;
     background-repeat: no-repeat;

@@ -28,12 +28,31 @@
     }
   }
 }
+
+.fixPosition {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1003;
+}
+.menuBtnContainer {
+  width: 56px;
+  height: 56px;
+  line-height: 50px;
+  text-align: center;
+  padding: 0;
+  background: $global-background-color;
+
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+}
 .menuBtn {
   position: relative;
-  width: 30px;
+  width: 20px;
   height: 20px;
   background: transparent;
-  cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   display: inline-block;
   vertical-align: middle;
@@ -94,7 +113,7 @@
   text-align: center;
   overflow-x: hidden;
   overflow-y: auto;
-  background: $gloal-background-color;
+  background: $global-background-color;
   padding-top: 100px;
   visibility: hidden;
   ul {

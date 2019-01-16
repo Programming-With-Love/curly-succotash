@@ -4,11 +4,7 @@ import classnames from 'classnames'
 export default (props: React.HTMLProps<HTMLMainElement>) => {
   const tProps = {
     ...props,
-    className: classnames(classes.mainContainer, props.className),
+    className: classnames(classes.mainRoot, props.className),
   }
-  return (
-    <div className={classes.mainRoot}>
-      <main {...tProps} />
-    </div>
-  )
+  return <main {...tProps} />
 }

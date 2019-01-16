@@ -29,15 +29,19 @@ export class MenuButton extends React.Component<MenuButtonProps> {
   render() {
     return (
       <div
-        className={classnames(classes.menuBtn, {
-          [classes.menuBtnActive]: this.props.active,
-        })}
+        className={classes.menuBtnContainer}
         onClick={() => {
           const active = !this.props.active
           this.props.onClick(active)
         }}
       >
-        <div />
+        <div
+          className={classnames(classes.menuBtn, {
+            [classes.menuBtnActive]: this.props.active,
+          })}
+        >
+          <div />
+        </div>
       </div>
     )
   }
@@ -84,7 +88,9 @@ export default class Menu extends React.Component<MenuProps, { active: boolean; 
           </ul>
         </Media>
         <Media query="(max-width:720px)">
-          <MenuButton active={this.state.active} onClick={this.handleClick} />
+          <div className={classes.fixPosition}>
+            <MenuButton active={this.state.active} onClick={this.handleClick} />
+          </div>
         </Media>
         <CSSTransition
           classNames={{

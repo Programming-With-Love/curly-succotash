@@ -1,6 +1,5 @@
 import * as React from 'react'
-import { throttle } from 'lodash'
-import { reject } from 'q'
+import { debounce, throttle } from 'lodash'
 
 export interface StarCanvasProps extends LapOptions {}
 
@@ -85,7 +84,6 @@ class Star {
 
     this.resize(w, h)
 
-    this.orbitRadius = random(maxOrbit(w, h))
     this.radius = random(60, this.orbitRadius) / 12
     this.speed = random(this.orbitRadius) / 300000
     this.alpha = random(2, 10) / 10
@@ -98,6 +96,7 @@ class Star {
   resize(w: number, h: number) {
     this.orbitX = w / 2
     this.orbitY = h / 2
+    this.orbitRadius = random(maxOrbit(w, h))
   }
   next(): StarPosition {
     let x = Math.sin(this.timePassed) * this.orbitRadius + this.orbitX,
@@ -154,12 +153,12 @@ class CanvasLap {
       ctx2 = canvas2.getContext('2d')
     canvas2.width = 50
     canvas2.height = 50
+    canvas2.style.borderRadius = '50%'
     let half = canvas2.width / 2,
       gradient2 = ctx2.createRadialGradient(half, half, 0, half, half, half)
-    gradient2.addColorStop(0.025, '#fff')
+    gradient2.addColorStop(0, '#fff')
     gradient2.addColorStop(0.1, 'hsl(' + options.hue + ', 61%, 33%)')
-    gradient2.addColorStop(0.25, 'hsl(' + options.hue + ', 64%, 6%)')
-    gradient2.addColorStop(1, 'transparent')
+    gradient2.addColorStop(0.3, 'transparent')
 
     ctx2.fillStyle = gradient2
     ctx2.beginPath()
@@ -205,7 +204,7 @@ class CanvasLap {
   stop() {
     this.cancelAnimationFrame.call(window, this.animationId)
   }
-  resize = throttle((w: number, h: number) => {
+  resize = debounce((w: number, h: number) => {
     this.stop()
     this.canvas.width = w
     this.canvas.height = h
@@ -215,7 +214,7 @@ class CanvasLap {
       this.stars[i].resize(w, h)
     }
     this.start()
-  })
+  }, 300)
   rereject = throttle((rejectClient: { x: number; y: number }) => {
     const options = this.options
     if (rejectClient == null) {
@@ -229,11 +228,9 @@ class CanvasLap {
 
   private animation = () => {
     const ctx = this.ctx
-    ctx.globalCompositeOperation = 'source-over'
-    ctx.globalAlpha = 0.6
-    ctx.fillRect(0, 0, this.options.width, this.options.height)
-
-    ctx.globalCompositeOperation = 'lighter'
+    // ctx.globalCompositeOperation = 'source-over'
+    ctx.clearRect(0, 0, this.options.width, this.options.height)
+    // ctx.globalCompositeOperation = 'lighter'
     for (let i = 0; i < this.stars.length; i++) {
       let p = this.stars[i].next()
       ctx.globalAlpha = p.alpha
