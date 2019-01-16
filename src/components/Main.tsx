@@ -1,10 +1,24 @@
 import * as React from 'react'
 import * as classes from './Main.module.scss'
 import classnames from 'classnames'
-export default (props: React.HTMLProps<HTMLMainElement>) => {
+export default (
+  props: React.HTMLProps<HTMLMainElement> & {
+    extra?: React.ReactElement<any>
+  }
+) => {
   const tProps = {
     ...props,
     className: classnames(classes.mainRoot, props.className),
   }
-  return <main {...tProps} />
+  delete tProps.extra
+  return (
+    <div
+      style={{
+        position: 'relative',
+      }}
+    >
+      <main {...tProps} />
+      {props.extra}
+    </div>
+  )
 }

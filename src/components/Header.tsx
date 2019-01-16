@@ -23,24 +23,12 @@ interface HeadState {
   }
 }
 export default class Header extends React.Component<HeaderProps, HeadState> {
-  constructor(props: HeaderProps) {
-    super(props)
-    this.state = {
-      starHeight: 480,
-      starWidth: 0,
-      rejectClient: null,
-    }
+  state: HeadState = {
+    starHeight: 480,
+    starWidth: 0,
+    rejectClient: null,
   }
 
-  handleResize = () => {
-    let winWidth = 0
-    if (window.innerWidth) winWidth = window.innerWidth
-    else if (document.body && document.body.clientWidth) winWidth = document.body.clientWidth
-
-    this.setState({
-      starWidth: winWidth,
-    })
-  }
   handleReject = (e: any) => {
     this.setState({
       rejectClient: {
@@ -49,6 +37,20 @@ export default class Header extends React.Component<HeaderProps, HeadState> {
       },
     })
   }
+
+  handleResize = () => {
+    let winWidth = 0
+    if (window.innerWidth) {
+      winWidth = window.innerWidth
+    } else if (document.body && document.body.clientWidth) {
+      winWidth = document.body.clientWidth
+    }
+
+    this.setState({
+      starWidth: winWidth,
+    })
+  }
+
   render() {
     const props = this.props
     const { menuItems, children } = props

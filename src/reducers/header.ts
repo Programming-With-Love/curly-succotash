@@ -16,6 +16,7 @@ export default (state = initialState, action: HeaderAction) => {
         headerType: action.headerType,
         data: action.data,
       }
+    default:
+      return state
   }
-  return state
 }

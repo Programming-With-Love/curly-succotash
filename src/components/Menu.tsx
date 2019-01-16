@@ -5,7 +5,6 @@ import classnames from 'classnames'
 import Media from 'react-media'
 import { CSSTransition } from 'react-transition-group'
 import 'animate.css/source/sliding_entrances/slideInRight.css'
-import 'animate.css/source/sliding_exits/slideOutRight.css'
 import { timeout } from '../contants/transition'
 export interface MenuItem {
   name: string
@@ -22,59 +21,34 @@ export interface MenuButtonProps {
   onClick: (active: boolean) => void
 }
 
-export class MenuButton extends React.Component<MenuButtonProps> {
-  constructor(props: MenuButtonProps) {
-    super(props)
-  }
-  render() {
-    return (
+export const MenuButton = (props: MenuButtonProps) => {
+  return (
+    <div
+      className={classes.menuBtnContainer}
+      onClick={() => {
+        const active = !this.props.active
+        this.props.onClick(active)
+      }}
+    >
       <div
-        className={classes.menuBtnContainer}
-        onClick={() => {
-          const active = !this.props.active
-          this.props.onClick(active)
-        }}
+        className={classnames(classes.menuBtn, {
+          [classes.menuBtnActive]: this.props.active,
+        })}
       >
-        <div
-          className={classnames(classes.menuBtn, {
-            [classes.menuBtnActive]: this.props.active,
-          })}
-        >
-          <div />
-        </div>
+        <div />
       </div>
-    )
-  }
+    </div>
+  )
 }
 
-export default class Menu extends React.Component<MenuProps, { active: boolean; animation: boolean }> {
+export default class Menu extends React.Component<MenuProps, { active: boolean }> {
   state: {
     active: boolean
-    animation: boolean
   } = {
     active: false,
-    animation: false,
   }
   bodyClassName: string
   htmlClassName: string
-  private handleClick = (active: boolean) => {
-    if (this.bodyClassName == null) {
-      this.bodyClassName = document.body.className
-    }
-    if (this.htmlClassName == null) {
-      this.htmlClassName = document.documentElement.className
-    }
-    document.body.className = classnames(this.bodyClassName, {
-      [classes.menuOpen]: active,
-    })
-    document.documentElement.className = classnames(this.htmlClassName, {
-      [classes.menuOpen]: active,
-    })
-    this.setState({
-      active,
-      animation: true,
-    })
-  }
   render() {
     return (
       <nav className={classes.menu}>
@@ -94,31 +68,18 @@ export default class Menu extends React.Component<MenuProps, { active: boolean; 
         </Media>
         <CSSTransition
           classNames={{
-            enter: 'animated',
+            enter: classes.menuShow,
             enterActive: 'slideInRight duration',
             exit: 'animated',
-            exitActive: 'slideOutRight duration',
+            exitActive: classes.slideOutRight,
+            exitDone: classes.menuExited,
           }}
           in={this.state.active}
+          unmountOnExit
           timeout={timeout}
-          // unmountOnExit
-          onEntered={() => {
-            this.setState({
-              animation: false,
-            })
-          }}
-          onExited={() => {
-            this.setState({
-              animation: false,
-            })
-          }}
         >
           {() => (
-            <div
-              className={classnames(classes.menuInner, {
-                [classes.show]: this.state.active || this.state.animation,
-              })}
-            >
+            <div className={classnames(classes.menuInner)}>
               <ul>
                 {this.props.items.map((item, index) => (
                   <li key={index}>
@@ -138,5 +99,22 @@ export default class Menu extends React.Component<MenuProps, { active: boolean; 
         </CSSTransition>
       </nav>
     )
+  }
+  private handleClick = (active: boolean) => {
+    if (this.bodyClassName == null) {
+      this.bodyClassName = document.body.className
+    }
+    if (this.htmlClassName == null) {
+      this.htmlClassName = document.documentElement.className
+    }
+    document.body.className = classnames(this.bodyClassName, {
+      [classes.menuOpen]: active,
+    })
+    document.documentElement.className = classnames(this.htmlClassName, {
+      [classes.htmlMenuOpen]: active,
+    })
+    this.setState({
+      active,
+    })
   }
 }

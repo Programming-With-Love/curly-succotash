@@ -36,6 +36,15 @@ interface AffixState {
 }
 
 class Affix extends React.PureComponent<AffixProps, AffixState> {
+  affix = false
+  handleResize = throttle(() => {
+    this.updatePin()
+    this.setWidth()
+  }, 20)
+
+  handleScroll = throttle(() => {
+    this.updatePin()
+  }, 20)
   constructor(props: AffixProps) {
     super(props)
     this.state = {
@@ -45,12 +54,11 @@ class Affix extends React.PureComponent<AffixProps, AffixState> {
       active: false,
     }
   }
-  affix = false
 
   getStyles(): WrapStyles {
     const { zIndex, offsetBottom, offsetTop } = this.props
     const { position, width } = this.state
-    if (position == 'fixed') {
+    if (position === 'fixed') {
       return {
         position,
         zIndex,
@@ -72,7 +80,9 @@ class Affix extends React.PureComponent<AffixProps, AffixState> {
       position: 'fixed',
       active: true,
     })
-    onPin && onPin()
+    if (onPin) {
+      onPin()
+    }
   }
 
   unpin() {
@@ -84,7 +94,9 @@ class Affix extends React.PureComponent<AffixProps, AffixState> {
       placeHoldStyle: { overflow: 'hidden' },
       active: false,
     })
-    onUnpin && onUnpin()
+    if (onUnpin) {
+      onUnpin()
+    }
   }
 
   setWidth() {
@@ -102,7 +114,8 @@ class Affix extends React.PureComponent<AffixProps, AffixState> {
     const affix = this.affix
     const props = this.props
     const element = ReactDOM.findDOMNode(this) as HTMLElement
-    let readllyNum, propsNum
+    let readllyNum
+    let propsNum
     if (props.offsetBottom !== undefined) {
       readllyNum = getViewPortSize().height - element.getBoundingClientRect().bottom
       propsNum = props.offsetBottom
@@ -117,15 +130,6 @@ class Affix extends React.PureComponent<AffixProps, AffixState> {
       this.pin()
     }
   }
-
-  handleResize = throttle(() => {
-    this.updatePin()
-    this.setWidth()
-  }, 20)
-
-  handleScroll = throttle(() => {
-    this.updatePin()
-  }, 20)
 
   render() {
     const { prefix, className, placeHoldClassName } = this.props

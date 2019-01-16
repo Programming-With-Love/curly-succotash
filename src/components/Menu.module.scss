@@ -115,7 +115,6 @@
   overflow-y: auto;
   background: $global-background-color;
   padding-top: 100px;
-  visibility: hidden;
   ul {
     li {
       list-style: none;
@@ -127,12 +126,24 @@
       }
     }
   }
-  &.show {
+  &.menuExited {
+    visibility: hidden;
+  }
+  &.menuShow {
     visibility: visible;
   }
 }
 
 .menuOpen {
   overflow: hidden;
+  padding-right: 15px;
   height: 100%;
+}
+.htmlMenuOpen {
+  overflow: hidden;
+}
+
+.slideOutRight {
+  margin-left: 100%;
+  transition: margin-left 0.5s ease-out;
 }

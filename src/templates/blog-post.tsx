@@ -6,7 +6,6 @@ import { WithLayout } from '../containers/LayoutContainer'
 import BlogPost from '../components/BlogPost'
 import { graphql } from 'gatsby'
 import { HeaderType } from '../contants/header'
-import Main from '../components/Main'
 interface BlogPostProps extends LayoutProps {
   data: {
     post: MarkdownRemark
@@ -30,9 +29,7 @@ const PostPage = (props: BlogPostProps) => {
         image: post.frontmatter.image ? (post.frontmatter.image.children[0] as ImageSharp) : null,
       }}
     >
-      <Main>
-        <BlogPost slug={slug} commentOptions={gitmentOptions} post={post} />
-      </Main>
+      <BlogPost slug={slug} commentOptions={gitmentOptions} post={post} />
     </WithLayout>
   )
 }

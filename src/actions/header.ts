@@ -9,11 +9,11 @@ export interface HeaderAction {
   data: InnerProps
 }
 
-//控制header inner显示
+// 控制header inner显示
 export function showHeader(headerType: HeaderType, data?: InnerProps): HeaderAction {
   return {
     type: TYPE_HEADER_INNER,
-    headerType: headerType,
+    headerType,
     data,
   }
 }

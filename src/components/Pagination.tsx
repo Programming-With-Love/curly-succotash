@@ -11,14 +11,16 @@ interface PaginationProps extends React.HTMLProps<HTMLDivElement> {
 
 export default (props: PaginationProps) => {
   const { pageCount } = props
-  if (pageCount === 1) return null
+  if (pageCount === 1) {
+    return null
+  }
   const activeItem = props.pathname.startsWith('/blog/page') ? props.pathname.split('/')[3] : '1'
 
   return (
     <div className="pagination">
-      {1 == +activeItem ? null : (
+      {1 === +activeItem ? null : (
         <props.Link
-          to={+activeItem == 2 ? '/' : `/blog/page/${+activeItem - 1}/`}
+          to={+activeItem === 2 ? '/' : `/blog/page/${+activeItem - 1}/`}
           activeClassName={'active'}
           title="上一页"
         >
@@ -36,7 +38,7 @@ export default (props: PaginationProps) => {
             <props.Link
               key={pageIndex}
               style={{ cursor: 'pointer' }}
-              to={+pageIndex == 1 ? '/' : `/blog/page/${pageIndex}/`}
+              to={+pageIndex === 1 ? '/' : `/blog/page/${pageIndex}/`}
               activeClassName={'active'}
             >
               {pageIndex}
@@ -46,7 +48,7 @@ export default (props: PaginationProps) => {
           return +pageIndex === props.pageCount - 1 || +pageIndex === 2 ? <span>...</span> : null
         }
       })}
-      {pageCount == +activeItem ? null : (
+      {pageCount === +activeItem ? null : (
         <props.Link to={`/blog/page/${+activeItem + 1}/`} activeClassName={'active'} title="下一页">
           {'>'}
         </props.Link>

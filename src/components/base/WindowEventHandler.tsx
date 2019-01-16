@@ -2,8 +2,8 @@ import * as React from 'react'
 import { withDefaultProps } from '../../utils/props'
 export interface WindowEventProps<K extends keyof WindowEventMap> {
   eventName: K
-  callback(this: Window, ev: WindowEventMap[K]): any
   options: boolean | AddEventListenerOptions
+  callback(this: Window, ev: WindowEventMap[K]): any
 }
 
 class WindowEventHandler<K extends keyof WindowEventMap> extends React.PureComponent<WindowEventProps<K>> {

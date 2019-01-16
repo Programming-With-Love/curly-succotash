@@ -15,10 +15,10 @@ export default ({ element, props }: any) => {
           classNames={{
             enter: 'animated',
             enterActive: 'fadeInLeft duration',
-            exit: 'animated',
-            exitActive: 'fadeOutRight duration',
+            exit: 'hide-exit',
           }}
           timeout={timeout}
+          unmountOnExit
         >
           {element}
         </CSSTransition>

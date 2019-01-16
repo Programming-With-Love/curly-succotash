@@ -6,7 +6,7 @@ export interface StarCanvasProps extends LapOptions {}
 interface LapOptions {
   width: number
   height: number
-  //与鼠标排斥距离，0无互动，正数排除，负数吸引
+  // 与鼠标排斥距离，0无互动，正数排除，负数吸引
   rejectDistance?: {
     width: number
     height: number
@@ -15,11 +15,11 @@ interface LapOptions {
     x: number
     y: number
   }
-  //hsl中的色相
+  // hsl中的色相
   hue?: number
-  //星星的最大数量
+  // 星星的最大数量
   max?: number
-  //缓动系数
+  // 缓动系数
   easing?: number
 }
 
@@ -55,15 +55,15 @@ const maxOrbit = (x: number, y: number): number => {
 }
 
 interface StarPosition {
-  //透明度
+  // 透明度
   alpha: number
-  //x坐标
+  // x坐标
   sx: number
-  //y坐标
+  // y坐标
   sy: number
-  //裁剪宽度
+  // 裁剪宽度
   swidth: number
-  //裁剪高度
+  // 裁剪高度
   sheight: number
 }
 
@@ -180,7 +180,7 @@ class CanvasLap {
   private options: LapOptions
   private animationId: number = 0
   private ctx: CanvasRenderingContext2D
-  private stars: Array<Star>
+  private stars: Star[]
   private cacheCanvas: HTMLCanvasElement
   private canvas: HTMLCanvasElement
   private rejectX: number = 0

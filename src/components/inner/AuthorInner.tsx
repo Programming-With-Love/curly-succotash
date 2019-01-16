@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ImageSharp, Author, Query } from '../../graphql-types'
+import { ImageSharp, Query } from '../../graphql-types'
 import Bio from '../Bio'
 import './AuthorInner.scss'
 import { StaticQuery, graphql } from 'gatsby'

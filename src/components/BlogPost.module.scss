@@ -1,10 +1,10 @@
 @import '../themes.scss';
 .post {
   position: relative;
-  .rightNav {
-    position: absolute;
-    width: 260px;
-    left: 100%;
-    top: 0;
-  }
+}
+.rightNav {
+  position: absolute;
+  width: 260px;
+  right: 0;
+  top: 0;
 }

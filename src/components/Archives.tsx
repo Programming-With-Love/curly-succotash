@@ -4,7 +4,7 @@ import { IArchive } from '../templates/blog-archives'
 import * as classes from './Archives.module.scss'
 import CleanPostList from './CleanPostList'
 export interface ArchivesProps {
-  archives: Array<IArchive>
+  archives: IArchive[]
 }
 
 export default (props: ArchivesProps) => (

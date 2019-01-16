@@ -3,7 +3,7 @@ import './PostInner.scss'
 import TagsCard from '../TagsCard'
 import { Link } from 'gatsby'
 export interface PostInnerProps {
-  tags?: Array<string>
+  tags?: string[]
   origin?: boolean
   title: string
 }

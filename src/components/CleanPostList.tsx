@@ -3,7 +3,7 @@ import { MarkdownRemark } from '../graphql-types'
 import * as classes from './CleanPostList.module.scss'
 import { Link } from 'gatsby'
 export interface CleanPostListProps {
-  data: Array<MarkdownRemark>
+  data: MarkdownRemark[]
 }
 
 export default (props: CleanPostListProps) => (

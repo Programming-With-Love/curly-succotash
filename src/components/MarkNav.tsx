@@ -7,14 +7,14 @@ import './MarkNav.scss'
 import { throttle } from 'lodash'
 const slugs = require(`github-slugger`)
 export interface MarkNavProps {
-  headings: Array<MarkdownHeading>
+  headings: MarkdownHeading[]
   ordered: boolean
   className: string
 }
 
 interface MarkNavState {
   currentListNo: string
-  scrollHeadings: Array<ScrollHeading>
+  scrollHeadings: ScrollHeading[]
 }
 
 interface ScrollHeading extends MarkdownHeading {
@@ -45,12 +45,25 @@ const handleMaoClick = (top: number, hash: string) => (e: MouseEvent) => {
 }
 
 class MarkNav extends React.Component<MarkNavProps, MarkNavState> {
+  private handleScroll = throttle(() => {
+    this.updateScroll(this.state.scrollHeadings)
+  }, 20)
+
   constructor(props: MarkNavProps) {
     super(props)
     this.state = {
       currentListNo: '',
       scrollHeadings: [],
     }
+  }
+
+  render() {
+    return (
+      <div className="mark-nav">
+        {this.mapNav(this.state.scrollHeadings)}
+        <WindowEventHandler eventName={'scroll'} callback={this.handleScroll} />
+      </div>
+    )
   }
 
   componentDidMount() {
@@ -78,10 +91,10 @@ class MarkNav extends React.Component<MarkNavProps, MarkNavState> {
     this.updateScroll(scrollHeadings)
   }
 
-  private updateScroll(scrollHeadings: Array<ScrollHeading>) {
+  private updateScroll(scrollHeadings: ScrollHeading[]) {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
-    let last = 0,
-      active = false
+    let last = 0
+    let active = false
     for (let i = 0; i < scrollHeadings.length; i++) {
       scrollHeadings[i].active = false
       if (!active && scrollHeadings[i].top >= scrollTop) {
@@ -97,7 +110,7 @@ class MarkNav extends React.Component<MarkNavProps, MarkNavState> {
       scrollHeadings,
     })
   }
-  private mapNav(headings: Array<ScrollHeading>): Array<Object> {
+  private mapNav(headings: ScrollHeading[]): Object[] {
     return headings.map((heading, index) => (
       <a
         key={index}
@@ -111,18 +124,6 @@ class MarkNav extends React.Component<MarkNavProps, MarkNavState> {
   }
   private mapHeading(heading: string): string {
     return slugs().slug(heading, false)
-  }
-
-  private handleScroll = throttle(() => {
-    this.updateScroll(this.state.scrollHeadings)
-  }, 20)
-  render() {
-    return (
-      <div className="mark-nav">
-        {this.mapNav(this.state.scrollHeadings)}
-        <WindowEventHandler eventName={'scroll'} callback={this.handleScroll} />
-      </div>
-    )
   }
 }
 

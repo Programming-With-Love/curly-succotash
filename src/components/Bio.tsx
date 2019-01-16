@@ -2,7 +2,7 @@ import * as React from 'react'
 import { init } from 'ityped'
 import './bio.scss'
 export interface BioProps {
-  text: Array<string>
+  text: string[]
 }
 
 export default class Bio extends React.Component<BioProps & React.HTMLProps<HTMLParagraphElement>> {
