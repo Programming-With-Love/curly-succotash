@@ -13,7 +13,8 @@
     "generate": "plop --plopfile ./generators/plopfile.js",
     "graphql-types": "gql-gen --url http://localhost:8000/___graphql --template typescript --out ./src/graphql-types.d.ts",
     "lint": "npm run lint:ts",
-    "lint:ts": "tslint \"./src/**/*.ts\" \"./src/**/*.tsx\""
+    "lint:ts": "tslint \"./src/**/*.ts\" \"./src/**/*.tsx\"",
+    "test": "echo \"no test specified\" && exit 0"
   },
   "dependencies": {
     "@types/classnames": "^2.2.6",
