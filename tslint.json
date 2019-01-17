@@ -22,7 +22,8 @@
         "esSpecCompliant": true
       }
     ],
-    "arrow-parens": [true, "ban-single-arg-parens"]
+    "arrow-parens": [true, "ban-single-arg-parens"],
+    "object-literal-sort-keys": false
   },
   "rulesDirectory": []
 }

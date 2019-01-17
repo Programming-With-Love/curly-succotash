@@ -5,6 +5,7 @@ import { HeaderType } from '../contants/header'
 import Position from '../components/base/Position'
 import Main from '../components/Main'
 import TagsCard from '../components/TagsCard'
+import NoData from '../components/base/NoData'
 export interface TagsPageProps {
   data: {
     tags: {
@@ -23,14 +24,18 @@ export default class TagsPage extends React.Component<TagsPageProps> {
       <WithLayout headerType={HeaderType.AUTHOR_HEADER}>
         <Position title="标签云" />
         <Main>
-          <TagsCard
-            tagSize="large"
-            tags={tags.group.map(tag => ({
-              name: tag.fieldValue,
-              count: tag.totalCount,
-            }))}
-            Link={Link}
-          />
+          {tags.group ? (
+            <TagsCard
+              tagSize="large"
+              tags={tags.group.map(tag => ({
+                name: tag.fieldValue,
+                count: tag.totalCount,
+              }))}
+              Link={Link}
+            />
+          ) : (
+            <NoData />
+          )}
         </Main>
       </WithLayout>
     )

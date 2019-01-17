@@ -26,13 +26,13 @@ export const MenuButton = (props: MenuButtonProps) => {
     <div
       className={classes.menuBtnContainer}
       onClick={() => {
-        const active = !this.props.active
-        this.props.onClick(active)
+        const active = !props.active
+        props.onClick(active)
       }}
     >
       <div
         className={classnames(classes.menuBtn, {
-          [classes.menuBtnActive]: this.props.active,
+          [classes.menuBtnActive]: props.active,
         })}
       >
         <div />

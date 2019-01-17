@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { debounce, throttle } from 'lodash'
-
+/* tslint:disable */
 export interface StarCanvasProps extends LapOptions {}
 
 interface LapOptions {
@@ -70,14 +70,14 @@ interface StarPosition {
 class Star {
   private orbitRadius: number
   private radius: number
-  //原点x坐标
+  // 原点x坐标
   private orbitX: number
   // 远点y坐标
   private orbitY: number
   private timePassed: number
   // 速度
   private speed: number
-  //透明度
+  // 透明度
   alpha: number
   constructor(w: number, h: number, maxStars: number) {
     this.timePassed = random(0, maxStars)
@@ -185,13 +185,13 @@ class CanvasLap {
   private canvas: HTMLCanvasElement
   private rejectX: number = 0
   private rejectY: number = 0
-  //requestAnimationFrame兼容
+  // requestAnimationFrame兼容
   private requestAnimationFrame: (callback: FrameRequestCallback) => number =
     window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
     ((callback: FrameRequestCallback): number => window.setTimeout(callback, 6000 / 60))
 
-  //cancelAnimationFrame兼容
+  // cancelAnimationFrame兼容
   private cancelAnimationFrame: (handle: number) => void =
     window.cancelAnimationFrame ||
     window.webkitCancelAnimationFrame ||
@@ -268,10 +268,6 @@ export default class StarCanvas extends React.Component<StarCanvasProps> {
     this.lap = new CanvasLap(canvas, {
       width: this.props.width || window.innerWidth,
       height: this.props.height || window.innerHeight,
-      rejectDistance: {
-        width: 0.3,
-        height: 0.3,
-      },
     })
     this.lap.start()
   }

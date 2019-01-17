@@ -1,5 +1,4 @@
 import { HeaderAction, TYPE_HEADER_INNER } from '../actions/header'
-import { InnerProps } from '../components/inner'
 import { HeaderState } from '../state'
 import { HeaderType } from '../contants/header'
 

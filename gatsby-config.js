@@ -2,8 +2,7 @@ module.exports = {
   siteMetadata: {
     title: `zido的个人博客`,
     description: `前后端全栈分享，java/js/golang`,
-    googleVerification: `7VK2ptM0UShN615leUj3BUB9sGRNN9-0Jf1psuV7rqw`,
-    disqus: `gatsby-typescript`,
+    googleVerification: `xxx`,
     siteUrl: `https://www.zido.site`,
   },
   plugins: [

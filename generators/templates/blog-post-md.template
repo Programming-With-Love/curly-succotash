@@ -1,9 +1,9 @@
 ---
 title: {{title}}
 createdDate: "{{createdDate}}"
-updatedDate: "{{createdDate}}"
-author: {{author}}{{tags}}
+updatedDate: "{{createdDate}}"{{tags}}
 image: welcoming.png
+origin: {{origin}}
 draft: {{draft}}
 ---
 

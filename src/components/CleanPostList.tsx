@@ -1,9 +1,12 @@
 import * as React from 'react'
-import { MarkdownRemark } from '../graphql-types'
+import { MarkdownRemark, frontmatter_3, fields_3 } from '../graphql-types'
 import * as classes from './CleanPostList.module.scss'
 import { Link } from 'gatsby'
 export interface CleanPostListProps {
-  data: MarkdownRemark[]
+  data: {
+    fields: fields_3
+    frontmatter: frontmatter_3
+  }[]
 }
 
 export default (props: CleanPostListProps) => (

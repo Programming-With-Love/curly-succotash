@@ -12,12 +12,8 @@
     "build": "gatsby build",
     "generate": "plop --plopfile ./generators/plopfile.js",
     "graphql-types": "gql-gen --url http://localhost:8000/___graphql --template typescript --out ./src/graphql-types.d.ts",
-    "lint": "npm run lint:ts && npm run lint:md && npm run lint:js && npm run lint:css",
-    "lint:ts": "tslint \"./src/**/*.ts\" \"./src/**/*.tsx\"",
-    "lint:md": "remark .",
-    "lint:js": "xo",
-    "lint:css": "stylelint \"src/**/*.css\"",
-    "lint:scss": "stylelint src/**/*.scss --syntax scss"
+    "lint": "npm run lint:ts",
+    "lint:ts": "tslint \"./src/**/*.ts\" \"./src/**/*.tsx\""
   },
   "dependencies": {
     "@types/classnames": "^2.2.6",
@@ -30,7 +26,6 @@
     "animate.css": "^3.7.0",
     "babel-eslint": "^9",
     "classnames": "^2.2.6",
-    "disqus-react": "^1.0.5",
     "gatsby": "^2.0.73",
     "gatsby-plugin-feed": "^2.0.11",
     "gatsby-plugin-layout": "^1.0.11",
@@ -58,7 +53,6 @@
     "react-transition-group": "^2.5.2",
     "react-typography": "^0.16.18",
     "redux": "^4.0.1",
-    "slash": "^2.0.0",
     "typography": "^0.16.18",
     "typography-theme-bootstrap": "^0.16.18",
     "typography-theme-funston": "^0.16.18"
@@ -85,50 +79,13 @@
     "gatsby-remark-copy-linked-files": "^2.0.8",
     "gatsby-remark-images": "^3.0.1",
     "gatsby-source-filesystem": "^2.0.12",
-    "graphql": "~0.10.0",
     "graphql-code-generator": "^0.5.2",
-    "gray-matter": "^4.0.2",
     "jest": "^23.6.0",
     "plop": "^2.2.0",
     "prismjs": "^1.15.0",
     "redux-devtools-extension": "^2.13.7",
     "ts-lint": "^4.5.1",
     "typescript": "^3.2.2",
-    "webpack": "^4.28.0",
-    "xo": "^0.23.0"
-  },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "tslint --fix",
-      "git add"
-    ],
-    "*.{js,jsx}": [
-      "xo --fix",
-      "git add"
-    ],
-    "*.md": [
-      "node tools/update-post-date.js",
-      "remark -o",
-      "git add"
-    ],
-    "*.css": [
-      "stylelint"
-    ]
-  },
-  "xo": {
-    "extends": "xo-react/space",
-    "space": true,
-    "rules": {
-      "no-case-declarations": 0,
-      "default-case": 0
-    }
-  },
-  "remarkConfig": {
-    "plugins": [
-      "remark-preset-lint-recommended"
-    ]
-  },
-  "stylelint": {
-    "extends": "stylelint-config-standard"
+    "webpack": "^4.28.0"
   }
 }

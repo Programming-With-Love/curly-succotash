@@ -7,12 +7,12 @@ import Main from '../components/Main'
 import Position from '../components/base/Position'
 export interface IArchive {
   year: number
-  posts: Array<MarkdownRemark>
+  posts: MarkdownRemark[]
 }
 export default (props: {
   data: Query
   pageContext: {
-    archives: Array<IArchive>
+    archives: IArchive[]
     totalCount: number
   }
 }) => {

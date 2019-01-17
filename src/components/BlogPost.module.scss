@@ -2,9 +2,17 @@
 .post {
   position: relative;
 }
-.rightNav {
-  position: absolute;
-  width: 260px;
-  right: 0;
-  top: 0;
+@media screen and (min-width: 1240px) {
+  .rightNav {
+    position: absolute;
+    width: 260px;
+    left: 720px;
+    margin: auto;
+    top: 0;
+  }
+}
+@media screen and (max-width: 1299px) {
+  .rightNav {
+    display: none;
+  }
 }

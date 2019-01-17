@@ -1,17 +1,20 @@
 import * as React from 'react'
 import { ImageSharp } from '../graphql-types'
-import { GatsbyLinkProps, Link } from 'gatsby'
+import { Link } from 'gatsby'
 import * as classes from './Header.module.scss'
 import StarCanvas from './StarCanvas'
 import { HOME_TITLE } from '../contants/layout'
 import WindowEventHandler from '../components/base/WindowEventHandler'
 import Menu, { MenuItem } from './Menu'
 import OutLink from './base/OutLink'
+import { connect } from 'react-redux'
+import { StoreState } from '../state'
 
 export interface HeaderProps extends React.HTMLProps<HTMLHeadingElement> {
   background?: string | ImageSharp | null
   menuItems: MenuItem[]
   children: any
+  boom: 0 | 1
 }
 
 interface HeadState {
@@ -22,7 +25,7 @@ interface HeadState {
     y: number
   }
 }
-export default class Header extends React.Component<HeaderProps, HeadState> {
+export class Header extends React.Component<HeaderProps, HeadState> {
   state: HeadState = {
     starHeight: 480,
     starWidth: 0,
@@ -54,11 +57,6 @@ export default class Header extends React.Component<HeaderProps, HeadState> {
   render() {
     const props = this.props
     const { menuItems, children } = props
-    const tProps = { ...props }
-    delete tProps.className
-    delete tProps.background
-    delete tProps.menuItems
-    delete tProps.children
     let style
     if (props.background == null) {
       style = {}
@@ -71,10 +69,24 @@ export default class Header extends React.Component<HeaderProps, HeadState> {
         backgroundImage: `url(${props.background.fixed.src})`,
       }
     }
+    const items = [
+      ...menuItems,
+      {
+        Link: OutLink,
+        name: 'rss',
+        path: '/rss.xml',
+      },
+    ]
+    if (this.props.boom) {
+      items.splice(0, 0, {
+        Link,
+        name: '草稿箱',
+        path: '/drafts',
+      })
+    }
     return (
       <header
         className={classes.header}
-        {...tProps}
         onMouseMove={this.handleReject}
         onMouseLeave={() => {
           this.setState({
@@ -83,16 +95,7 @@ export default class Header extends React.Component<HeaderProps, HeadState> {
         }}
       >
         <WindowEventHandler eventName="resize" callback={this.handleResize} />
-        <Menu
-          items={[
-            ...menuItems,
-            {
-              Link: OutLink,
-              name: 'rss',
-              path: '/rss.xml',
-            },
-          ]}
-        />
+        <Menu items={items} />
 
         <h1 className={classes.headerTitle}>
           <Link to="/">{HOME_TITLE}</Link>
@@ -111,3 +114,9 @@ export default class Header extends React.Component<HeaderProps, HeadState> {
     )
   }
 }
+
+const mapStateToProps = (state: StoreState) => ({
+  boom: state.boom,
+})
+
+export default connect(mapStateToProps)(Header)

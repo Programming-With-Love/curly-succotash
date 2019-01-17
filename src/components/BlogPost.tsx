@@ -32,24 +32,18 @@ class BlogPost extends React.Component<BlogPostProps> {
   }
   render() {
     const { html, headings } = this.props.post
-    const { title, tags, updatedDate, origin } = this.props.post.frontmatter
+    const { title } = this.props.post.frontmatter
     return (
-      <Main
-        extra={
-          <ReactMedia query="(min-width:1240px)">
-            <div className={classes.rightNav}>
-              <Affix>
-                <MarkNav headings={headings} />
-              </Affix>
-            </div>
-          </ReactMedia>
-        }
-      >
+      <Main>
         <div className={classes.post}>
           <Position title={`${title}`} />
 
           <div className={classes.postContent} dangerouslySetInnerHTML={{ __html: html }} />
-
+          <div className={classes.rightNav}>
+            <Affix>
+              <MarkNav headings={headings} />
+            </Affix>
+          </div>
           <div id="comment-container" />
         </div>
       </Main>
