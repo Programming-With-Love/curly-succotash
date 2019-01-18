@@ -3,6 +3,8 @@
   width: 100%;
   overflow: hidden;
   background: $global-background-color;
+  height: $header-height;
+  overflow: hidden;
   .headerBgContainer {
     position: absolute;
     background-repeat: no-repeat;
@@ -12,7 +14,6 @@
     top: 0;
     opacity: 0.3;
     width: 100%;
-    height: $header-height;
     margin: 0;
     padding: 0;
     transition: all 0.3s ease-out;

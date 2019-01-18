@@ -275,6 +275,6 @@ export default class StarCanvas extends React.Component<StarCanvasProps> {
     this.lap.stop()
   }
   render() {
-    return <canvas ref="canvas" />
+    return <canvas ref="canvas" width={this.props.width} height={this.props.height} />
   }
 }
