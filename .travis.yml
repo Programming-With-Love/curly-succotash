@@ -27,5 +27,3 @@ after_script:
 branches:
   only:
     - master
-env:
- global:
