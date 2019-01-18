@@ -24,7 +24,7 @@ export default (props: PostItemProps) => {
       <div className={classes.itemMain}>
         <div className={classes.cover}>
           <Link to={href}>
-            <img src={cover.src} srcSet={cover.srcSet} />
+            <img {...cover} />
           </Link>
         </div>
         <div className={classes.itemElse}>

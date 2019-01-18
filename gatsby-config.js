@@ -28,6 +28,23 @@ module.exports = {
       },
     },
 
+    // This plugin takes your configuration and generates a
+    // web manifest file so your website can be added to your
+    // homescreen on Android.
+    /* eslint-disable camelcase */
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `zido的个人博客`,
+        short_name: `zido的个人博客`,
+        start_url: `/`,
+        background_color: `#f7f7f7`,
+        theme_color: `#101012`,
+        display: `standalone`,
+        icon: `data/avatar.jpg`,
+      },
+    },
+
     // Parse all markdown files (each plugin add/parse some data into graphQL layer)
     {
       resolve: `gatsby-transformer-remark`,
@@ -68,30 +85,19 @@ module.exports = {
 
     // Parse all images files
     `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
+    {
+      resolve: `gatsby-plugin-sharp`,
+      options: {
+        useMozJpeg: false,
+        stripMetadata: true,
+      },
+    },
 
     // Parse JSON files
     `gatsby-transformer-json`,
 
     // Add typescript stack into webpack
     `gatsby-plugin-typescript`,
-
-    // This plugin takes your configuration and generates a
-    // web manifest file so your website can be added to your
-    // homescreen on Android.
-    /* eslint-disable camelcase */
-    {
-      resolve: `gatsby-plugin-manifest`,
-      options: {
-        name: `zido的个人博客`,
-        short_name: `zido的个人博客`,
-        start_url: `/`,
-        background_color: `#f7f7f7`,
-        theme_color: `#101012`,
-        display: `standalone`,
-        icon: `data/avatar.jpg`,
-      },
-    },
 
     // This plugin generates a service worker and AppShell
     // html file so the site works offline and is otherwise
