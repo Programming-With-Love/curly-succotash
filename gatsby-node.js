@@ -105,7 +105,6 @@ exports.createPages = ({ graphql, actions }) => {
           let covers = result.data.allFile.edges.map(edge => edge.node)
           const index = Math.floor(Math.random() * covers.length)
           header = covers[index]
-          console.log('create default header for ' + post.fields.slug)
         }
         let context = {
           slug: post.fields.slug,
