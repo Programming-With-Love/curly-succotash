@@ -26,7 +26,7 @@ export default (props: PostItemProps) => {
           <Link to={href}>
             <StaticQuery
               query={graphql`
-                {
+                query getDefaultHeader {
                   allFile(filter: { absolutePath: { regex: "/headers/" } }) {
                     totalCount
                     edges {
