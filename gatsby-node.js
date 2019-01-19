@@ -155,6 +155,7 @@ exports.createPages = ({ graphql, actions }) => {
           component: slash(templates.blogPage),
           context: {
             skip: index * POSTS_PER_PAGE,
+            headers: indexContext.headers,
           },
         })
       })
