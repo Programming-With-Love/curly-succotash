@@ -3,13 +3,15 @@ import Blog, { IndexProps } from '../containers/BlogContainer'
 import { graphql } from 'gatsby'
 import { WithLayout } from '../containers/LayoutContainer'
 import { HeaderType } from '../contants/header'
-export default (props: IndexProps) => (
-  <WithLayout headerType={HeaderType.AUTHOR_HEADER}>
-    <main>
-      <Blog {...props} />
-    </main>
-  </WithLayout>
-)
+export default (props: IndexProps) => {
+  return (
+    <WithLayout headerType={HeaderType.AUTHOR_HEADER}>
+      <main>
+        <Blog {...props} />
+      </main>
+    </WithLayout>
+  )
+}
 
 export const pageQuery = graphql`
   query PageBlog {
@@ -35,16 +37,6 @@ export const pageQuery = graphql`
             updatedDate(formatString: "YYYY年MM月DD日")
             tags
             origin
-            image {
-              children {
-                ... on ImageSharp {
-                  fixed(width: 680, height: 440) {
-                    src
-                    srcSet
-                  }
-                }
-              }
-            }
           }
         }
       }

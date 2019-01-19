@@ -40,7 +40,7 @@ exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
 
   return new Promise((resolve, reject) => {
-    const templates = ['blogPost', 'tagPage', 'blogPage', 'blogArchives'].reduce((mem, templateName) => {
+    const templates = ['indexPage', 'blogPost', 'tagPage', 'blogPage', 'blogArchives'].reduce((mem, templateName) => {
       return Object.assign({}, mem, { [templateName]: path.resolve(`src/templates/${kebabCase(templateName)}.tsx`) })
     }, {})
 
@@ -57,6 +57,31 @@ exports.createPages = ({ graphql, actions }) => {
                   title
                   tags
                   createdDate(formatString: "YYYY-MM-DD")
+                  image {
+                    children {
+                      ... on ImageSharp {
+                        fixed(width: 680, height: 440) {
+                          src
+                          srcSet
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          allFile(filter: { absolutePath: { regex: "/headers/" } }) {
+            totalCount
+            edges {
+              node {
+                children {
+                  ... on ImageSharp {
+                    fixed(width: 680, height: 440) {
+                      src
+                      srcSet
+                    }
+                  }
                 }
               }
             }
@@ -71,14 +96,33 @@ exports.createPages = ({ graphql, actions }) => {
       // 确认是博文的页面
       const blogPosts = posts.filter(post => post.fields.slug.startsWith('/blog/'))
       // 创建文章页面，所有的markdown文件都会创建，可以通过markdown文件创建其他的静态页面，类似【关于我】页面
+      let indexContext = {
+        headers: {},
+      }
       posts.forEach(post => {
+        let header = post.frontmatter.image
+        if (!header) {
+          let covers = result.data.allFile.edges.map(edge => edge.node)
+          const index = Math.floor(Math.random() * covers.length)
+          header = covers[index]
+          console.log('create default header for ' + post.fields.slug)
+        }
+        let context = {
+          slug: post.fields.slug,
+          header,
+        }
         createPage({
           path: post.fields.slug,
           component: slash(templates.blogPost),
-          context: {
-            slug: post.fields.slug,
-          },
+          context,
         })
+        indexContext.headers[post.fields.slug] = header
+      })
+
+      createPage({
+        path: '/',
+        component: slash(templates.indexPage),
+        context: indexContext,
       })
 
       // Create tags pages

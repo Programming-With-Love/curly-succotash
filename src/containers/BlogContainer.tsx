@@ -14,6 +14,9 @@ export interface IndexProps {
   location: {
     pathname: string
   }
+  pageContext: {
+    headers: any
+  }
 }
 
 const BlogPage = (props: IndexProps) => {
@@ -36,7 +39,7 @@ const BlogPage = (props: IndexProps) => {
             excerpt,
             wordCount,
           } = node
-          const cover = get(frontmatter, 'image.children.0.fixed', {})
+          const cover = props.pageContext.headers[slug].children[0].fixed
           const tags = node.frontmatter.tags
           return (
             <PostItem
