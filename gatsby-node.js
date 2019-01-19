@@ -133,6 +133,7 @@ exports.createPages = ({ graphql, actions }) => {
             component: slash(templates.tagPage),
             context: {
               tag,
+              headers: indexContext.headers,
             },
           })
         })

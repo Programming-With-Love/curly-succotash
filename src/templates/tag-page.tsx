@@ -10,6 +10,7 @@ const TagPage = (
     }
   }
 ) => {
+  console.log(props)
   return (
     <WithLayout
       headerType={HeaderType.POST_HEADER}
