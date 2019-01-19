@@ -1,17 +1,19 @@
 # curly-succotash
 
-一个最新搭建并且将一直保持更新的基于gatsby的静态博客
+一个最新搭建并且将一直保持更新的基于 gatsby 的静态博客
 
 ## 特性
 
-* react/redux/单页面
+- react/redux/单页面
 
-* google/百度搜索统计
+- google/百度搜索统计
 
-* seo优化
+- pwd 离线应用支持
 
-* 美观大方
+- seo 优化
 
-* typescript
+- 美观大方
 
-* 自带辅助工具，用于生成博文/页面等
+- typescript
+
+- 自带辅助工具，用于生成博文/页面等

@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { Link } from 'gatsby'
-import { ImageSharpFixed } from '../graphql-types'
+import { Link, StaticQuery, graphql } from 'gatsby'
+import { ImageSharpFixed, Query, ImageSharp } from '../graphql-types'
 import * as classes from './PostItem.module.scss'
 import TagsCard, { TagsCardProps } from './TagsCard'
 export interface PostItemProps extends TagsCardProps {
@@ -24,7 +24,37 @@ export default (props: PostItemProps) => {
       <div className={classes.itemMain}>
         <div className={classes.cover}>
           <Link to={href}>
-            <img {...cover} />
+            <StaticQuery
+              query={graphql`
+                {
+                  allFile(filter: { absolutePath: { regex: "/headers/" } }) {
+                    totalCount
+                    edges {
+                      node {
+                        children {
+                          ... on ImageSharp {
+                            fixed(width: 680, height: 440) {
+                              src
+                              srcSet
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              `}
+              render={(data: Query) => {
+                if (cover.src) {
+                  return <img {...cover} />
+                } else {
+                  const covers = data.allFile.edges.map(edge => edge.node.children[0] as ImageSharp)
+                  const index = Math.floor(Math.random() * covers.length)
+                  let props = covers[index].fixed
+                  return <img {...props} />
+                }
+              }}
+            />
           </Link>
         </div>
         <div className={classes.itemElse}>
