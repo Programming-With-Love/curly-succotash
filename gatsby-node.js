@@ -31,7 +31,21 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
     createNodeField({ node, name: `slug`, value: slug })
   }
 }
+let indexContext = {
+  headers: {},
+}
 
+exports.onCreatePage = ({ page, actions }) => {
+  const { createPage } = actions
+  console.log(page)
+  createPage({
+    ...page,
+    context: {
+      ...page.context,
+      headers: indexContext.headers,
+    },
+  })
+}
 // Implement the Gatsby API `createPages`.
 // This is called after the Gatsby bootstrap is finished
 // so you have access to any information necessary to
@@ -40,12 +54,9 @@ exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
 
   return new Promise((resolve, reject) => {
-    const templates = ['indexPage', 'draftsPage', 'blogPost', 'tagPage', 'blogPage', 'blogArchives'].reduce(
-      (mem, templateName) => {
-        return Object.assign({}, mem, { [templateName]: path.resolve(`src/templates/${kebabCase(templateName)}.tsx`) })
-      },
-      {}
-    )
+    const templates = ['draftsPage', 'blogPost', 'tagPage', 'blogPage', 'blogArchives'].reduce((mem, templateName) => {
+      return Object.assign({}, mem, { [templateName]: path.resolve(`src/templates/${kebabCase(templateName)}.tsx`) })
+    }, {})
 
     graphql(
       `
@@ -99,9 +110,6 @@ exports.createPages = ({ graphql, actions }) => {
       // 确认是博文的页面
       const blogPosts = posts.filter(post => post.fields.slug.startsWith('/blog/'))
       // 创建文章页面，所有的markdown文件都会创建，可以通过markdown文件创建其他的静态页面，类似【关于我】页面
-      let indexContext = {
-        headers: {},
-      }
       posts.forEach(post => {
         let header = post.frontmatter.image
         if (!header) {
@@ -122,13 +130,7 @@ exports.createPages = ({ graphql, actions }) => {
       })
 
       createPage({
-        path: '/',
-        component: slash(templates.indexPage),
-        context: indexContext,
-      })
-
-      createPage({
-        path: '/drafts',
+        path: '/drafts/',
         component: slash(templates.draftsPage),
         context: indexContext,
       })
@@ -174,7 +176,7 @@ exports.createPages = ({ graphql, actions }) => {
         }
       })
       createPage({
-        path: 'archives',
+        path: '/archives/',
         component: slash(templates.blogArchives),
         context: {
           archives,
