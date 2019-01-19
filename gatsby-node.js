@@ -40,9 +40,12 @@ exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
 
   return new Promise((resolve, reject) => {
-    const templates = ['indexPage', 'blogPost', 'tagPage', 'blogPage', 'blogArchives'].reduce((mem, templateName) => {
-      return Object.assign({}, mem, { [templateName]: path.resolve(`src/templates/${kebabCase(templateName)}.tsx`) })
-    }, {})
+    const templates = ['indexPage', 'draftsPage', 'blogPost', 'tagPage', 'blogPage', 'blogArchives'].reduce(
+      (mem, templateName) => {
+        return Object.assign({}, mem, { [templateName]: path.resolve(`src/templates/${kebabCase(templateName)}.tsx`) })
+      },
+      {}
+    )
 
     graphql(
       `
@@ -121,6 +124,12 @@ exports.createPages = ({ graphql, actions }) => {
       createPage({
         path: '/',
         component: slash(templates.indexPage),
+        context: indexContext,
+      })
+
+      createPage({
+        path: '/drafts',
+        component: slash(templates.draftsPage),
         context: indexContext,
       })
 
