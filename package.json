@@ -57,7 +57,7 @@
     "typography": "^0.16.18",
     "typography-theme-bootstrap": "^0.16.18",
     "typography-theme-funston": "^0.16.18",
-    "z-gitment": "^0.0.5"
+    "z-gitment": "^0.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7",
