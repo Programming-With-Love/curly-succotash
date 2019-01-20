@@ -12,7 +12,7 @@ declare module '*.module.scss' {
 declare module '*.scss'
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 type Subtract<T, K> = Omit<T, keyof K>
-declare module 'gitment' {
+declare module 'z-gitment' {
   export interface GitmentOptions {
     id: string
     owner: string
@@ -21,6 +21,7 @@ declare module 'gitment' {
       client_id: string
       client_secret: string
     }
+    crossServer: string
   }
   export default class Gitment {
     constructor(options?: GitmentOptions)

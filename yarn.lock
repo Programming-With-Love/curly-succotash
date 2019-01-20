@@ -15422,6 +15422,13 @@ yurnalist@^1.0.2:
     semver "^5.1.0"
     strip-bom "^3.0.0"
 
+z-gitment@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/z-gitment/-/z-gitment-0.0.5.tgz#81d24aa1d6d866a52dc8f31df7b060469db66b78"
+  integrity sha512-Ik4hpwyD8lQIfdSgWz14IXq64AwlEYq08b4T/s1VHUDDbdp8rHlIJoR/tyQCw11zu5kAeXLJ4ZE4QrSHmgkLcw==
+  dependencies:
+    mobx "^3.1.7"
+
 zen-observable-ts@^0.8.13:
   version "0.8.13"
   resolved "https://registry.yarnpkg.com/zen-observable-ts/-/zen-observable-ts-0.8.13.tgz#ae1fd77c84ef95510188b1f8bca579d7a5448fc2"
