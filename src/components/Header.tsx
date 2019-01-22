@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { ImageSharp } from '../graphql-types'
-import { Link } from 'gatsby'
+import { ImageSharp, Query } from '../graphql-types'
+import { Link, StaticQuery, graphql } from 'gatsby'
 import * as classes from './Header.module.scss'
 import StarCanvas from './StarCanvas'
 import { HOME_TITLE } from '../contants/layout'
@@ -10,9 +10,14 @@ import OutLink from './base/OutLink'
 import { connect } from 'react-redux'
 import { StoreState } from '../state'
 
+export const menuItems = [
+  { name: '首页', path: '/', Link },
+  { name: '归档', path: '/archives/', Link },
+  { name: '标签', path: '/tags/', Link },
+]
+
 export interface HeaderProps extends React.HTMLProps<HTMLHeadingElement> {
   background?: string | ImageSharp | null
-  menuItems: MenuItem[]
   children: any
   boom: 0 | 1
 }
@@ -56,7 +61,7 @@ export class Header extends React.Component<HeaderProps, HeadState> {
 
   render() {
     const props = this.props
-    const { menuItems, children } = props
+    const { children } = props
     let style
     if (props.background == null) {
       style = {}
@@ -69,21 +74,6 @@ export class Header extends React.Component<HeaderProps, HeadState> {
         backgroundImage: `url(${props.background.fixed.src})`,
       }
     }
-    const items = [
-      ...menuItems,
-      {
-        Link: OutLink,
-        name: 'rss',
-        path: '/rss.xml',
-      },
-    ]
-    if (this.props.boom) {
-      items.splice(0, 0, {
-        Link,
-        name: '草稿箱',
-        path: '/drafts',
-      })
-    }
     return (
       <header
         className={classes.header}
@@ -95,7 +85,41 @@ export class Header extends React.Component<HeaderProps, HeadState> {
         }}
       >
         <WindowEventHandler eventName="resize" callback={this.handleResize} />
-        <Menu items={items} />
+        <StaticQuery
+          query={graphql`
+            {
+              dataJson {
+                menu {
+                  path
+                  name
+                }
+              }
+            }
+          `}
+          render={(data: Query) => {
+            const extraItems = data.dataJson.menu
+            const items = [
+              ...menuItems,
+              ...extraItems.map(item => ({
+                ...item,
+                Link: item.path.startsWith('/') ? Link : OutLink,
+              })),
+              {
+                Link: OutLink,
+                name: 'rss',
+                path: '/rss.xml',
+              },
+            ]
+            if (this.props.boom) {
+              items.splice(0, 0, {
+                Link,
+                name: '草稿箱',
+                path: '/drafts',
+              })
+            }
+            return <Menu items={items} />
+          }}
+        />
 
         <h1 className={classes.headerTitle}>
           <Link to="/">{HOME_TITLE}</Link>

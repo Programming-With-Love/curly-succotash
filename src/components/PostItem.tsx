@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { Link } from 'gatsby'
-import { ImageSharpFixed } from '../graphql-types'
+import { Link, StaticQuery, graphql } from 'gatsby'
+import { ImageSharpFixed, Query, ImageSharp } from '../graphql-types'
 import * as classes from './PostItem.module.scss'
 import TagsCard, { TagsCardProps } from './TagsCard'
 export interface PostItemProps extends TagsCardProps {

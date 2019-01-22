@@ -31,7 +31,20 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
     createNodeField({ node, name: `slug`, value: slug })
   }
 }
+let indexContext = {
+  headers: {},
+}
 
+exports.onCreatePage = ({ page, actions }) => {
+  const { createPage } = actions
+  createPage({
+    ...page,
+    context: {
+      ...page.context,
+      headers: indexContext.headers,
+    },
+  })
+}
 // Implement the Gatsby API `createPages`.
 // This is called after the Gatsby bootstrap is finished
 // so you have access to any information necessary to
@@ -40,7 +53,7 @@ exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
 
   return new Promise((resolve, reject) => {
-    const templates = ['blogPost', 'tagPage', 'blogPage', 'blogArchives'].reduce((mem, templateName) => {
+    const templates = ['draftsPage', 'blogPost', 'tagPage', 'blogPage', 'blogArchives'].reduce((mem, templateName) => {
       return Object.assign({}, mem, { [templateName]: path.resolve(`src/templates/${kebabCase(templateName)}.tsx`) })
     }, {})
 
@@ -57,6 +70,31 @@ exports.createPages = ({ graphql, actions }) => {
                   title
                   tags
                   createdDate(formatString: "YYYY-MM-DD")
+                  image {
+                    children {
+                      ... on ImageSharp {
+                        fixed(width: 680, height: 440) {
+                          src
+                          srcSet
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          allFile(filter: { absolutePath: { regex: "/headers/" } }) {
+            totalCount
+            edges {
+              node {
+                children {
+                  ... on ImageSharp {
+                    fixed(width: 680, height: 440) {
+                      src
+                      srcSet
+                    }
+                  }
                 }
               }
             }
@@ -72,13 +110,28 @@ exports.createPages = ({ graphql, actions }) => {
       const blogPosts = posts.filter(post => post.fields.slug.startsWith('/blog/'))
       // 创建文章页面，所有的markdown文件都会创建，可以通过markdown文件创建其他的静态页面，类似【关于我】页面
       posts.forEach(post => {
+        let header = post.frontmatter.image
+        if (!header) {
+          let covers = result.data.allFile.edges.map(edge => edge.node)
+          const index = Math.floor(Math.random() * covers.length)
+          header = covers[index]
+        }
+        let context = {
+          slug: post.fields.slug,
+          header,
+        }
         createPage({
           path: post.fields.slug,
           component: slash(templates.blogPost),
-          context: {
-            slug: post.fields.slug,
-          },
+          context,
         })
+        indexContext.headers[post.fields.slug] = header
+      })
+
+      createPage({
+        path: '/drafts/',
+        component: slash(templates.draftsPage),
+        context: indexContext,
       })
 
       // Create tags pages
@@ -90,6 +143,7 @@ exports.createPages = ({ graphql, actions }) => {
             component: slash(templates.tagPage),
             context: {
               tag,
+              headers: indexContext.headers,
             },
           })
         })
@@ -102,6 +156,7 @@ exports.createPages = ({ graphql, actions }) => {
           component: slash(templates.blogPage),
           context: {
             skip: index * POSTS_PER_PAGE,
+            headers: indexContext.headers,
           },
         })
       })
@@ -120,7 +175,7 @@ exports.createPages = ({ graphql, actions }) => {
         }
       })
       createPage({
-        path: 'archives',
+        path: '/archives/',
         component: slash(templates.blogArchives),
         context: {
           archives,

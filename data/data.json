@@ -3,20 +3,6 @@
     "name": "zido",
     "avatar": "./avatar.jpg"
   },
-  "pin": [
-    {
-      "name": "github",
-      "url": "https://github.com/zidoshare"
-    },
-    {
-      "name": "email",
-      "url": "mailto:wuhongxu1208@gmail.com"
-    },
-    {
-      "name": "resume",
-      "url": "https://resume.zido.site"
-    }
-  ],
   "speech": ["hello～", "I'm zido,a full stack developer", "welcome to visit my blog!"],
   "gitment": {
     "owner": "zidoshare",
@@ -24,6 +10,17 @@
     "oauth": {
       "client_id": "f281aa0a9b34011c61e0",
       "client_secret": "972ee034a8d90e4e503d9497cfb599f02181740f"
+    },
+    "crossServer": "https://auth.baixiaotu.cc"
+  },
+  "menu": [
+    {
+      "path": "/about",
+      "name": "关于我"
+    },
+    {
+      "path": "http://github.com/zidoshare",
+      "name": "github"
     }
-  }
+  ]
 }

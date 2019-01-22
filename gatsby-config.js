@@ -1,16 +1,64 @@
-module.exports = {
+const config = {
   siteMetadata: {
+    // 博客名
     title: `zido的个人博客`,
+    short_name: `zido的个人博客`,
+    start_url: `/`,
+    icon: `data/avatar.jpg`,
+    //博客简介
     description: `前后端全栈分享，java/js/golang`,
-    googleVerification: `xxx`,
     siteUrl: `https://www.zido.site`,
   },
+  analytics: {
+    google: {
+      trackingId: 'UA-120357572-1',
+    },
+    baidu: {
+      siteId: '4b78d088162a5bab97170b43a565bb06',
+    },
+  },
+}
+
+module.exports = {
+  siteMetadata: config.siteMetadata,
   plugins: [
     `gatsby-plugin-sass`,
     {
       resolve: `gatsby-plugin-typography`,
       options: {
         pathToConfigModule: `src/typography.js`,
+      },
+    },
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: config.analytics.google.trackingId,
+        head: false,
+      },
+    },
+    {
+      resolve: `gatsby-plugin-baidu-analytics`,
+      options: {
+        // baidu analytics siteId
+        siteId: config.analytics.baidu.siteId,
+        // Put analytics script in the head instead of the body [default:false]
+        head: false,
+      },
+    },
+    // This plugin takes your configuration and generates a
+    // web manifest file so your website can be added to your
+    // homescreen on Android.
+    /* eslint-disable camelcase */
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: config.siteMetadata.title,
+        short_name: config.siteMetadata.short_name,
+        start_url: config.siteMetadata.start_url,
+        background_color: `#f7f7f7`,
+        theme_color: `#101012`,
+        display: `standalone`,
+        icon: config.siteMetadata.icon,
       },
     },
     // Expose `/data` to graphQL layer
@@ -21,30 +69,6 @@ module.exports = {
         path: `${__dirname}/data`,
       },
     },
-    {
-      resolve: `gatsby-plugin-google-analytics`,
-      options: {
-        trackingId: 'UA-120357572-1',
-      },
-    },
-
-    // This plugin takes your configuration and generates a
-    // web manifest file so your website can be added to your
-    // homescreen on Android.
-    /* eslint-disable camelcase */
-    {
-      resolve: `gatsby-plugin-manifest`,
-      options: {
-        name: `zido的个人博客`,
-        short_name: `zido的个人博客`,
-        start_url: `/`,
-        background_color: `#f7f7f7`,
-        theme_color: `#101012`,
-        display: `standalone`,
-        icon: `data/avatar.jpg`,
-      },
-    },
-
     // Parse all markdown files (each plugin add/parse some data into graphQL layer)
     {
       resolve: `gatsby-transformer-remark`,
@@ -82,7 +106,6 @@ module.exports = {
         ],
       },
     },
-
     // Parse all images files
     `gatsby-transformer-sharp`,
     {
@@ -92,18 +115,17 @@ module.exports = {
         stripMetadata: true,
       },
     },
-
     // Parse JSON files
     `gatsby-transformer-json`,
-
     // Add typescript stack into webpack
     `gatsby-plugin-typescript`,
-
+    `gatsby-plugin-sitemap`,
     // This plugin generates a service worker and AppShell
     // html file so the site works offline and is otherwise
     // resistant to bad networks. Works with almost any
     // site!
-    `gatsby-plugin-offline`,
+    // `gatsby-plugin-offline`,
+    `gatsby-plugin-remove-serviceworker`,
     {
       resolve: `gatsby-plugin-feed`,
       options: {

@@ -5,7 +5,7 @@ updatedDate: '2018-05-05'
 author: zido
 tags:
   - test
-image: ../2018-05-02--article-1/header.jpg
+# image: ../2018-05-02--article-1/header.jpg
 draft: false
 ---
 

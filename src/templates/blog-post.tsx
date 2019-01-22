@@ -1,38 +1,5 @@
-import * as React from 'react'
-import { LayoutProps } from '../components/Layout'
-import { MarkdownRemark, MarkdownRemarkConnection, Site, DataJson, ImageSharp } from '../graphql-types'
-import { get } from 'lodash'
-import { WithLayout } from '../containers/LayoutContainer'
-import BlogPost from '../components/BlogPost'
 import { graphql } from 'gatsby'
-import { HeaderType } from '../contants/header'
-interface BlogPostProps extends LayoutProps {
-  data: {
-    post: MarkdownRemark
-    recents: MarkdownRemarkConnection
-    site: Site
-    dataJson: DataJson
-  }
-}
-const PostPage = (props: BlogPostProps) => {
-  const { post, dataJson } = props.data
-  const recents = props.data.recents.edges.map(({ node }) => {
-    const recentCover = get(node, 'frontmatter.image.children.0.fixed', {})
-  })
-  const { slug } = post.fields
-  const gitmentOptions = dataJson.gitment
-  return (
-    <WithLayout
-      headerType={HeaderType.POST_HEADER}
-      data={{
-        ...post.frontmatter,
-        image: post.frontmatter.image ? (post.frontmatter.image.children[0] as ImageSharp) : null,
-      }}
-    >
-      <BlogPost slug={slug} commentOptions={gitmentOptions} post={post} />
-    </WithLayout>
-  )
-}
+import PostPage from '../containers/PostContainer'
 
 export default PostPage
 

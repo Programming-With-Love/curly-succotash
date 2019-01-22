@@ -10,7 +10,6 @@ export default (props: IndexProps) => (
     </main>
   </WithLayout>
 )
-
 export const pageQuery = graphql`
   query PageBlog {
     # Get posts
@@ -35,16 +34,6 @@ export const pageQuery = graphql`
             updatedDate(formatString: "YYYY年MM月DD日")
             tags
             origin
-            image {
-              children {
-                ... on ImageSharp {
-                  fixed(width: 680, height: 440) {
-                    src
-                    srcSet
-                  }
-                }
-              }
-            }
           }
         }
       }
