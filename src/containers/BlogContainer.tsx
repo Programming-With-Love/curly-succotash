@@ -29,7 +29,6 @@ const BlogPage = (props: IndexProps) => {
 
     return (
       <div className={classes.indexContent}>
-        <Position />
         <div className={classes.middleLine} />
         {data.posts.edges.map(({ node }: { node: MarkdownRemark }) => {
           const {

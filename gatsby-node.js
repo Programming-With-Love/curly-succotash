@@ -70,6 +70,7 @@ exports.createPages = ({ graphql, actions }) => {
                   title
                   tags
                   createdDate(formatString: "YYYY-MM-DD")
+                  draft
                   image {
                     children {
                       ... on ImageSharp {
@@ -163,6 +164,9 @@ exports.createPages = ({ graphql, actions }) => {
       // Create archives pages
       const archives = []
       blogPosts.forEach(node => {
+        if (node.frontmatter.draft) {
+          return
+        }
         const year = node.frontmatter.createdDate.slice(0, 4)
         const index = findIndex(archives, obj => obj.year === year)
         if (index !== -1) {
