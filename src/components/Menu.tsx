@@ -52,15 +52,13 @@ export default class Menu extends React.Component<MenuProps, { active: boolean }
   render() {
     return (
       <nav className={classes.menu}>
-        <Media query="(min-width:721px)">
-          <ul>
-            {this.props.items.map((item, index) => (
-              <li key={index}>
-                <item.Link to={item.path}>{item.name}</item.Link>
-              </li>
-            ))}
-          </ul>
-        </Media>
+        <ul className={classes.topPosition}>
+          {this.props.items.map((item, index) => (
+            <li key={index}>
+              <item.Link to={item.path}>{item.name}</item.Link>
+            </li>
+          ))}
+        </ul>
         <Media query="(max-width:720px)">
           <div className={classes.fixPosition}>
             <MenuButton active={this.state.active} onClick={this.handleClick} />

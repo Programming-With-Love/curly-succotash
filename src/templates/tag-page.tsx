@@ -3,6 +3,7 @@ import { graphql } from 'gatsby'
 import Blog, { IndexProps } from '../containers/BlogContainer'
 import { WithLayout } from '../containers/LayoutContainer'
 import { HeaderType } from '../contants/header'
+import Position from '../components/base/Position'
 const TagPage = (
   props: IndexProps & {
     pageContext: {
@@ -17,6 +18,7 @@ const TagPage = (
         title: props.pageContext.tag,
       }}
     >
+      <Position title={props.pageContext.tag} />
       <Blog {...props} />
     </WithLayout>
   )

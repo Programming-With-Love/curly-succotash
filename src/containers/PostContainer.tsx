@@ -5,6 +5,7 @@ import { WithLayout } from '../containers/LayoutContainer'
 import BlogPost from '../components/BlogPost'
 import { graphql, StaticQuery } from 'gatsby'
 import { HeaderType } from '../contants/header'
+import Position from '../components/base/Position'
 interface BlogPostProps extends LayoutProps {
   data: {
     post: MarkdownRemark

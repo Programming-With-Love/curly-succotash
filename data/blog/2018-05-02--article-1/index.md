@@ -6,7 +6,8 @@ author: zido
 tags:
   - test
 image: header.jpg
-draft: false
+draft: true
+origin: true
 ---
 
 # 标题1

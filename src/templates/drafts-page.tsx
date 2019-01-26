@@ -3,8 +3,10 @@ import Blog, { IndexProps } from '../containers/BlogContainer'
 import { graphql } from 'gatsby'
 import { WithLayout } from '../containers/LayoutContainer'
 import { HeaderType } from '../contants/header'
+import Position from '../components/base/Position'
 export default (props: IndexProps) => (
   <WithLayout headerType={HeaderType.AUTHOR_HEADER}>
+    <Position title="草稿箱" />
     <main>
       <Blog {...props} />
     </main>

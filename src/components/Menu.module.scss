@@ -35,6 +35,11 @@
   bottom: 20px;
   z-index: 1003;
 }
+@media screen and (max-width: 721px) {
+  .topPosition {
+    visibility: hidden;
+  }
+}
 .menuBtnContainer {
   width: 56px;
   height: 56px;

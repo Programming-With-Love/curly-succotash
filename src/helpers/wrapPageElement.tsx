@@ -5,7 +5,6 @@ import { timeout } from '../contants/transition'
 import 'animate.css/source/fading_entrances/fadeInLeft.css'
 import 'animate.css/source/fading_exits/fadeOutRight.css'
 import './transition.scss'
-import Media from 'react-media'
 export default ({ element, props }: any) => {
   return (
     <ConnectedLayout {...props}>

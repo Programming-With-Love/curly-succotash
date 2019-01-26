@@ -12,5 +12,15 @@
       "client_secret": "972ee034a8d90e4e503d9497cfb599f02181740f"
     },
     "crossServer": "https://auth.baixiaotu.cc"
-  }
+  },
+  "menu": [
+    {
+      "path": "/about",
+      "name": "关于我"
+    },
+    {
+      "path": "http://github.com/zidoshare",
+      "name": "github"
+    }
+  ]
 }

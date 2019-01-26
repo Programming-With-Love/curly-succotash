@@ -73,6 +73,11 @@
     text-decoration: 'none';
   }
 }
+@media screen and (min-width: 1240px) {
+  .cover {
+    height: 470px;
+  }
+}
 .cover {
   display: inline-block;
   overflow: hidden;

@@ -4,6 +4,8 @@
     display: block;
     text-decoration: inherit;
     transition: all 0.2s;
+    padding-top: 2px;
+    padding-bottom: 2px;
     &.active {
       color: #007fff;
       border-left: 2px solid #007fff;

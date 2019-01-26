@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Link } from 'gatsby'
 import { get } from 'lodash'
 import PostItem from '../components/PostItem'
-import { MarkdownRemark, MarkdownRemarkConnection, Site, DataJson, ImageSharp } from '../graphql-types'
+import { MarkdownRemark, MarkdownRemarkConnection } from '../graphql-types'
 import * as classes from './blog.module.scss'
 import Position from '../components/base/Position'
 import BlogPagination from '../components/Pagination'
@@ -29,9 +29,8 @@ const BlogPage = (props: IndexProps) => {
 
     return (
       <div className={classes.indexContent}>
-        <Position />
         <div className={classes.middleLine} />
-        {data.posts.edges.map(({ node }: { node: MarkdownRemark }, index: number) => {
+        {data.posts.edges.map(({ node }: { node: MarkdownRemark }) => {
           const {
             frontmatter,
             timeToRead,
