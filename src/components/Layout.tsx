@@ -29,6 +29,13 @@ export default class Layout extends React.Component<Readonly<LayoutProps>> {
     let inner
     let headerExtraProps
     const { headerType } = this.props
+
+    if (this.props.location.pathname == '/blog/2018-04-18--welcoming/') {
+      console.log('\n-----------render header ' + this.props.location.pathname + '--------')
+      console.log(this.props.headerType)
+      console.log(this.props.innerProps)
+      console.log('===============================')
+    }
     switch (headerType) {
       case HeaderType.NO_HEADER_INNER:
         inner = null

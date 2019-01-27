@@ -1,12 +1,11 @@
 import * as React from 'react'
 import { LayoutProps } from '../components/Layout'
 import { MarkdownRemark, MarkdownRemarkConnection, Site, DataJson, ImageSharp, Query } from '../graphql-types'
-import { WithLayout } from '../containers/LayoutContainer'
+import { mapDispatchToProps, HeaderDisptacherProps, WithLayout } from './LayoutContainer'
 import BlogPost from '../components/BlogPost'
-import { graphql, StaticQuery } from 'gatsby'
 import { HeaderType } from '../contants/header'
-import Position from '../components/base/Position'
-interface BlogPostProps extends LayoutProps {
+import { connect } from 'react-redux'
+interface BlogPostProps extends LayoutProps, HeaderDisptacherProps {
   data: {
     post: MarkdownRemark
     recents: MarkdownRemarkConnection
@@ -17,7 +16,20 @@ interface BlogPostProps extends LayoutProps {
     header: ImageSharp
   }
 }
-const PostPage = (props: BlogPostProps) => {
+
+// class PostPage extends React.Component<BlogPostProps> {
+//   constructor(props: BlogPostProps) {
+//     super(props)
+//     const { post } = this.props.data
+//     this.props.showHeader(HeaderType.POST_HEADER, {
+//       ...post.frontmatter,
+//       image: this.props.pageContext.header.children[0] as ImageSharp,
+//     })
+//   }
+//   render() {}
+// }
+
+export default (props: BlogPostProps) => {
   const { post, dataJson } = props.data
   const { slug } = post.fields
   const gitmentOptions = dataJson.gitment
@@ -28,10 +40,9 @@ const PostPage = (props: BlogPostProps) => {
         ...post.frontmatter,
         image: props.pageContext.header.children[0] as ImageSharp,
       }}
+      location={props.location}
     >
       <BlogPost slug={slug} commentOptions={gitmentOptions} post={post} />
     </WithLayout>
   )
 }
-
-export default PostPage

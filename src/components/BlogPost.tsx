@@ -43,6 +43,7 @@ class BlogPost extends React.Component<BlogPostProps> {
             </Affix>
           </div>
           <div id="comment-container" />
+          {this.props.children}
         </div>
       </Main>
     )
