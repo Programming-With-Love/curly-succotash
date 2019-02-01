@@ -40,7 +40,6 @@ export default (props: BlogPostProps) => {
         ...post.frontmatter,
         image: props.pageContext.header.children[0] as ImageSharp,
       }}
-      location={props.location}
     >
       <BlogPost slug={slug} commentOptions={gitmentOptions} post={post} />
     </WithLayout>
