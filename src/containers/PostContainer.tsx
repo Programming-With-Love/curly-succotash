@@ -17,18 +17,6 @@ interface BlogPostProps extends LayoutProps, HeaderDisptacherProps {
   }
 }
 
-// class PostPage extends React.Component<BlogPostProps> {
-//   constructor(props: BlogPostProps) {
-//     super(props)
-//     const { post } = this.props.data
-//     this.props.showHeader(HeaderType.POST_HEADER, {
-//       ...post.frontmatter,
-//       image: this.props.pageContext.header.children[0] as ImageSharp,
-//     })
-//   }
-//   render() {}
-// }
-
 export default (props: BlogPostProps) => {
   const { post, dataJson } = props.data
   const { slug } = post.fields
