@@ -10,7 +10,7 @@ declare module '*.module.scss' {
 }
 
 declare module '*.scss'
-type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
+// type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 type Subtract<T, K> = Omit<T, keyof K>
 declare module 'z-gitment' {
   export interface GitmentOptions {
