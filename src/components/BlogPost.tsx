@@ -37,11 +37,13 @@ class BlogPost extends React.Component<BlogPostProps> {
         <div className={classes.post}>
           <Position title={`${title}`} />
           <div className={classes.postContent} dangerouslySetInnerHTML={{ __html: html }} />
-          <div className={classes.rightNav}>
-            <Affix>
-              <MarkNav headings={headings} />
-            </Affix>
-          </div>
+          {
+            headings.length > 0 ? <div className={classes.rightNav}>
+              <Affix>
+                <MarkNav headings={headings} />
+              </Affix>
+            </div> : null
+          }
           <div id="comment-container" />
           {this.props.children}
         </div>
