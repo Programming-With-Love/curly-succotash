@@ -8,11 +8,12 @@ export const pageQuery = graphql`
     dataJson {
       gitment {
         owner
+        admin
         repo
-        oauth {
-          client_id
-          client_secret
-        }
+        client_id
+        client_secret
+        createIssueManually
+        proxy
       }
     }
     post: markdownRemark(fields: { slug: { eq: $slug } }) {

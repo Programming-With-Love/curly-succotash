@@ -1,7 +1,8 @@
 import * as React from 'react'
 import 'gitalk/dist/gitalk.css'
 import loadable from '@loadable/component'
-import { gitment_2, MarkdownRemark } from '../graphql-types'
+// import from 'gitalk/dist/gitalk-component'
+import { DataJsonGitment, MarkdownRemark } from '../graphql-types'
 import * as classes from './BlogPost.module.scss'
 import Affix from './base/Affix'
 import MarkNav from './MarkNav'
@@ -10,7 +11,7 @@ import Main from './Main'
 const GitalkComponent = loadable(() => import('gitalk/dist/gitalk-component'))
 export interface BlogPostProps {
   slug: string
-  commentOptions: gitment_2
+  commentOptions: DataJsonGitment
   post: MarkdownRemark
 }
 
@@ -39,13 +40,13 @@ class BlogPost extends React.Component<BlogPostProps> {
             </div> : null
           }
           <GitalkComponent
-            clientID={this.props.commentOptions.oauth.client_id}
-            clientSecret={this.props.commentOptions.oauth.client_secret}
-            repo={this.props.commentOptions.repo}
-            owner={this.props.commentOptions.owner}
-            admin={this.props.commentOptions.owner}
-            id={this.props.slug}
-            proxy={this.props.commentOptions.crossServer}
+            options={{
+              ...this.props.commentOptions,
+              id: this.props.slug,
+              clientID: this.props.commentOptions.client_id,
+              clientSecret: this.props.commentOptions.client_secret,
+              title,
+            }}
           />
           {this.props.children}
         </div>
