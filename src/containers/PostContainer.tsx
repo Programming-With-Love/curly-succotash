@@ -20,6 +20,7 @@ interface BlogPostProps extends LayoutProps, HeaderDisptacherProps {
 export default (props: BlogPostProps) => {
   const { post, dataJson } = props.data
   const { slug } = post.fields
+  console.log(slug)
   const gitmentOptions = dataJson.gitment
   return (
     <WithLayout

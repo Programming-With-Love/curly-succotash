@@ -1,5 +1,6 @@
 import * as React from 'react'
-import Gitment from 'z-gitment'
+import GitalkComponent from "gitalk/dist/gitalk-component";
+import 'gitalk/dist/gitalk.css'
 import 'gitment/style/default.css'
 import { gitment_2, MarkdownRemark } from '../graphql-types'
 import * as classes from './BlogPost.module.scss'
@@ -16,13 +17,6 @@ export interface BlogPostProps {
 class BlogPost extends React.Component<BlogPostProps> {
   div: HTMLDivElement = null
   componentDidMount() {
-    this.div = document.createElement('div')
-    let gitment = new Gitment({
-      id: this.props.slug,
-      ...this.props.commentOptions,
-    })
-    gitment.render(this.div)
-    document.getElementById('comment-container').replaceWith(this.div)
   }
   componentWillUnmount() {
     if (this.div) {
@@ -44,7 +38,15 @@ class BlogPost extends React.Component<BlogPostProps> {
               </Affix>
             </div> : null
           }
-          <div id="comment-container" />
+          <GitalkComponent
+            clientID={this.props.commentOptions.oauth.client_id}
+            clientSecret={this.props.commentOptions.oauth.client_secret}
+            repo={this.props.commentOptions.repo}
+            owner={this.props.commentOptions.owner}
+            admin={this.props.commentOptions.owner}
+            id={this.props.slug}
+            proxy={this.props.commentOptions.crossServer}
+          />
           {this.props.children}
         </div>
       </Main>
