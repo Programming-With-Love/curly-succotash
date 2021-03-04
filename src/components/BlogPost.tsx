@@ -1,13 +1,13 @@
 import * as React from 'react'
-import GitalkComponent from "gitalk/dist/gitalk-component";
 import 'gitalk/dist/gitalk.css'
-import 'gitment/style/default.css'
+import loadable from '@loadable/component'
 import { gitment_2, MarkdownRemark } from '../graphql-types'
 import * as classes from './BlogPost.module.scss'
 import Affix from './base/Affix'
 import MarkNav from './MarkNav'
 import Position from './base/Position'
 import Main from './Main'
+const GitalkComponent = loadable(() => import('gitalk/dist/gitalk-component'))
 export interface BlogPostProps {
   slug: string
   commentOptions: gitment_2

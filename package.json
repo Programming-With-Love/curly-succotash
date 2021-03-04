@@ -65,7 +65,6 @@
     "gatsby-transformer-remark": "^2.1.17",
     "gatsby-transformer-sharp": "^2.1.9",
     "github-slugger": "^1.2.0",
-    "gitment": "^0.0.3",
     "graphql-code-generator": "^0.5.2",
     "ityped": "^1.0.3",
     "jest": "^23.6.0",
@@ -88,10 +87,10 @@
     "typography": "^0.16.18",
     "typography-theme-bootstrap": "^0.16.18",
     "typography-theme-funston": "^0.16.18",
-    "webpack": "^4.28.0",
-    "z-gitment": "^0.0.6"
+    "webpack": "^4.28.0"
   },
   "dependencies": {
+    "@loadable/component": "^5.14.1",
     "gitalk": "^1.7.2"
   }
 }
