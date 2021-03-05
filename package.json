@@ -70,7 +70,7 @@
     "gatsby-transformer-remark": "^2.1.17",
     "gatsby-transformer-sharp": "^2.1.9",
     "github-slugger": "^1.2.0",
-    "graphql-code-generator": "^0.5.2",
+    "graphql-code-generator": "^0.18.2",
     "ityped": "^1.0.3",
     "jest": "^23.6.0",
     "lodash": "^4.17.11",
