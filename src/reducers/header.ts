@@ -8,9 +8,6 @@ const initialState: HeaderState = {
 }
 
 export default (state = initialState, action: HeaderAction) => {
-  console.log('\n---------------reduce-------------')
-  console.log(state)
-  console.log(action)
   switch (action.type) {
     case TYPE_HEADER_INNER:
       return {
