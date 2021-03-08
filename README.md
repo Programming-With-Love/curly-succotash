@@ -2,7 +2,6 @@
 
 一个最新搭建并且将一直保持更新的基于 gatsby 的静态博客。
 
-- [Demo](https://curly.zido.site/)
 - [zido 的个人博客](https://www.zido.site)
 
 ## 特性
@@ -20,6 +19,11 @@
 - 自带辅助工具，用于生成博文
 
 - travis 自动集成，自动部署博客
+
+## 截图
+
+![截图](./www.zido.site_.png)
+
 
 ## 注意
 
