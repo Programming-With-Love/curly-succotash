@@ -71,7 +71,7 @@ export default class Layout extends React.Component<Readonly<LayoutProps>> {
           </Header>
 
           {/* 内容 */}
-          <div className={classes.clear}>{this.props.children}</div>
+          <div>{this.props.children}</div>
         </div>
         {/* 页尾 */}
         <Footer />

@@ -31,7 +31,7 @@ class BlogPost extends React.Component<BlogPostProps> {
       <Main>
         <div className={classes.post}>
           <Position title={`${title}`} />
-          <div className={classes.postContent} dangerouslySetInnerHTML={{ __html: html }} />
+          <div dangerouslySetInnerHTML={{ __html: html }} />
           {
             headings.length > 0 ? <div className={classes.rightNav}>
               <Affix>
