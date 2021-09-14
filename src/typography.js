@@ -1,5 +1,5 @@
 import Typography from 'typography'
-import bootstrapTheme from 'typography-theme-bootstrap'
-const typography = new Typography(bootstrapTheme)
+import theme from 'typography-theme-alton'
+const typography = new Typography(theme)
 
 export default typography

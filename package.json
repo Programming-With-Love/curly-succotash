@@ -90,9 +90,9 @@
     "ts-lint": "^4.5.1",
     "typescript": "^4.2.3",
     "typography": "^0.16.18",
-    "typography-theme-bootstrap": "^0.16.18",
     "typography-theme-funston": "^0.16.18",
-    "webpack": "^5.24.3"
+    "webpack": "^5.24.3",
+    "typography-theme-alton": "^0.16.18"
   },
   "dependencies": {
     "@loadable/component": "^5.14.1",
