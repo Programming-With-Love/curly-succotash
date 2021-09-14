@@ -30,6 +30,16 @@ module.exports = {
       },
     },
     {
+      resolve: `gatsby-plugin-graphql-codegen`,
+      options: {
+        fileName: `./src/graphql-types.d.ts`,
+        documentPaths: [
+          './src/**/*.{ts,tsx}',
+          './node_modules/gatsby*/!(node_modules)/**/*.js',
+        ],
+      }
+    },
+    {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
         trackingId: config.analytics.google.trackingId,
@@ -69,6 +79,8 @@ module.exports = {
         path: `${__dirname}/data`,
       },
     },
+    `gatsby-remark-images`,
+    `gatsby-plugin-sharp`,
     // Parse all markdown files (each plugin add/parse some data into graphQL layer)
     {
       resolve: `gatsby-transformer-remark`,
@@ -115,6 +127,7 @@ module.exports = {
         stripMetadata: true,
       },
     },
+    `gatsby-plugin-gitalk`,
     // Parse JSON files
     `gatsby-transformer-json`,
     // Add typescript stack into webpack
@@ -124,7 +137,7 @@ module.exports = {
     // html file so the site works offline and is otherwise
     // resistant to bad networks. Works with almost any
     // site!
-    // `gatsby-plugin-offline`,
+    `gatsby-plugin-offline`,
     `gatsby-plugin-remove-serviceworker`,
     {
       resolve: `gatsby-plugin-feed`,
@@ -142,8 +155,8 @@ module.exports = {
         `,
         feeds: [
           {
-            serialize: ({ query: { site, allMarkdownRemark } }) => {
-              return allMarkdownRemark.edges.map(edge => {
+            serialize: ({ query: { site, allMdx } }) => {
+              return allMdx.edges.map(edge => {
                 return Object.assign({}, edge.node.frontmatter, {
                   description: edge.node.excerpt,
                   date: edge.node.frontmatter.createdDate,
@@ -154,7 +167,7 @@ module.exports = {
             },
             query: `
               {
-                allMarkdownRemark(
+                allMdx(
                   limit: 1000,
                   sort: { order: DESC, fields: [frontmatter___updatedDate] },
                   filter: {frontmatter: { draft: { ne: true } }}

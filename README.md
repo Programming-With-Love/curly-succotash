@@ -22,7 +22,9 @@
 
 ## 截图
 
-![截图](./www.zido.site_.png)
+![截图](./docs/demo1.png)
+![截图](./docs/demo2.png)
+![截图](./docs/demo3.png)
 
 
 ## 注意
