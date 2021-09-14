@@ -205,83 +205,40 @@ github oauth 需要跨域连接，但静态页面无法配置跨域，所以需�
 
 ### 部署博客
 
-请务必确保当前分支**不在master**上
+请务必确保当前分支**不在gh-pages**上
 
-#### 使用项目自带travis自动集成
+#### 使用项目自带 github action 自动集成
 
-> 请务必确认travis配置文件是否正确编写
+> 请务必确认`./github/workflows/deploy.yml`配置文件是否正确编写
 
 项目默认使用build分支作为构建分支,此分支专门用于在dev分支上编写完相关博文或配置时，提交给build分支，以让travis进行自动集成。
 
 自动集成博客流程：
 
 ```
-dev分支编写项目->提交到dev分支，做为存档
- |
- |
- 提交到build分支->travis捕捉到提交->自动构建并部署到master分支。
+编写项目-> github action 捕捉到提交->自动构建并部署到gh-pages分支。
 ```
 
-当然你可以显式的修改travis配置文件，以让它能够适应你的部署方式。
+当然你可以显式的修改配置文件，以让它能够适应你的部署方式。
 
-##### 配置travis
+##### 配置github action
 
-进入[travis官方网站](travis-ci.org)。注册并登陆。进入[账户设置页面](https://travis-ci.org/account/repositories)。同步你的博客项目（打开开关），点击`settings`。
-找到**Environment Variables**项。添加环境参数如下（值为我的配置示例）：
+本地 bash 执行 `ssh-keygen -t rsa -b 4096 -C example@gmail.com` 
+> 确定一下，改为你自己的邮箱。 另外 windows 上可以使用 `git-bash` 执行此命令
 
+接下来别急按回车：
+```shell
+Enter file in which to save the key:
 ```
+在这里填入任何一个名字，比如我这里填写的 `curly_deploy_token`。之后一直回车到结束。
 
-GH_REF  （仓库地址）：github.com/zidoshare/zidoshare.github.io
- 
-GH_TOKEN （github token）: ••••••••••••••••
- 
-P_BRANCH  (github静态服务分支，推荐为master， 你也可以设置为gh-pages。那么上面的关于gh-pages的设置也需要修改为gh-pages)：master
- 
-U_EMAIL (个人邮箱):wuhongxu1208@gmail.com
- 
-U_NAME  (用户名):zidoshare
+* `cat curly_deploy_token.pub` 将输出的内容复制出来添加到你仓库设置下的`Deploy keys`里。
+* `cat curly_deploy_token` 将输出的内容复制出来添加到你仓库设置下的`Secrets`中。
 
-```
-
-关于token获取：
-
-登陆并进入[github](https://github.com),进入settings->Developer settins->Personal access tokens（[传送门](https://github.com/settings/tokens)）,点击`generate new token`。输入密码，至于权限设置，看个人，避免麻烦，可以把除`delete_repo`的选项全部勾上，设置名字，生成，便能够得到token。复制下来，填写到上面的`GH_TOKEN`的值中即可。
-
-通过以上步骤就完成了travis自动集成。
-
-修改完配置之后，提交代码到`build`分支即可。
-
-以下为一般情况下的提交命令：
-
-```
-
-git add .
-git commit -m "update project"
-git push
-git push origin dev:build
-
-```
-
-你可以在travis中将
-```
-  - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" build:${P_BRANCH}
-branches:
-  only:
-    - build
-```
-修改为：
-
-```
-  - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" dev:${P_BRANCH}
-branches:
-  only:
-    - dev
-```
-
-这样设置之后，就无需`git push origin dev:build`命令。便能够直接集成
+这样设置之后，你在dev分支，直接提交代码就能实现自动部署。
 
 提交之后喝杯咖啡，等待travis自动构建完成。
 
 #### 自行构建集成说明
 
-不推荐自动构建集成。所以也就不提供完整的步骤，只做简单说明：运行`npm run build`等待构建,`public/`为构建出来的包,将public提交到静态服务分支即可。
+不推荐自行构建集成。所以也就不提供完整的步骤，只做简单说明：运行`npm run build`等待构建,`public/`为构建出来的包,将public提交到静态服务分支即可。
