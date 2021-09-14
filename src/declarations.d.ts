@@ -26,3 +26,4 @@ declare module 'ityped' {
 
   export function init(element: Element, config: Configuration): void
 }
+declare module 'gatsby-plugin-gitalk'
