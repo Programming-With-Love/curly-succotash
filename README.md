@@ -2,6 +2,7 @@
 
 一个最新搭建并且将一直保持更新的基于 gatsby 的静态博客。
 
+- [示例博客](https://curly.zido.site)
 - [zido 的个人博客](https://www.zido.site)
 
 ## 特性
