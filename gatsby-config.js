@@ -137,7 +137,6 @@ module.exports = {
         stripMetadata: true,
       },
     },
-    `gatsby-plugin-gitalk`,
     // Parse JSON files
     `gatsby-transformer-json`,
     // Add typescript stack into webpack

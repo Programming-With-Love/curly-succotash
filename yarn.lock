@@ -2934,10 +2934,10 @@
     "@babel/runtime" "^7.7.2"
     regenerator-runtime "^0.13.3"
 
-"@loadable/component@^5.14.1":
-  version "5.14.1"
-  resolved "https://registry.yarnpkg.com/@loadable/component/-/component-5.14.1.tgz#cacd807162430bb85ae085945318027a600adc85"
-  integrity sha512-UQBZfZrp1FLTf8RNhljXNHFNY4QhAA1L2+GOEeABBFre9TD0aFyQh3Sai5QxcOfy+FTbjIfti5iHaNRR7yUzEQ==
+"@loadable/component@^5.15.0":
+  version "5.15.0"
+  resolved "https://registry.yarnpkg.com/@loadable/component/-/component-5.15.0.tgz#48b9524237be553f48b158f8c9152593f3f3fded"
+  integrity sha512-g63rQzypPOZi0BeGsK4ST2MYhsFR+i7bhL8k/McUoWDNMDuTTdUlQ2GACKxqh5sI/dNC/6nVoPrycMnSylnAgQ==
   dependencies:
     "@babel/runtime" "^7.7.7"
     hoist-non-react-statics "^3.3.1"
@@ -3054,21 +3054,6 @@
   integrity sha512-MZPUxrmFubI36XS1DI3qmI0YdN1gks62JtFZvxR67ljjSNCeK6U08Zx4msEWOXuofgqUt6zPHSi1H9fbjR/NRA==
   dependencies:
     "@sinonjs/commons" "^1.7.0"
-
-"@suziwen/gitalk@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@suziwen/gitalk/-/gitalk-2.0.2.tgz#d9ef24de2fed84ec4aa5b182b066081081ca448e"
-  integrity sha512-GrnX0eSAPmj/sQ+T5E8a1I3LhmOtApJm9hX87FORbhgRBQmHjU6CvL6YAgCESx5Y4rpIdMO9a/5f+Lt5ktOuqA==
-  dependencies:
-    autosize "3.0.21"
-    axios "0.19.2"
-    date-fns "1.28.5"
-    es6-promise "4.1.1"
-    github-markdown-css "2.8.0"
-    node-polyglot "2.2.2"
-    preact "8.1.0"
-    preact-compat "3.16.0"
-    react-flip-move "2.9.14"
 
 "@szmarczak/http-timer@^1.1.2":
   version "1.1.2"
@@ -6389,11 +6374,6 @@ dataloader@2.0.0:
   resolved "https://registry.yarnpkg.com/dataloader/-/dataloader-2.0.0.tgz#41eaf123db115987e21ca93c005cd7753c55fe6f"
   integrity sha512-YzhyDAwA4TaQIhM5go+vCLmU0UikghC/t9DTQYZR2M/UvZ1MdOhPezSDZcjj9uqQJOMqjLcpWtyW2iNINdlatQ==
 
-date-fns@1.28.5:
-  version "1.28.5"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.28.5.tgz#257cfc45d322df45ef5658665967ee841cd73faf"
-  integrity sha1-JXz8RdMi30XvVlhmWWfuhBzXP68=
-
 date-fns@2.16.1:
   version "2.16.1"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.16.1.tgz#05775792c3f3331da812af253e1a935851d3834b"
@@ -8356,13 +8336,6 @@ gatsby-plugin-feed@^3.0.0:
     gatsby-plugin-utils "^1.0.0"
     lodash.merge "^4.6.2"
     rss "^1.2.2"
-
-gatsby-plugin-gitalk@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-gitalk/-/gatsby-plugin-gitalk-1.2.2.tgz#9227281221723f10c6ecdce8e9de6f3d939f6a84"
-  integrity sha512-Hdhizayu9NvmHLf4TAGRWIyISQw3g38N1eeOX3Cn6pVfPXXrm/XTDY7SC957+CEBip4kP/Rx+k8UaLxtbHPuDg==
-  dependencies:
-    "@suziwen/gitalk" "^2.0.2"
 
 gatsby-plugin-google-analytics@^3.0.0:
   version "3.0.0"
