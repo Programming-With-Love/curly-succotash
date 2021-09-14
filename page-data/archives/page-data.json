@@ -1,0 +1,5 @@
+{
+    "componentChunkName": "component---src-templates-blog-archives-tsx",
+    "path": "/archives/",
+    "result": {"pageContext":{"archives":[{"year":"2018","posts":[{"fields":{"slug":"/blog/2018-05-02--article-2/"},"frontmatter":{"title":"Article #2","tags":["test"],"createdDate":"2018-05-02","draft":false,"image":null}},{"fields":{"slug":"/blog/2018-04-18--welcoming/"},"frontmatter":{"title":"Welcoming","tags":["first","welcome"],"createdDate":"2018-04-18","draft":false,"image":{"children":[{"fixed":{"src":"/static/a66c4cc4c977995178194d919a6a9208/d58d6/UKSomerset_ZH-CN2587621995_1920x1080.jpg","srcSet":"/static/a66c4cc4c977995178194d919a6a9208/d58d6/UKSomerset_ZH-CN2587621995_1920x1080.jpg 1x,\n/static/a66c4cc4c977995178194d919a6a9208/b8c2c/UKSomerset_ZH-CN2587621995_1920x1080.jpg 1.5x,\n/static/a66c4cc4c977995178194d919a6a9208/e666e/UKSomerset_ZH-CN2587621995_1920x1080.jpg 2x"}}]}}}]}],"totalCount":3}},
+    "staticQueryHashes": ["1477475695","2262530737","2633976633","3827715964","4200159957"]}
