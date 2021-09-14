@@ -805,28 +805,10 @@ export type SitePlugin = Node & {
 
 export type SitePluginPluginOptions = {
   plugins?: Maybe<Array<Maybe<SitePluginPluginOptionsPlugins>>>;
-  pathToConfigModule?: Maybe<Scalars['String']>;
   fileName?: Maybe<Scalars['String']>;
   documentPaths?: Maybe<Array<Maybe<Scalars['String']>>>;
-  trackingId?: Maybe<Scalars['String']>;
-  head?: Maybe<Scalars['Boolean']>;
-  anonymize?: Maybe<Scalars['Boolean']>;
-  respectDNT?: Maybe<Scalars['Boolean']>;
-  pageTransitionDelay?: Maybe<Scalars['Int']>;
-  siteId?: Maybe<Scalars['String']>;
+  pathToConfigModule?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
-  short_name?: Maybe<Scalars['String']>;
-  start_url?: Maybe<Scalars['String']>;
-  background_color?: Maybe<Scalars['String']>;
-  theme_color?: Maybe<Scalars['String']>;
-  display?: Maybe<Scalars['String']>;
-  icon?: Maybe<Scalars['String']>;
-  legacy?: Maybe<Scalars['Boolean']>;
-  theme_color_in_head?: Maybe<Scalars['Boolean']>;
-  cache_busting_mode?: Maybe<Scalars['String']>;
-  crossOrigin?: Maybe<Scalars['String']>;
-  include_favicon?: Maybe<Scalars['Boolean']>;
-  cacheDigest?: Maybe<Scalars['String']>;
   path?: Maybe<Scalars['String']>;
   maxWidth?: Maybe<Scalars['Int']>;
   linkImagesToOriginal?: Maybe<Scalars['Boolean']>;
@@ -854,8 +836,6 @@ export type SitePluginPluginOptions = {
   isTSX?: Maybe<Scalars['Boolean']>;
   jsxPragma?: Maybe<Scalars['String']>;
   allExtensions?: Maybe<Scalars['Boolean']>;
-  output?: Maybe<Scalars['String']>;
-  createLinkInHead?: Maybe<Scalars['Boolean']>;
   query?: Maybe<Scalars['String']>;
   feeds?: Maybe<Array<Maybe<SitePluginPluginOptionsFeeds>>>;
   pathCheck?: Maybe<Scalars['Boolean']>;
@@ -3027,28 +3007,10 @@ export type SitePluginFilterInput = {
 
 export type SitePluginPluginOptionsFilterInput = {
   plugins?: Maybe<SitePluginPluginOptionsPluginsFilterListInput>;
-  pathToConfigModule?: Maybe<StringQueryOperatorInput>;
   fileName?: Maybe<StringQueryOperatorInput>;
   documentPaths?: Maybe<StringQueryOperatorInput>;
-  trackingId?: Maybe<StringQueryOperatorInput>;
-  head?: Maybe<BooleanQueryOperatorInput>;
-  anonymize?: Maybe<BooleanQueryOperatorInput>;
-  respectDNT?: Maybe<BooleanQueryOperatorInput>;
-  pageTransitionDelay?: Maybe<IntQueryOperatorInput>;
-  siteId?: Maybe<StringQueryOperatorInput>;
+  pathToConfigModule?: Maybe<StringQueryOperatorInput>;
   name?: Maybe<StringQueryOperatorInput>;
-  short_name?: Maybe<StringQueryOperatorInput>;
-  start_url?: Maybe<StringQueryOperatorInput>;
-  background_color?: Maybe<StringQueryOperatorInput>;
-  theme_color?: Maybe<StringQueryOperatorInput>;
-  display?: Maybe<StringQueryOperatorInput>;
-  icon?: Maybe<StringQueryOperatorInput>;
-  legacy?: Maybe<BooleanQueryOperatorInput>;
-  theme_color_in_head?: Maybe<BooleanQueryOperatorInput>;
-  cache_busting_mode?: Maybe<StringQueryOperatorInput>;
-  crossOrigin?: Maybe<StringQueryOperatorInput>;
-  include_favicon?: Maybe<BooleanQueryOperatorInput>;
-  cacheDigest?: Maybe<StringQueryOperatorInput>;
   path?: Maybe<StringQueryOperatorInput>;
   maxWidth?: Maybe<IntQueryOperatorInput>;
   linkImagesToOriginal?: Maybe<BooleanQueryOperatorInput>;
@@ -3076,8 +3038,6 @@ export type SitePluginPluginOptionsFilterInput = {
   isTSX?: Maybe<BooleanQueryOperatorInput>;
   jsxPragma?: Maybe<StringQueryOperatorInput>;
   allExtensions?: Maybe<BooleanQueryOperatorInput>;
-  output?: Maybe<StringQueryOperatorInput>;
-  createLinkInHead?: Maybe<BooleanQueryOperatorInput>;
   query?: Maybe<StringQueryOperatorInput>;
   feeds?: Maybe<SitePluginPluginOptionsFeedsFilterListInput>;
   pathCheck?: Maybe<BooleanQueryOperatorInput>;
@@ -3383,28 +3343,10 @@ export type SitePageFieldsEnum =
   | 'pluginCreator___pluginOptions___plugins___browserAPIs'
   | 'pluginCreator___pluginOptions___plugins___ssrAPIs'
   | 'pluginCreator___pluginOptions___plugins___pluginFilepath'
-  | 'pluginCreator___pluginOptions___pathToConfigModule'
   | 'pluginCreator___pluginOptions___fileName'
   | 'pluginCreator___pluginOptions___documentPaths'
-  | 'pluginCreator___pluginOptions___trackingId'
-  | 'pluginCreator___pluginOptions___head'
-  | 'pluginCreator___pluginOptions___anonymize'
-  | 'pluginCreator___pluginOptions___respectDNT'
-  | 'pluginCreator___pluginOptions___pageTransitionDelay'
-  | 'pluginCreator___pluginOptions___siteId'
+  | 'pluginCreator___pluginOptions___pathToConfigModule'
   | 'pluginCreator___pluginOptions___name'
-  | 'pluginCreator___pluginOptions___short_name'
-  | 'pluginCreator___pluginOptions___start_url'
-  | 'pluginCreator___pluginOptions___background_color'
-  | 'pluginCreator___pluginOptions___theme_color'
-  | 'pluginCreator___pluginOptions___display'
-  | 'pluginCreator___pluginOptions___icon'
-  | 'pluginCreator___pluginOptions___legacy'
-  | 'pluginCreator___pluginOptions___theme_color_in_head'
-  | 'pluginCreator___pluginOptions___cache_busting_mode'
-  | 'pluginCreator___pluginOptions___crossOrigin'
-  | 'pluginCreator___pluginOptions___include_favicon'
-  | 'pluginCreator___pluginOptions___cacheDigest'
   | 'pluginCreator___pluginOptions___path'
   | 'pluginCreator___pluginOptions___maxWidth'
   | 'pluginCreator___pluginOptions___linkImagesToOriginal'
@@ -3435,8 +3377,6 @@ export type SitePageFieldsEnum =
   | 'pluginCreator___pluginOptions___isTSX'
   | 'pluginCreator___pluginOptions___jsxPragma'
   | 'pluginCreator___pluginOptions___allExtensions'
-  | 'pluginCreator___pluginOptions___output'
-  | 'pluginCreator___pluginOptions___createLinkInHead'
   | 'pluginCreator___pluginOptions___query'
   | 'pluginCreator___pluginOptions___feeds'
   | 'pluginCreator___pluginOptions___feeds___query'
@@ -4091,28 +4031,10 @@ export type SitePluginFieldsEnum =
   | 'pluginOptions___plugins___browserAPIs'
   | 'pluginOptions___plugins___ssrAPIs'
   | 'pluginOptions___plugins___pluginFilepath'
-  | 'pluginOptions___pathToConfigModule'
   | 'pluginOptions___fileName'
   | 'pluginOptions___documentPaths'
-  | 'pluginOptions___trackingId'
-  | 'pluginOptions___head'
-  | 'pluginOptions___anonymize'
-  | 'pluginOptions___respectDNT'
-  | 'pluginOptions___pageTransitionDelay'
-  | 'pluginOptions___siteId'
+  | 'pluginOptions___pathToConfigModule'
   | 'pluginOptions___name'
-  | 'pluginOptions___short_name'
-  | 'pluginOptions___start_url'
-  | 'pluginOptions___background_color'
-  | 'pluginOptions___theme_color'
-  | 'pluginOptions___display'
-  | 'pluginOptions___icon'
-  | 'pluginOptions___legacy'
-  | 'pluginOptions___theme_color_in_head'
-  | 'pluginOptions___cache_busting_mode'
-  | 'pluginOptions___crossOrigin'
-  | 'pluginOptions___include_favicon'
-  | 'pluginOptions___cacheDigest'
   | 'pluginOptions___path'
   | 'pluginOptions___maxWidth'
   | 'pluginOptions___linkImagesToOriginal'
@@ -4143,8 +4065,6 @@ export type SitePluginFieldsEnum =
   | 'pluginOptions___isTSX'
   | 'pluginOptions___jsxPragma'
   | 'pluginOptions___allExtensions'
-  | 'pluginOptions___output'
-  | 'pluginOptions___createLinkInHead'
   | 'pluginOptions___query'
   | 'pluginOptions___feeds'
   | 'pluginOptions___feeds___query'
@@ -4586,115 +4506,3 @@ export type DataJsonSortInput = {
   fields?: Maybe<Array<Maybe<DataJsonFieldsEnum>>>;
   order?: Maybe<Array<Maybe<SortOrderEnum>>>;
 };
-
-export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type Unnamed_1_Query = { dataJson?: Maybe<{ author?: Maybe<Pick<DataJsonAuthor, 'name'>> }> };
-
-export type Unnamed_2_QueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type Unnamed_2_Query = { dataJson?: Maybe<{ menu?: Maybe<Array<Maybe<Pick<DataJsonMenu, 'path' | 'name'>>>> }> };
-
-export type Unnamed_3_QueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type Unnamed_3_Query = { site?: Maybe<{ siteMetadata?: Maybe<Pick<SiteSiteMetadata, 'description'>> }> };
-
-export type PositionQueryQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PositionQueryQuery = { site?: Maybe<{ siteMetadata?: Maybe<Pick<SiteSiteMetadata, 'title'>> }> };
-
-export type Unnamed_4_QueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type Unnamed_4_Query = { site?: Maybe<{ siteMetadata?: Maybe<Pick<SiteSiteMetadata, 'title' | 'description'>> }>, allMarkdownRemark: Pick<MarkdownRemarkConnection, 'totalCount'>, dataJson?: Maybe<(
-    Pick<DataJson, 'speech'>
-    & { author?: Maybe<(
-      Pick<DataJsonAuthor, 'name'>
-      & { avatar?: Maybe<{ children: Array<{ fixed?: Maybe<Pick<ImageSharpFixed, 'src' | 'srcSet'>> }> }> }
-    )> }
-  )> };
-
-export type PageBlogQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PageBlogQuery = { posts: (
-    Pick<MarkdownRemarkConnection, 'totalCount'>
-    & { edges: Array<{ node: (
-        Pick<MarkdownRemark, 'excerpt' | 'timeToRead'>
-        & { wordCount?: Maybe<Pick<MarkdownWordCount, 'words'>>, fields?: Maybe<Pick<MarkdownRemarkFields, 'slug'>>, frontmatter?: Maybe<Pick<MarkdownRemarkFrontmatter, 'title' | 'updatedDate' | 'tags' | 'origin'>> }
-      ) }> }
-  ) };
-
-export type Unnamed_5_QueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type Unnamed_5_Query = { tags: { group: Array<Pick<MarkdownRemarkGroupConnection, 'fieldValue' | 'totalCount'>> } };
-
-export type TemplateBlogPageQueryVariables = Exact<{
-  skip?: Maybe<Scalars['Int']>;
-}>;
-
-
-export type TemplateBlogPageQuery = { tags: { group: Array<Pick<MarkdownRemarkGroupConnection, 'fieldValue' | 'totalCount'>> }, posts: (
-    Pick<MarkdownRemarkConnection, 'totalCount'>
-    & { edges: Array<{ node: (
-        Pick<MarkdownRemark, 'excerpt' | 'timeToRead'>
-        & { wordCount?: Maybe<Pick<MarkdownWordCount, 'words'>>, fields?: Maybe<Pick<MarkdownRemarkFields, 'slug'>>, frontmatter?: Maybe<(
-          Pick<MarkdownRemarkFrontmatter, 'title' | 'updatedDate' | 'tags' | 'origin'>
-          & { image?: Maybe<{ children: Array<{ fixed?: Maybe<Pick<ImageSharpFixed, 'src' | 'srcSet'>> }> }> }
-        )> }
-      ) }> }
-  ), dataJson?: Maybe<{ author?: Maybe<{ avatar?: Maybe<{ children: Array<{ fixed?: Maybe<Pick<ImageSharpFixed, 'src' | 'srcSet'>> }> }> }> }> };
-
-export type TemplateBlogPostQueryVariables = Exact<{
-  slug: Scalars['String'];
-}>;
-
-
-export type TemplateBlogPostQuery = { dataJson?: Maybe<{ gitment?: Maybe<Pick<DataJsonGitment, 'owner' | 'admin' | 'repo' | 'client_id' | 'client_secret' | 'createIssueManually' | 'proxy'>> }>, post?: Maybe<(
-    Pick<MarkdownRemark, 'html' | 'excerpt' | 'timeToRead'>
-    & { fields?: Maybe<Pick<MarkdownRemarkFields, 'slug'>>, headings?: Maybe<Array<Maybe<Pick<MarkdownHeading, 'value' | 'depth'>>>>, frontmatter?: Maybe<(
-      Pick<MarkdownRemarkFrontmatter, 'title' | 'tags' | 'origin' | 'updatedDate'>
-      & { image?: Maybe<{ children: Array<{ fixed?: Maybe<Pick<ImageSharpFixed, 'src' | 'srcSet'>> }> }> }
-    )> }
-  )>, recents: { edges: Array<{ node: (
-        Pick<MarkdownRemark, 'timeToRead'>
-        & { fields?: Maybe<Pick<MarkdownRemarkFields, 'slug'>>, frontmatter?: Maybe<(
-          Pick<MarkdownRemarkFrontmatter, 'title'>
-          & { image?: Maybe<{ children: Array<{ fixed?: Maybe<Pick<ImageSharpFixed, 'src' | 'srcSet'>> }> }> }
-        )> }
-      ) }> } };
-
-export type PageDraftsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PageDraftsQuery = { posts: (
-    Pick<MarkdownRemarkConnection, 'totalCount'>
-    & { edges: Array<{ node: (
-        Pick<MarkdownRemark, 'excerpt' | 'timeToRead'>
-        & { wordCount?: Maybe<Pick<MarkdownWordCount, 'words'>>, fields?: Maybe<Pick<MarkdownRemarkFields, 'slug'>>, frontmatter?: Maybe<(
-          Pick<MarkdownRemarkFrontmatter, 'title' | 'updatedDate' | 'tags' | 'origin'>
-          & { image?: Maybe<{ children: Array<{ fixed?: Maybe<Pick<ImageSharpFixed, 'src' | 'srcSet'>> }> }> }
-        )> }
-      ) }> }
-  ) };
-
-export type TagTemplateQueryVariables = Exact<{
-  tag: Scalars['String'];
-}>;
-
-
-export type TagTemplateQuery = { posts: (
-    Pick<MarkdownRemarkConnection, 'totalCount'>
-    & { edges: Array<{ node: (
-        Pick<MarkdownRemark, 'excerpt' | 'timeToRead'>
-        & { wordCount?: Maybe<Pick<MarkdownWordCount, 'words'>>, fields?: Maybe<Pick<MarkdownRemarkFields, 'slug'>>, frontmatter?: Maybe<(
-          Pick<MarkdownRemarkFrontmatter, 'title' | 'updatedDate' | 'tags' | 'origin'>
-          & { image?: Maybe<{ children: Array<{ fixed?: Maybe<Pick<ImageSharpFixed, 'src' | 'srcSet'>> }> }> }
-        )> }
-      ) }> }
-  ) };

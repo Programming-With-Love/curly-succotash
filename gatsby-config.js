@@ -19,56 +19,66 @@ const config = {
   },
 }
 
+const plugins = () => {
+  if(process.env.NODE_ENV === 'production') {
+    return [
+      {
+        resolve: `gatsby-plugin-google-analytics`,
+        options: {
+          trackingId: config.analytics.google.trackingId,
+          head: false,
+        },
+      },
+      {
+        resolve: `gatsby-plugin-baidu-analytics`,
+        options: {
+          // baidu analytics siteId
+          siteId: config.analytics.baidu.siteId,
+          // Put analytics script in the head instead of the body [default:false]
+          head: false,
+        },
+      },
+      {
+        resolve: `gatsby-plugin-manifest`,
+        options: {
+          name: config.siteMetadata.title,
+          short_name: config.siteMetadata.short_name,
+          start_url: config.siteMetadata.start_url,
+          background_color: `#f7f7f7`,
+          theme_color: `#101012`,
+          display: `standalone`,
+          icon: config.siteMetadata.icon,
+        },
+      },
+      `gatsby-plugin-sitemap`,
+      `gatsby-plugin-offline`,
+      `gatsby-plugin-remove-serviceworker`,
+    ]
+  }else{
+    return [
+      {
+        resolve: `gatsby-plugin-graphql-codegen`,
+        options: {
+          fileName: `./src/graphql-types.d.ts`,
+          documentPaths: [
+            './src/**/*.{ts,tsx}',
+            './node_modules/gatsby*/!(node_modules)/**/*.js',
+          ],
+        }
+      },
+    ]
+  }
+}
+
 module.exports = {
   siteMetadata: config.siteMetadata,
   plugins: [
+    ...plugins(),
     `gatsby-plugin-sass`,
     {
       resolve: `gatsby-plugin-typography`,
       options: {
         pathToConfigModule: `src/typography.js`,
-      },
-    },
-    {
-      resolve: `gatsby-plugin-graphql-codegen`,
-      options: {
-        fileName: `./src/graphql-types.d.ts`,
-        documentPaths: [
-          './src/**/*.{ts,tsx}',
-          './node_modules/gatsby*/!(node_modules)/**/*.js',
-        ],
-      }
-    },
-    {
-      resolve: `gatsby-plugin-google-analytics`,
-      options: {
-        trackingId: config.analytics.google.trackingId,
-        head: false,
-      },
-    },
-    {
-      resolve: `gatsby-plugin-baidu-analytics`,
-      options: {
-        // baidu analytics siteId
-        siteId: config.analytics.baidu.siteId,
-        // Put analytics script in the head instead of the body [default:false]
-        head: false,
-      },
-    },
-    // This plugin takes your configuration and generates a
-    // web manifest file so your website can be added to your
-    // homescreen on Android.
-    /* eslint-disable camelcase */
-    {
-      resolve: `gatsby-plugin-manifest`,
-      options: {
-        name: config.siteMetadata.title,
-        short_name: config.siteMetadata.short_name,
-        start_url: config.siteMetadata.start_url,
-        background_color: `#f7f7f7`,
-        theme_color: `#101012`,
-        display: `standalone`,
-        icon: config.siteMetadata.icon,
       },
     },
     // Expose `/data` to graphQL layer
@@ -132,13 +142,6 @@ module.exports = {
     `gatsby-transformer-json`,
     // Add typescript stack into webpack
     `gatsby-plugin-typescript`,
-    `gatsby-plugin-sitemap`,
-    // This plugin generates a service worker and AppShell
-    // html file so the site works offline and is otherwise
-    // resistant to bad networks. Works with almost any
-    // site!
-    `gatsby-plugin-offline`,
-    `gatsby-plugin-remove-serviceworker`,
     {
       resolve: `gatsby-plugin-feed`,
       options: {
@@ -155,8 +158,8 @@ module.exports = {
         `,
         feeds: [
           {
-            serialize: ({ query: { site, allMdx } }) => {
-              return allMdx.edges.map(edge => {
+            serialize: ({ query: { site, allMarkdownRemark } }) => {
+              return allMarkdownRemark.edges.map(edge => {
                 return Object.assign({}, edge.node.frontmatter, {
                   description: edge.node.excerpt,
                   date: edge.node.frontmatter.createdDate,
@@ -167,7 +170,7 @@ module.exports = {
             },
             query: `
               {
-                allMdx(
+                allMarkdownRemark(
                   limit: 1000,
                   sort: { order: DESC, fields: [frontmatter___updatedDate] },
                   filter: {frontmatter: { draft: { ne: true } }}
