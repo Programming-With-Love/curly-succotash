@@ -1,15 +1,12 @@
 import * as React from 'react'
 import { Link } from 'gatsby'
-import { get } from 'lodash'
 import PostItem from '../components/PostItem'
-import { MarkdownRemark, MarkdownRemarkConnection } from '../graphql-types'
 import * as classes from './blog.module.scss'
-import Position from '../components/base/Position'
 import BlogPagination from '../components/Pagination'
 import NoData from '../components/base/NoData'
 export interface IndexProps {
   data: {
-    posts: MarkdownRemarkConnection
+    posts: any
   }
   location: {
     pathname: string
@@ -29,8 +26,8 @@ const BlogPage = (props: IndexProps) => {
 
     return (
       <div className={classes.indexContent}>
-        <div />
-        {data.posts.edges.map(({ node }: { node: MarkdownRemark }) => {
+        <div/>
+        {data.posts.edges.map(({ node }: { node: any }) => {
           const {
             frontmatter,
             timeToRead,
@@ -38,7 +35,8 @@ const BlogPage = (props: IndexProps) => {
             excerpt,
             wordCount,
           } = node
-          const cover = props.pageContext.headers[slug].children[0].fixed
+
+          const cover = props.pageContext.headers[slug]
           const tags = node.frontmatter.tags
           return (
             <PostItem

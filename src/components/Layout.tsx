@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { Query, ImageSharp } from '../graphql-types'
 import * as classes from './Layout.module.scss'
 import { StaticQuery, graphql } from 'gatsby'
 import AuthorInner from './inner/AuthorInner'
@@ -60,7 +59,7 @@ export default class Layout extends React.Component<Readonly<LayoutProps>> {
                   }
                 }
               `}
-              render={(data: Query) => {
+              render={(data: any) => {
                 return (
                   <Helmet>
                     <meta name="description" content={data.site.siteMetadata.description} />

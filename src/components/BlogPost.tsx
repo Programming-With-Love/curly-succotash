@@ -1,7 +1,5 @@
 import * as React from 'react'
 import 'gitalk/dist/gitalk.css'
-// import from 'gitalk/dist/gitalk-component'
-import { DataJsonGitment, MarkdownRemark } from '../graphql-types'
 import * as classes from './BlogPost.module.scss'
 import Affix from './base/Affix'
 import MarkNav from './MarkNav'
@@ -12,8 +10,8 @@ const GitalkComponent = loadable(() => import('gitalk/dist/gitalk-component'))
 
 export interface BlogPostProps {
   slug: string
-  commentOptions: DataJsonGitment
-  post: MarkdownRemark
+  commentOptions: any
+  post: any
 }
 
 class BlogPost extends React.Component<BlogPostProps> {

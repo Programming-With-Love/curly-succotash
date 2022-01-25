@@ -1,7 +1,6 @@
 import { Helmet, HelmetProps } from 'react-helmet'
 import * as React from 'react'
 import { StaticQuery, graphql } from 'gatsby'
-import { Query } from '../../graphql-types'
 
 export default class Position extends React.Component<HelmetProps> {
   render() {
@@ -18,7 +17,7 @@ export default class Position extends React.Component<HelmetProps> {
             }
           }
         `}
-        render={(data: Query) => (
+        render={(data: any) => (
           <Helmet
             title={
               this.props.title ? `${this.props.title} - ${data.site.siteMetadata.title}` : data.site.siteMetadata.title

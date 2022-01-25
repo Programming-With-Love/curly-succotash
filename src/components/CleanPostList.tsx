@@ -1,11 +1,10 @@
 import * as React from 'react'
-import { frontmatter_3, fields_3 } from '../graphql-types'
 import * as classes from './CleanPostList.module.scss'
 import { Link } from 'gatsby'
 export interface CleanPostListProps {
   data: {
-    fields: fields_3
-    frontmatter: frontmatter_3
+    fields: any
+    frontmatter: any
   }[]
 }
 

@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { Dispatch, bindActionCreators } from 'redux'
 import { boom } from '../../actions/authorInner'
 import { debounce } from 'lodash'
+import {GatsbyImage} from 'gatsby-plugin-image'
 export interface AuthorInnerProps {
   boom(): void
 }
@@ -53,13 +54,8 @@ export class AuthorInner extends React.Component<AuthorInnerProps, AuthorInnerSt
               author {
                 name
                 avatar {
-                  children {
-                    ... on ImageSharp {
-                      fixed(width: 80, height: 80) {
-                        src
-                        srcSet
-                      }
-                    }
+                  childrenImageSharp {
+                    gatsbyImageData(width: 80, height: 80)
                   }
                 }
               }
@@ -68,14 +64,14 @@ export class AuthorInner extends React.Component<AuthorInnerProps, AuthorInnerSt
           }
         `}
         render={(data: Query) => {
-          const avatar = data.dataJson.author.avatar.children[0] as ImageSharp
+          const avatar = data.dataJson.author.avatar
           const totalCount = data.allMarkdownRemark.totalCount
           const { name } = data.dataJson.author
           return (
             <div className="person-header">
               <div className="author-inner">
                 <div>
-                  <img alt={name} {...avatar.fixed} className="avatar" onClick={this.handleClick} />
+                  <GatsbyImage alt={name} image={avatar.childrenImageSharp[0].gatsbyImageData} className="avatar" onClick={this.handleClick} />
                 </div>
                 <div style={{ textAlign: 'left', marginLeft: 20 }}>
                   <p>{totalCount} 篇文章</p>

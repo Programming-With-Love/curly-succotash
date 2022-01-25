@@ -1,9 +1,10 @@
 import { TYPE } from './index'
 import { HeaderType } from '../contants/header'
 import { InnerProps } from '../components/inner'
+import { Action } from 'redux'
 export const TYPE_HEADER_INNER = 'TYPE_HEADER_INNER'
 
-export interface HeaderAction {
+export interface HeaderAction extends Action<TYPE>{
   type: TYPE
   headerType: HeaderType
   data: InnerProps

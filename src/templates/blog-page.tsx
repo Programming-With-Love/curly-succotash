@@ -43,16 +43,6 @@ export const pageQuery = graphql`
             updatedDate(formatString: "YYYY年MM月DD日")
             tags
             origin
-            image {
-              children {
-                ... on ImageSharp {
-                  fixed(width: 680, height: 440) {
-                    src
-                    srcSet
-                  }
-                }
-              }
-            }
           }
         }
       }
@@ -60,13 +50,8 @@ export const pageQuery = graphql`
     dataJson {
       author {
         avatar {
-          children {
-            ... on ImageSharp {
-              fixed(width: 35, height: 35) {
-                src
-                srcSet
-              }
-            }
+          childrenImageSharp {
+            gatsbyImageData(width: 35, height: 35)
           }
         }
       }

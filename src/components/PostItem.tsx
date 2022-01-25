@@ -1,10 +1,10 @@
 import * as React from 'react'
-import { Link, StaticQuery, graphql } from 'gatsby'
-import { ImageSharpFixed, Query, ImageSharp } from '../graphql-types'
+import { Link } from 'gatsby'
 import * as classes from './PostItem.module.scss'
 import TagsCard, { TagsCardProps } from './TagsCard'
+import {GatsbyImage,IGatsbyImageData} from 'gatsby-plugin-image'
 export interface PostItemProps extends TagsCardProps {
-  cover: ImageSharpFixed
+  cover: IGatsbyImageData
   title: string
   updatedDate: Date
   href: string
@@ -24,7 +24,7 @@ export default (props: PostItemProps) => {
       <div className={classes.itemMain}>
         <div className={classes.cover}>
           <Link to={href}>
-            <img {...cover} />
+            <GatsbyImage image={cover} alt="xxx" />
           </Link>
         </div>
         <div className={classes.itemElse}>

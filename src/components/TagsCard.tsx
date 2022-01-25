@@ -1,8 +1,6 @@
 import * as React from 'react'
 import { GatsbyLinkProps } from 'gatsby-link'
 
-import { markdownRemarkGroupConnectionConnection } from '../graphql-types'
-
 import * as classes from './TagsCard.module.scss'
 import classnames from 'classnames'
 

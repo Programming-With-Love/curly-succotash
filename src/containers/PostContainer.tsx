@@ -1,19 +1,17 @@
 import * as React from 'react'
 import { LayoutProps } from '../components/Layout'
-import { MarkdownRemark, MarkdownRemarkConnection, Site, DataJson, ImageSharp, Query } from '../graphql-types'
-import { mapDispatchToProps, HeaderDisptacherProps, WithLayout } from './LayoutContainer'
+import { HeaderDisptacherProps, WithLayout } from './LayoutContainer'
 import BlogPost from '../components/BlogPost'
 import { HeaderType } from '../contants/header'
-import { connect } from 'react-redux'
 interface BlogPostProps extends LayoutProps, HeaderDisptacherProps {
   data: {
-    post: MarkdownRemark
-    recents: MarkdownRemarkConnection
-    site: Site
-    dataJson: DataJson
+    post: any
+    recents: any
+    site: any
+    dataJson: any
   }
   pageContext: {
-    header: ImageSharp
+    header: any
   }
 }
 
@@ -26,7 +24,7 @@ export default (props: BlogPostProps) => {
       headerType={HeaderType.POST_HEADER}
       data={{
         ...post.frontmatter,
-        image: props.pageContext.header.children[0] as ImageSharp,
+        image: props.pageContext.header,
       }}
     >
       <BlogPost slug={slug} commentOptions={gitmentOptions} post={post} />

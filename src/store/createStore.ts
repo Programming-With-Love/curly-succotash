@@ -7,7 +7,7 @@ export default () => {
     devToolsExtension?: boolean
   } = {}
   if (typeof window !== `undefined`) {
-    w = window as Window & {
+    w = window as unknown as Window & {
       __REDUX_DEVTOOLS_EXTENSION__: any
       devToolsExtension: boolean
     }

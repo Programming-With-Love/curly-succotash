@@ -1,19 +1,46 @@
-const path = require('path')
 const slash = require('slash')
 const { kebabCase, uniq, get, compact, times, findIndex } = require('lodash')
+const { readdirSync, statSync, fstat, exists, existsSync } =
+  require('fs')
+const { relative, join, dirname, resolve: pathResolve } = require('path')
 
-// Don't forget to update hard code values into:
-// - `templates/blog-page.tsx:23`
-// - `pages/blog.tsx:26`
-// - `pages/blog.tsx:121`
 const POSTS_PER_PAGE = 10
 const cleanArray = arr => compact(uniq(arr))
 
-// Create slugs for files.
-// Slug will used for blog page path.
+const unfold = (f, initState) =>
+  f((value, nextState) => [value, ...unfold(f, nextState)]
+    , () => []
+    , initState
+  )
+
+const None =
+  Symbol()
+
+const relativePaths = (path = '.') =>
+  readdirSync(path).map(p => join(path, p))
+
+const traverseDir = (dir) =>
+  unfold
+    ((next, done, [path = None, ...rest]) =>
+      path === None
+        ? done()
+        : next(path
+          , statSync(path).isDirectory()
+            ? relativePaths(path).concat(rest)
+            : rest
+        )
+      , relativePaths(dir)
+    )
+
+let defaultHeaders = traverseDir(`${__dirname}/data/headers`)
+
+
+function checkNodeHeader(node) {
+  return node.frontmatter.image
+    && existsSync(join(dirname(node.fileAbsolutePath), node.frontmatter.image))
+}
 exports.onCreateNode = ({ node, actions, getNode }) => {
   const { createNodeField } = actions
-  let slug
   switch (node.internal.type) {
     case `MarkdownRemark`:
       const fileNode = getNode(node.parent)
@@ -24,15 +51,25 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
       } else {
         filepath.splice(filepath.length - 1)
       }
-      slug = '/' + filepath.join('/') + '/'
+      let slug = '/' + filepath.join('/').replace(' ', '-') + '/'
+      createNodeField({ node, name: 'slug', value: slug, })
+      if (node.frontmatter.image) {
+        if (existsSync(join(dirname(node.fileAbsolutePath), node.frontmatter.image))) {
+          createNodeField({ node, name: 'image', value: node.frontmatter.image })
+          break
+        }
+        console.warn(`header image file is not exists in [${node.fileAbsolutePath}] ,header image is [${node.frontmatter.image}],and will generate a random image`)
+      }
+      const index = Math.floor(Math.random() * defaultHeaders.length)
+      let header = defaultHeaders[index]
+      header = relative(dirname(node.fileAbsolutePath), header)
+      createNodeField({ node, name: 'image', value: header, })
       break
   }
-  if (slug) {
-    createNodeField({ node, name: `slug`, value: slug })
-  }
 }
+
 let indexContext = {
-  headers: {},
+  headers: {}
 }
 
 exports.onCreatePage = ({ page, actions }) => {
@@ -45,57 +82,45 @@ exports.onCreatePage = ({ page, actions }) => {
     },
   })
 }
-// Implement the Gatsby API `createPages`.
-// This is called after the Gatsby bootstrap is finished
-// so you have access to any information necessary to
-// programatically create pages.
+
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
 
   return new Promise((resolve, reject) => {
     const templates = ['draftsPage', 'blogPost', 'tagPage', 'blogPage', 'blogArchives'].reduce((mem, templateName) => {
-      return Object.assign({}, mem, { [templateName]: path.resolve(`src/templates/${kebabCase(templateName)}.tsx`) })
+      return Object.assign({}, mem, { [templateName]: pathResolve(`src/templates/${kebabCase(templateName)}.tsx`) })
     }, {})
 
     graphql(
       `
         {
-          posts: allMarkdownRemark(sort: { order: DESC, fields: [frontmatter___createdDate] }) {
+          posts: allMarkdownRemark(sort: { order: DESC, fields: [frontmatter___createdDate] }){
             edges {
               node {
                 fields {
                   slug
+                  image {
+                    childImageSharp {
+                      gatsbyImageData(width: 680, height: 440)
+                    }
+                  }
                 }
                 frontmatter {
                   title
                   tags
                   createdDate(formatString: "YYYY-MM-DD")
                   draft
-                  image {
-                    children {
-                      ... on ImageSharp {
-                        fixed(width: 680, height: 440) {
-                          src
-                          srcSet
-                        }
-                      }
-                    }
-                  }
                 }
               }
             }
           }
-          allFile(filter: { absolutePath: { regex: "/headers/" } }) {
+          allFile(filter: { absolutePath: { regex: "/.+(jpg|jpeg|png)$/" } }) {
             totalCount
             edges {
               node {
-                children {
-                  ... on ImageSharp {
-                    fixed(width: 680, height: 440) {
-                      src
-                      srcSet
-                    }
-                  }
+                name
+                childrenImageSharp {
+                  gatsbyImageData(width: 680, height: 440)
                 }
               }
             }
@@ -111,12 +136,7 @@ exports.createPages = ({ graphql, actions }) => {
       const blogPosts = posts.filter(post => post.fields.slug.startsWith('/blog/'))
       // 创建文章页面，所有的markdown文件都会创建，可以通过markdown文件创建其他的静态页面，类似【关于我】页面
       posts.forEach(post => {
-        let header = post.frontmatter.image
-        if (!header) {
-          let covers = result.data.allFile.edges.map(edge => edge.node)
-          const index = Math.floor(Math.random() * covers.length)
-          header = covers[index]
-        }
+        let header = post.fields.image.childImageSharp.gatsbyImageData
         let context = {
           slug: post.fields.slug,
           header,

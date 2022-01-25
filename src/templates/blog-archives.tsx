@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { Query, MarkdownRemark } from '../graphql-types'
 import { WithLayout } from '../containers/LayoutContainer'
 import { HeaderType } from '../contants/header'
 import Archives from '../components/Archives'
@@ -7,10 +6,10 @@ import Main from '../components/Main'
 import Position from '../components/base/Position'
 export interface IArchive {
   year: number
-  posts: MarkdownRemark[]
+  posts: any[]
 }
 export default (props: {
-  data: Query
+  data: any
   pageContext: {
     archives: IArchive[]
     totalCount: number
